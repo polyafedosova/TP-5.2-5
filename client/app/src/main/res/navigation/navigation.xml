@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    tools:context=".MainActivity"
+    app:startDestination="@id/medicalFragment">
+    <fragment
+        android:id="@+id/medicalFragment"
+        android:name="medical.MedicalFragment"
+        android:label="fragment_medical"
+        tools:layout="@layout/fragment_medical" />
+    <fragment
+        android:id="@+id/calculatorFragment"
+        android:name="ru.vsu.cs.tp.paws.CalculatorFragment"
+        android:label="fragment_calcul ator"
+        tools:layout="@layout/fragment_calculator" />
+</navigation>
