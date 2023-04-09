@@ -46,7 +46,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_clinics"
             android:layout_width="match_parent"
-            android:layout_height="264dp"
+            android:layout_height="wrap_content"
             android:layout_below="@id/search_widget_city"
             android:background="@color/white"
             android:visibility="visible" />

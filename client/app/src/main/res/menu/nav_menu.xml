@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/medical"
+        android:id="@+id/medicalFragment"
         android:icon="@drawable/baseline_medical_services_24"
         android:title="Medical" />
     <item
-        android:id="@+id/calculator"
+        android:id="@+id/calculatorFragment"
         android:icon="@drawable/baseline_calculate_24"
         android:title="Calculator"  />
     <item
-        android:id="@+id/profile"
+        android:id="@+id/profileFragment"
         android:icon="@drawable/baseline_account_circle_24"
         android:title="Profile" />
 

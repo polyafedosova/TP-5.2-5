@@ -3,44 +3,34 @@ package ru.vsu.cs.tp.paws
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import medical.MedicalFragment
+import ru.vsu.cs.tp.paws.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var bottomNav : BottomNavigationView
+    private lateinit var binding: ActivityMainBinding
+
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        loadFragment(MedicalFragment())
-        bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
+        navController = Navigation.findNavController(this, R.id.fragment_container)
 
-        bottomNav.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.calculator -> {
-                    loadFragment(CalculatorFragment())
-                    true
-                }
-                R.id.medical -> {
-                    loadFragment(MedicalFragment())
-                    true
-                }
-                R.id.profile -> {
-                    loadFragment(ProfileFragment())
-                    true
-                }
-                else -> {false}
-            }
-        }
+        setupWithNavController(binding.bottomNav, navController)
+
+
 
     }
 
-    private  fun loadFragment(fragment: Fragment){
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container,fragment)
-        transaction.commit()
-    }
+
 
 }
