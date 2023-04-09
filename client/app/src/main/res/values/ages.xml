@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="ages_array">
+        <item>Молодая</item>
+        <item>Взрослая</item>
+        <item>Старая</item>
+    </string-array>
+</resources>

@@ -17,9 +17,7 @@
         android:orientation="vertical"
         tools:context=".CalculatorFragment">
 
-
-
-            <TextView
+        <TextView
                 android:id="@+id/toolbar_name_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -32,55 +30,111 @@
                 android:textStyle="bold" />
 
 
-            <TextView
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
+
+        <TextView
                 android:id="@+id/info1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Выберите возраст"
                 android:textSize="20sp" />
 
-            <Spinner
+        <ProgressBar
+            android:id="@+id/progressBar3"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
+
+        <Spinner
                 android:id="@+id/age"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:spinnerMode="dialog" />
 
-            <TextView
+        <ProgressBar
+            android:id="@+id/progressBar4"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
+
+        <TextView
                 android:id="@+id/info2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Введите массу"
+                android:text="Введите массу:"
                 android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/dogName"
+        <ProgressBar
+            android:id="@+id/progressBar5"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
+
+        <EditText
+                android:id="@+id/dogWeight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Масска кг"
+                android:hint="0"
                 android:inputType="number"
                 android:textSize="20sp" />
 
-            <TextView
+        <ProgressBar
+            android:id="@+id/progressBar6"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
+
+        <TextView
                 android:id="@+id/info4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Уровень физической активности"
+                android:text="Уровень физической активности:"
                 android:textSize="20sp" />
 
-            <Spinner
+        <ProgressBar
+            android:id="@+id/progressBar7"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
+
+        <Spinner
                 android:id="@+id/movement"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:spinnerMode="dialog" />
 
-            <Button
+        <ProgressBar
+            android:id="@+id/progressBar8"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
+
+        <Button
                 android:id="@+id/calculate_eat"
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
                 android:text="Рассчитать" />
 
-            <LinearLayout
+        <ProgressBar
+            android:id="@+id/progressBar9"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
+
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -102,7 +156,15 @@
                     android:textAlignment="textEnd"
                     android:textSize="20sp" />
 
-            </LinearLayout>
+            <ProgressBar
+                android:id="@+id/progressBar10"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:visibility="invisible" />
+
+        </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
