@@ -2,8 +2,8 @@
 <resources>
 
     <string-array name="ages_array">
-        <item>Молодая</item>
-        <item>Взрослая</item>
-        <item>Старая</item>
+        <item>Меньше 6 месяцев</item>
+        <item>Больше 6, но меньше 12 месяцев</item>
+        <item>Больше 12 месяцев</item>
     </string-array>
 </resources>

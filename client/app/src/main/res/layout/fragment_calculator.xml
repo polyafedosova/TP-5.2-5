@@ -143,10 +143,10 @@
                     android:id="@+id/info3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Суточная норма кг"
+                    android:text="Суточная норма грамм:"
                     android:textSize="20sp" />
 
-                <EditText
+                <TextView
                     android:id="@+id/mass2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -166,51 +166,53 @@
 
         </LinearLayout>
 
-            <LinearLayout
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/info6"
+                android:layout_width="182dp"
+                android:layout_height="wrap_content"
+                android:text="Белковая пища"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/mass4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:ems="10"
+                android:hint="ответ"
+                android:inputType="number"
+                android:textAlignment="textEnd"
+                android:textSize="20sp" />
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/info6"
-                    android:layout_width="182dp"
-                    android:layout_height="wrap_content"
-                    android:text="Белковая пища"
-                    android:textSize="20sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:visibility="gone">
 
-                <EditText
-                    android:id="@+id/mass4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="ответ"
-                    android:inputType="number"
-                    android:textAlignment="textEnd"
-                    android:textSize="20sp" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/info7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Растительная пища"
+                android:textSize="20sp" />
 
-            <LinearLayout
+            <EditText
+                android:id="@+id/mass5"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/info7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Растительная пища"
-                    android:textSize="20sp" />
-
-                <EditText
-                    android:id="@+id/mass5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="ответ"
-                    android:inputType="number"
-                    android:textAlignment="textEnd"
-                    android:textSize="20sp" />
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="ответ"
+                android:inputType="number"
+                android:textAlignment="textEnd"
+                android:textSize="20sp" />
+        </LinearLayout>
 
 
 

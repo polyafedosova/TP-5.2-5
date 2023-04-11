@@ -6,14 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 
 
 class CalculatorFragment : Fragment() {
 
     private lateinit var doneButton: Button
-    private var chosenAge: String = ""
-    private var chosenMove: String = ""
+    private lateinit var ansField: TextView
+    private var chosenAge: Int = -1
+    private var chosenMove: Int = -1
     private var weight = -1
 
 
@@ -45,8 +45,8 @@ class CalculatorFragment : Fragment() {
                 parent: AdapterView<*>?,
                 itemSelected: View, selectedItemPosition: Int, selectedId: Long
             ) {
-                chosenMove = resources.getStringArray(R.array.move_array)[selectedItemPosition].toString()
-
+//                chosenMove = resources.getStringArray(R.array.move_array)[selectedItemPosition].toString()
+                chosenMove = selectedItemPosition
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -57,21 +57,21 @@ class CalculatorFragment : Fragment() {
                 parent: AdapterView<*>?,
                 itemSelected: View, selectedItemPosition: Int, selectedId: Long
             ) {
-                chosenAge = resources.getStringArray(R.array.ages_array)[selectedItemPosition].toString()
-
+//                chosenAge = resources.getStringArray(R.array.ages_array)[selectedItemPosition].toString()
+                chosenAge = selectedItemPosition
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         })
 
         this.doneButton = view.findViewById(R.id.calculate_eat)
-
+        this.ansField = view.findViewById(R.id.mass2)
 
         this.doneButton.setOnClickListener {
 
             try {
                 weight = Integer.valueOf(view.findViewById<EditText>(R.id.dogWeight).text.toString())
-                calculateEat(chosenAge, chosenMove, weight)
+                ansField.text = calculateEat(chosenAge, chosenMove, weight).toString()
             } catch (ex: java.lang.Exception) {
                 Toast.makeText(this.context, "Что-то сломалось, попробуйте ещё раз", Toast.LENGTH_SHORT).show()
             }
@@ -81,10 +81,25 @@ class CalculatorFragment : Fragment() {
         return view
     }
 
-    private fun calculateEat(age: String, move: String, mass: Int) {
+    private fun calculateEat(age: Int, move: Int, mass: Int): Double {
         println(age)
         println(move)
         println(mass)
+        var ageCoef: Double = 1.0
+        var moveCoef: Double = 1.0
+        when (age) {
+            0 -> ageCoef = 1.8
+            1 -> ageCoef = 1.5
+            2 -> ageCoef = 1.0
+        }
+
+        when (move) {
+            0 -> moveCoef = 0.8
+            1 -> moveCoef = 1.5
+            2 -> moveCoef = 2.0
+        }
+
+        return mass * 30 + ageCoef * 5 + moveCoef * 10
     }
 
 }
