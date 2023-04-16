@@ -1,5 +1,6 @@
 package event
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import android.widget.Filterable
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import medical.ClinicsModel
 import ru.vsu.cs.tp.paws.R
@@ -27,16 +29,15 @@ class EventsAdapter (_newEvents: MutableList<EventsModel>) : RecyclerView.Adapte
     override fun onBindViewHolder(holder: EventsViewHolder, position: Int) {
         val clinics1 = newEvents[position]
         holder.eventsTitle.text = newEvents[position].getName()
-        holder.eventsData.text = newEvents[position].getDate().time.toString()
+        holder.eventsData.text = newEvents[position].getDate()
         holder.eventsComment.text = newEvents[position].getComment()
-        holder.itemView.setOnClickListener { v ->
-            Toast.makeText(v.context, holder.eventsTitle.text, Toast.LENGTH_SHORT).show()
 
-            val fragmentManager = (v.context as AppCompatActivity).supportFragmentManager
-            val fragmentTransaction = fragmentManager.beginTransaction()
-//            fragmentTransaction.replace(R.id.fragment_container, SpecificFragment())
-            fragmentTransaction.addToBackStack(null)
-            fragmentTransaction.commit()
+        val bundle = Bundle()
+
+        bundle.putString("name", newEvents[position].getName())
+
+        holder.itemView.setOnClickListener {
+            it.findNavController().navigate(R.id.action_eventsFragment_to_specificEventFragment, bundle)
         }
     }
 

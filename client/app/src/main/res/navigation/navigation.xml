@@ -66,6 +66,12 @@
         <action
             android:id="@+id/action_eventsFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_eventsFragment_to_specificEventFragment"
+            app:destination="@id/specificEventFragment" />
+        <action
+            android:id="@+id/action_eventsFragment_to_addEventFragment"
+            app:destination="@id/addEventFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -87,6 +93,20 @@
         <action
             android:id="@+id/action_changePasswordFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/specificEventFragment"
+        android:name="event.SpecificEventFragment"
+        android:label="fragment_specific_event"
+        tools:layout="@layout/fragment_specific_event" />
+    <fragment
+        android:id="@+id/addEventFragment"
+        android:name="event.AddEventFragment"
+        android:label="fragment_add_event"
+        tools:layout="@layout/fragment_add_event" >
+        <action
+            android:id="@+id/action_addEventFragment_to_eventsFragment"
+            app:destination="@id/eventsFragment" />
     </fragment>
 
 </navigation>
