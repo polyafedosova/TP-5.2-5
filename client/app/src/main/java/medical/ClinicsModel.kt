@@ -1,8 +1,12 @@
 package medical
-class ClinicsModel constructor(_id: Int, _title: String, _address: String, _price: String) {
+
+import androidx.fragment.app.Fragment
+
+class ClinicsModel constructor(_id: Int, _name: String,_title: String, _address: String, _price: String) {
 
     private var id: Int = _id
     private var title: String = _title
+    private var name = _name
     private var address: String = _address
     private var price: String = _price
 
@@ -12,6 +16,14 @@ class ClinicsModel constructor(_id: Int, _title: String, _address: String, _pric
 
     fun setId(_id: Int) {
         id = _id
+    }
+
+    fun getName(): String {
+        return name
+    }
+
+    fun setName(_name: String) {
+        name = _name
     }
 
     fun getTitle(): String {
@@ -31,11 +43,11 @@ class ClinicsModel constructor(_id: Int, _title: String, _address: String, _pric
     }
 
     fun getPrice(): String {
-        return title
+        return price
     }
 
     fun setPrice(_price: String) {
-        title = _price
+        price = _price
     }
 
 }

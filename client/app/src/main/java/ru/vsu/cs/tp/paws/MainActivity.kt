@@ -27,8 +27,6 @@ class MainActivity : AppCompatActivity() {
 
         setupWithNavController(binding.bottomNav, navController)
 
-
-
     }
 
 

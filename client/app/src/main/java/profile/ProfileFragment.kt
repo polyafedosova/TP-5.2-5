@@ -46,7 +46,7 @@ class ProfileFragment : Fragment() {
         }
 
         this.editProfileButton.setOnClickListener {
-            it.findNavController().navigate(R.id.action_profileFragment_to_eventsFragment)
+            it.findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
         }
 
         this.exitProfileButton.setOnClickListener {

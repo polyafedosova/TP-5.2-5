@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DogAddFragment">
+    tools:context="dog.DogAddFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,6 +25,13 @@
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
+            <ProgressBar
+                android:id="@+id/progressBar11"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible" />
+
             <EditText
                 android:id="@+id/dogName"
                 android:layout_width="match_parent"
@@ -34,6 +41,70 @@
                 android:inputType="number"
                 android:textAlignment="textStart"
                 android:textSize="20sp" />
+
+            <ProgressBar
+                android:id="@+id/progressBar12"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible" />
+
+            <EditText
+                android:id="@+id/dogBurnDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Дата рождения"
+                android:inputType="date"
+                android:textSize="20sp" />
+
+            <ProgressBar
+                android:id="@+id/progressBar13"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible" />
+
+            <EditText
+                android:id="@+id/breed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Порода"
+                android:inputType="textPersonName"
+                android:textSize="20sp" />
+
+            <ProgressBar
+                android:id="@+id/progressBar14"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible" />
+
+            <Spinner
+                android:id="@+id/sex"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dialog" />
+
+            <ProgressBar
+                android:id="@+id/progressBar15"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/completeButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Готово" />
+
+            <Button
+                android:id="@+id/cancelButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Назад" />
 
         </LinearLayout>
 

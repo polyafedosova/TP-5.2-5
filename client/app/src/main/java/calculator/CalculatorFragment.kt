@@ -1,4 +1,4 @@
-package ru.vsu.cs.tp.paws
+package calculator
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import ru.vsu.cs.tp.paws.R
 
 
 class CalculatorFragment : Fragment() {
@@ -57,7 +58,6 @@ class CalculatorFragment : Fragment() {
                 parent: AdapterView<*>?,
                 itemSelected: View, selectedItemPosition: Int, selectedId: Long
             ) {
-//                chosenAge = resources.getStringArray(R.array.ages_array)[selectedItemPosition].toString()
                 chosenAge = selectedItemPosition
             }
 

@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/calculatorFragment"
-        android:name="ru.vsu.cs.tp.paws.CalculatorFragment"
+        android:name="calculator.CalculatorFragment"
         android:label="fragment_calculator"
         tools:layout="@layout/fragment_calculator" />
 
@@ -32,21 +32,61 @@
         <action
             android:id="@+id/action_profileFragment_to_eventsFragment"
             app:destination="@id/eventsFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/specificFragment"
         android:name="medical.SpecificFragment"
-        android:label="SpecificFragment" />
+        android:label="SpecificFragment" >
+        <action
+            android:id="@+id/action_specificFragment_to_medicalFragment"
+            app:destination="@id/medicalFragment" />
+        <argument
+            android:name="clinicName"
+            app:argType="string"
+            android:defaultValue="defaultName" />
+    </fragment>
     <fragment
         android:id="@+id/dogAddFragment"
-        android:name="ru.vsu.cs.tp.paws.DogAddFragment"
+        android:name="dog.DogAddFragment"
         android:label="fragment_dog_add"
-        tools:layout="@layout/fragment_dog_add" />
+        tools:layout="@layout/fragment_dog_add" >
+        <action
+            android:id="@+id/action_dogAddFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/eventsFragment"
-        android:name="profile.EventsFragment"
+        android:name="event.EventsFragment"
         android:label="fragment_events"
-        tools:layout="@layout/fragment_events" />
+        tools:layout="@layout/fragment_events" >
+        <action
+            android:id="@+id/action_eventsFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="profile.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" >
+        <action
+            android:id="@+id/action_editProfileFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_editProfileFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="profile.ChangePasswordFragment"
+        android:label="fragment_change_password"
+        tools:layout="@layout/fragment_change_password" >
+        <action
+            android:id="@+id/action_changePasswordFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
 
 </navigation>

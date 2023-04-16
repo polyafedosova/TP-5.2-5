@@ -1,14 +1,14 @@
 package medical
 
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import ru.vsu.cs.tp.paws.R
 
@@ -26,18 +26,20 @@ class ClinicsAdapter(_newClinics: MutableList<ClinicsModel>) : RecyclerView.Adap
     }
 
     override fun onBindViewHolder(holder: ClinicsViewHolder, position: Int) {
-        val clinics1 = newClinics[position]
         holder.clinicsTitle.text = newClinics[position].getTitle()
         holder.clinicsAddress.text = newClinics[position].getAddress()
         holder.clinicsPrice.text = newClinics[position].getPrice()
-        holder.itemView.setOnClickListener { v ->
-            Toast.makeText(v.context, holder.clinicsTitle.text, Toast.LENGTH_SHORT).show()
+//        holder.clinicsName.text = newClinics[position].getName()
 
-            val fragmentManager = (v.context as AppCompatActivity).supportFragmentManager
-            val fragmentTransaction = fragmentManager.beginTransaction()
-//            fragmentTransaction.replace(R.id.fragment_container, SpecificFragment())
-            fragmentTransaction.addToBackStack(null)
-            fragmentTransaction.commit()
+        val bundle = Bundle()
+
+        bundle.putString("name", newClinics[position].getName())
+        bundle.putString("service", newClinics[position].getTitle())
+        bundle.putString("address", newClinics[position].getAddress())
+
+
+        holder.itemView.setOnClickListener {
+            it.findNavController().navigate(R.id.action_medicalFragment_to_specificFragment, bundle)
         }
     }
 
@@ -81,11 +83,26 @@ class ClinicsAdapter(_newClinics: MutableList<ClinicsModel>) : RecyclerView.Adap
 //        newClinicsFull = ArrayList<Any?>(newClinics)
 //    }
 
-    class ClinicsViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ClinicsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var clinicsTitle: TextView
+        var clinicsAddress: TextView
+        var clinicsPrice: TextView
+//        val clinicsName: TextView
 
-        var clinicsTitle: TextView = itemView.findViewById(R.id.clinics_preview_title)
-        var clinicsAddress: TextView = itemView.findViewById(R.id.clinics_preview_address)
-        var clinicsPrice: TextView = itemView.findViewById(R.id.clinics_preview_price)
+
+        init {
+            super.itemView
+            clinicsTitle = itemView.findViewById(R.id.clinics_preview_title)
+            clinicsAddress = itemView.findViewById(R.id.clinics_preview_address)
+//            clinicsName = itemView.findViewById(R.id.clinics_preview_price)
+            clinicsPrice = itemView.findViewById(R.id.clinics_preview_price)
+
+        }
 
     }
+
+
 }
+
+
+
