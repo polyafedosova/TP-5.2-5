@@ -53,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Дата обытия"
+                android:hint="Дата dd.mm.yyyy"
                 android:inputType="date"
                 android:textSize="20sp" />
 
@@ -65,7 +65,7 @@
                 android:visibility="invisible" />
 
             <EditText
-                android:id="@+id/editTextTextMultiLine"
+                android:id="@+id/eventComment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
