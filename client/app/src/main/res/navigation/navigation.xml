@@ -35,6 +35,9 @@
         <action
             android:id="@+id/action_profileFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_editDogFragment"
+            app:destination="@id/editDogFragment" />
     </fragment>
 
     <fragment
@@ -53,19 +56,12 @@
         android:id="@+id/dogAddFragment"
         android:name="dog.DogAddFragment"
         android:label="fragment_dog_add"
-        tools:layout="@layout/fragment_dog_add" >
-        <action
-            android:id="@+id/action_dogAddFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_dog_add" />
     <fragment
         android:id="@+id/eventsFragment"
         android:name="event.EventsFragment"
         android:label="fragment_events"
         tools:layout="@layout/fragment_events" >
-        <action
-            android:id="@+id/action_eventsFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
         <action
             android:id="@+id/action_eventsFragment_to_specificEventFragment"
             app:destination="@id/specificEventFragment" />
@@ -79,9 +75,6 @@
         android:label="fragment_edit_profile"
         tools:layout="@layout/fragment_edit_profile" >
         <action
-            android:id="@+id/action_editProfileFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
-        <action
             android:id="@+id/action_editProfileFragment_to_changePasswordFragment"
             app:destination="@id/changePasswordFragment" />
     </fragment>
@@ -89,24 +82,35 @@
         android:id="@+id/changePasswordFragment"
         android:name="profile.ChangePasswordFragment"
         android:label="fragment_change_password"
-        tools:layout="@layout/fragment_change_password" >
-        <action
-            android:id="@+id/action_changePasswordFragment_to_editProfileFragment"
-            app:destination="@id/editProfileFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_change_password" />
     <fragment
         android:id="@+id/specificEventFragment"
-        android:name="event.SpecificEventFragment"
+        android:name="event.EditEventFragment"
         android:label="fragment_specific_event"
-        tools:layout="@layout/fragment_specific_event" />
+        tools:layout="@layout/fragment_edit_event" />
     <fragment
         android:id="@+id/addEventFragment"
         android:name="event.AddEventFragment"
         android:label="fragment_add_event"
-        tools:layout="@layout/fragment_add_event" >
+        tools:layout="@layout/fragment_add_event" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="profile.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
         <action
-            android:id="@+id/action_addEventFragment_to_eventsFragment"
-            app:destination="@id/eventsFragment" />
+            android:id="@+id/action_loginFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="profile.RegistrationFragment"
+        android:label="fragment_registration"
+        tools:layout="@layout/fragment_registration" />
+    <fragment
+        android:id="@+id/editDogFragment"
+        android:name="dog.EditDogFragment"
+        android:label="fragment_edit_dog"
+        tools:layout="@layout/fragment_edit_dog" />
 
 </navigation>

@@ -40,13 +40,10 @@ class AddEventFragment : Fragment() {
         val eventCommentText = eventComment.text
 
 
-//        val date: LocalDate = LocalDate.of(2023, 7,24)
-//        val dateString = date.year.toString()+ " " + date.month.value.toString() + " " + date.dayOfMonth.toString()
-
         completeAddEventButton.setOnClickListener() {
-            println("---------------------------")
-            println(eventDateText)
-            println("---------------------------")
+//            println("---------------------------")
+//            println(eventDateText)
+//            println("---------------------------")
 
             var flag = 0
             var message = "Ошибка в ведённой дате"
@@ -55,9 +52,10 @@ class AddEventFragment : Fragment() {
                 val date: LocalDate = LocalDate.parse(eventDateText, format)
 
                 val dateString = date.year.toString()+ " " + date.month.value.toString() + " " + date.dayOfMonth.toString()
-                println("---------------------------")
-                println(dateString)
-                println("---------------------------")
+
+//                println("---------------------------")
+//                println(dateString)
+//                println("---------------------------")
             } catch (ex: java.lang.Exception) {
                 println(ex)
                 flag = 1
@@ -70,7 +68,7 @@ class AddEventFragment : Fragment() {
         }
 
         cancelButton.setOnClickListener() {
-            it.findNavController().navigate(R.id.action_addEventFragment_to_eventsFragment)
+            it.findNavController().popBackStack()
         }
 
         return view

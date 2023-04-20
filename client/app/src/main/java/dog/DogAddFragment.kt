@@ -5,15 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Spinner
+import android.widget.*
 import androidx.navigation.findNavController
 import ru.vsu.cs.tp.paws.R
 
 
 class DogAddFragment : Fragment() {
+
+    lateinit var DogName: EditText
+    lateinit var DogBurnDate: EditText
+    lateinit var Breed: EditText
 
     private lateinit var completeButton: Button
     private lateinit var cancelButton: Button
@@ -47,7 +48,7 @@ class DogAddFragment : Fragment() {
         })
 
         this.cancelButton.setOnClickListener {
-            it.findNavController().navigate(R.id.action_dogAddFragment_to_profileFragment)
+            it.findNavController().popBackStack()
         }
 
         return view

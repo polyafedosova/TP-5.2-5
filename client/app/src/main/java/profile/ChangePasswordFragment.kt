@@ -30,7 +30,7 @@ class ChangePasswordFragment : Fragment() {
         }
 
         cancelChangePasswordButton.setOnClickListener {
-            it.findNavController().navigate(R.id.action_changePasswordFragment_to_editProfileFragment)
+            it.findNavController().popBackStack()
         }
 
         return view

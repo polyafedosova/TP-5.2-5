@@ -34,7 +34,6 @@
                 android:id="@+id/search_widget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/toolbar_name_text"
                 android:layout_marginTop="50dp"
                 app:queryHint="Введите услугу" />
 
@@ -42,7 +41,6 @@
                 android:id="@+id/search_widget_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/search_widget"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 app:queryHint="Введите город">
@@ -53,7 +51,6 @@
                 android:id="@+id/recycler_events"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/search_widget_city"
                 android:background="@color/white"
                 android:visibility="visible" />
 
@@ -61,7 +58,6 @@
                 android:id="@+id/list_item_city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/search_widget_city"
                 android:background="@color/white"
                 android:visibility="gone" />
 

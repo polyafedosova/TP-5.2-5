@@ -42,7 +42,7 @@ class SpecificFragment : Fragment(){
         specificClinicBackButton = view.findViewById(R.id.specificClinicBackButton)
 
         specificClinicBackButton.setOnClickListener {
-            it.findNavController().navigate(R.id.action_specificFragment_to_medicalFragment)
+            it.findNavController().popBackStack()
         }
 
         return view

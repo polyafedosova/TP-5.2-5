@@ -40,7 +40,7 @@ class EditProfileFragment : Fragment() {
         }
 
         cancelProfileRenameButton.setOnClickListener {
-            it.findNavController().navigate(R.id.action_editProfileFragment_to_profileFragment)
+            it.findNavController().popBackStack()
         }
 
         return view

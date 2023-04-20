@@ -1,8 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="event.AddEventFragment">
+    tools:context="event.EditEventFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,7 +20,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Добавление события"
+                android:text="Редоктирование события"
                 android:textAlignment="center"
                 android:textSize="30sp"
                 android:textStyle="bold" />
@@ -27,7 +28,7 @@
 
 
             <EditText
-                android:id="@+id/eventName"
+                android:id="@+id/newEventName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -38,7 +39,7 @@
                 android:textSize="20sp" />
 
             <EditText
-                android:id="@+id/eventDate"
+                android:id="@+id/newEventDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -48,7 +49,7 @@
                 android:textSize="20sp" />
 
             <EditText
-                android:id="@+id/eventComment"
+                android:id="@+id/newEventComment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -60,17 +61,18 @@
 
 
             <Button
-                android:id="@+id/completeAddEventButton"
+                android:id="@+id/completeEditEventButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="55dp"
-                android:text="Готово" />
+                android:text="Редактировать" />
 
             <Button
-                android:id="@+id/cancelEventAddButton"
+                android:id="@+id/deleteEventButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Назад" />
+
+                android:text="Удалить" />
 
         </LinearLayout>
 

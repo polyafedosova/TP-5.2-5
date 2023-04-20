@@ -30,53 +30,29 @@
                 android:textStyle="bold" />
 
 
-        <ProgressBar
-            android:id="@+id/progressBar2"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="invisible" />
-
         <TextView
                 android:id="@+id/info1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Выберите возраст"
+            android:layout_marginTop="15dp"
                 android:textSize="20sp" />
-
-        <ProgressBar
-            android:id="@+id/progressBar3"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="invisible" />
 
         <Spinner
                 android:id="@+id/age"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:spinnerMode="dialog" />
-
-        <ProgressBar
-            android:id="@+id/progressBar4"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="invisible" />
 
         <TextView
                 android:id="@+id/info2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Введите массу:"
+                android:layout_marginTop="15dp"
                 android:textSize="20sp" />
 
-        <ProgressBar
-            android:id="@+id/progressBar5"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="invisible" />
 
         <EditText
                 android:id="@+id/dogWeight"
@@ -84,59 +60,40 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="0"
+                android:layout_marginTop="15dp"
                 android:inputType="number"
                 android:textSize="20sp" />
-
-        <ProgressBar
-            android:id="@+id/progressBar6"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="invisible" />
 
         <TextView
                 android:id="@+id/info4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Уровень физической активности:"
+                android:layout_marginTop="15dp"
                 android:textSize="20sp" />
 
-        <ProgressBar
-            android:id="@+id/progressBar7"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="invisible" />
 
         <Spinner
                 android:id="@+id/movement"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:spinnerMode="dialog" />
 
-        <ProgressBar
-            android:id="@+id/progressBar8"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="invisible" />
 
         <Button
                 android:id="@+id/calculate_eat"
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
+                android:layout_marginTop="15dp"
                 android:text="Рассчитать" />
 
-        <ProgressBar
-            android:id="@+id/progressBar9"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="invisible" />
+
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -156,65 +113,8 @@
                     android:textAlignment="textEnd"
                     android:textSize="20sp" />
 
-            <ProgressBar
-                android:id="@+id/progressBar10"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:visibility="invisible" />
-
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="gone">
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/info6"
-                android:layout_width="182dp"
-                android:layout_height="wrap_content"
-                android:text="Белковая пища"
-                android:textSize="20sp" />
-
-            <EditText
-                android:id="@+id/mass4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="ответ"
-                android:inputType="number"
-                android:textAlignment="textEnd"
-                android:textSize="20sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/info7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Растительная пища"
-                android:textSize="20sp" />
-
-            <EditText
-                android:id="@+id/mass5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="ответ"
-                android:inputType="number"
-                android:textAlignment="textEnd"
-                android:textSize="20sp" />
-        </LinearLayout>
-
-
-
-</LinearLayout>
 </RelativeLayout>

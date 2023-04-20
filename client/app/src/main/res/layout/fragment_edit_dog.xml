@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="event.AddEventFragment">
+    tools:context="dog.EditDogFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,61 +19,65 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Добавление события"
+                android:text="Редактирование питомца"
                 android:textAlignment="center"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
-
-
             <EditText
-                android:id="@+id/eventName"
+                android:id="@+id/newDogName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Название события"
-                android:inputType="number"
+                android:hint="Кличка"
+                android:inputType="text"
+                android:layout_marginTop="15dp"
                 android:textAlignment="textStart"
-                android:layout_marginTop="15dp"
                 android:textSize="20sp" />
 
             <EditText
-                android:id="@+id/eventDate"
+                android:id="@+id/newDogBurnDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Дата dd.mm.yyyy"
+                android:hint="Дата рождения"
+                android:layout_marginTop="15dp"
                 android:inputType="date"
-                android:layout_marginTop="15dp"
                 android:textSize="20sp" />
 
+
             <EditText
-                android:id="@+id/eventComment"
+                android:id="@+id/newBreed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:gravity="start|top"
-                android:hint="Комментарий"
+                android:hint="Порода"
                 android:layout_marginTop="15dp"
-                android:inputType="textMultiLine"
+                android:inputType="text"
                 android:textSize="20sp" />
 
-
-            <Button
-                android:id="@+id/completeAddEventButton"
+            <Spinner
+                android:id="@+id/newSex"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="55dp"
-                android:text="Готово" />
+                android:layout_marginTop="15dp"
+                android:spinnerMode="dialog" />
+
 
             <Button
-                android:id="@+id/cancelEventAddButton"
+                android:id="@+id/completeDogEditButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Назад" />
+                android:layout_marginTop="15dp"
+                android:text="Редактировать" />
+
+            <Button
+                android:id="@+id/deleteDogButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Удалить" />
 
         </LinearLayout>
 
     </RelativeLayout>
-
 </FrameLayout>

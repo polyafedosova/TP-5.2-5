@@ -8,112 +8,82 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="15dp"
-        android:layout_margin="15dp"
+        android:padding="10dp"
+        android:layout_margin="10dp"
         android:background="@color/white">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView_login_head"
-            android:text="Login"
-            android:layout_marginTop="30dp"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView_login_email"
-            android:layout_marginTop="50dp"
-            android:padding="6dp"
-            android:layout_below="@id/textView_login_head"
-            android:text="Email"
-            android:textColor="@color/black"
-            android:textSize="16sp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Авторизация"
+                android:textAlignment="center"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editText_login_email"
-            android:hint="Enter email"
-            android:layout_below="@id/textView_login_email"
-            android:inputType="textEmailAddress"
-            android:layout_marginTop="10dp"
-            android:padding="6dp"
-            android:textColor="@color/black"
-            android:textSize="16sp"/>
+            <EditText
+                android:id="@+id/userLoginEntry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:ems="10"
+                android:hint="Введите логин"
+                android:inputType="text"
+                android:textAlignment="textStart"
+                android:textSize="20sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView_login_pwd"
-            android:layout_marginTop="30dp"
-            android:padding="6dp"
-            android:layout_below="@id/editText_login_email"
-            android:text="Password"
-            android:textColor="@color/black"
-            android:textSize="16sp"/>
+            <EditText
+                android:id="@+id/userPasswordEntry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:ems="10"
+                android:hint="Ведите пароль"
+                android:inputType="textPassword"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="70dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="70dp"
+                android:text="Продолжить" />
+
+            <TextView
+                android:id="@+id/textViewRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Ещё нет аккаунта?"
+                android:textAlignment="center" />
+
+            <Button
+                android:id="@+id/toRegisterButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="70dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="70dp"
+                android:text="Зарегестрироваться" />
 
 
-        <EditText
-            android:id="@+id/editText_login_pwd"
-            android:layout_width="337dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textView_login_pwd"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="1dp"
-            android:hint="Enter password"
-            android:inputType="textPassword"
-            android:padding="6dp"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:elevation="10dp"
+                android:visibility="gone" />
+        </LinearLayout>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Login"
-            android:id="@+id/button_login"
-            android:layout_below="@id/editText_login_pwd"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="70dp"
-            android:layout_marginLeft="70dp"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Forgot password?"
-            android:id="@+id/button_forgot_password"
-            android:layout_below="@id/button_login"
-            android:layout_marginRight="70dp"
-            android:layout_marginLeft="70dp"/>
-
-        <TextView
-            android:id="@+id/textView_register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/button_forgot_password"
-            android:layout_marginTop="30dp"
-            android:text="Do not have an account"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/textView_register_link"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textView_register"
-            android:text="Register"
-            android:textColor="@color/purple_700"
-            android:textAlignment="center" />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:elevation="10dp"
-            android:visibility="gone" />
 
     </RelativeLayout>
 
