@@ -1,6 +1,6 @@
 package ru.vsu.dogapp.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 

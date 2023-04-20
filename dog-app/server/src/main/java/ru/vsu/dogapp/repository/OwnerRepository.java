@@ -12,7 +12,6 @@ public interface OwnerRepository extends JpaRepository<Owner, Integer> {
 
     @NonNull
     List<Owner> findAll();
-
     Owner findByUsername(String username);
     Owner findOwnerById(Integer id);
 }

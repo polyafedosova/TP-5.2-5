@@ -1,41 +1,50 @@
 package ru.vsu.dogapp.service;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.vsu.dogapp.dto.OwnerDto;
 import ru.vsu.dogapp.entity.Owner;
+import ru.vsu.dogapp.entity.type.Role;
+import ru.vsu.dogapp.mapper.OwnerMapper;
 import ru.vsu.dogapp.repository.OwnerRepository;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
-public class OwnerService {
+public class OwnerService implements UserDetailsService {
 
     private final OwnerRepository repository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final OwnerMapper mapper;
 
-    public OwnerService(OwnerRepository repository) {
+    public OwnerService(OwnerRepository repository, BCryptPasswordEncoder bCryptPasswordEncoder, OwnerMapper mapper) {
         this.repository = repository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.mapper = mapper;
     }
 
-    //    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-//
-//    public OwnerService(OwnerRepository repository, BCryptPasswordEncoder bCryptPasswordEncoder) {
-//        this.repository = repository;
-//        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-////    }
-//
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        Owner owner = repository.findByUsername(username);
-//        if (owner == null) {
-//            throw new UsernameNotFoundException("User not found");
-//        }
-//        return owner;
-//    }
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Owner owner = repository.findByUsername(username);
+        if (owner == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return owner;
+    }
 
-    public boolean save(Owner owner) {
+    public boolean save(OwnerDto owner) {
         Owner ownerFromDB = repository.findByUsername(owner.getUsername());
         if (ownerFromDB != null) return false;
-//        owner.setPassword(bCryptPasswordEncoder.encode(owner.getPassword()));
-        repository.save(owner);
+
+        var user = mapper.toEntity(owner);
+
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setRoles(Collections.singleton(Role.USER));
+        repository.save(user);
         return true;
     }
 

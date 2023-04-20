@@ -1,6 +1,7 @@
 package ru.vsu.dogapp.controller;
 
 import org.springframework.web.bind.annotation.*;
+import ru.vsu.dogapp.dto.OwnerDto;
 import ru.vsu.dogapp.entity.Owner;
 import ru.vsu.dogapp.service.OwnerService;
 
@@ -20,7 +21,7 @@ public class OwnerController {
         return service.getAll();
     }
     @PostMapping("/owners/new")
-    public void saveNewOwner(@RequestBody Owner owner) {
+    public void saveNewOwner(@RequestBody OwnerDto owner) {
         service.save(owner);
     }
     @PutMapping("/owners/update/{id}")
