@@ -19,9 +19,6 @@ import ru.vsu.cs.tp.paws.R
 
 class MedicalFragment : Fragment() {
 
-//    fun newInstance(): MedicalFragment {
-//        return MedicalFragment()
-//    }
 
     private lateinit var searchView: SearchView
     private lateinit var searchViewCity: SearchView
@@ -34,13 +31,6 @@ class MedicalFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-
-//    override fun onCreateView(
-//        inflater: LayoutInflater, container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View? {
-//        return inflater.inflate(R.layout.fragment_medical, container, false)
-//    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View {
         var view: View = inflater.inflate(R.layout.fragment_medical, container, false)

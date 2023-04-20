@@ -112,5 +112,19 @@
         android:name="dog.EditDogFragment"
         android:label="fragment_edit_dog"
         tools:layout="@layout/fragment_edit_dog" />
+    <fragment
+        android:id="@+id/adminClinicsFragment"
+        android:name="admin.AdminClinicsFragment"
+        android:label="fragment_admin_clinics"
+        tools:layout="@layout/fragment_admin_clinics" >
+        <action
+            android:id="@+id/action_adminClinicsFragment_to_adminEditClinicFragment"
+            app:destination="@id/adminEditClinicFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/adminEditClinicFragment"
+        android:name="admin.AdminEditClinicFragment"
+        android:label="fragment_admin_edit_clinic"
+        tools:layout="@layout/fragment_admin_edit_clinic" />
 
 </navigation>

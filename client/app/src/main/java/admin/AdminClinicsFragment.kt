@@ -5,56 +5,55 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import medical.ClinicsAdapter
+import medical.ClinicsModel
 import ru.vsu.cs.tp.paws.R
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [AdminClinicsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AdminClinicsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adminClinicsAdapter: AdminClinicsAdapter
+
+    private lateinit var adminAddClinicButton: Button
+    private lateinit var adminLogoutButton: Button
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_admin_clinics, container, false)
+
+        recyclerView = view.findViewById(R.id.recyclerClinics)
+        recyclerView.layoutManager = LinearLayoutManager(activity)
+
+        adminClinicsAdapter = AdminClinicsAdapter(getDataClinics() as MutableList<AdminClinicsModel>)
+        recyclerView.adapter = adminClinicsAdapter
+
+        adminAddClinicButton = view.findViewById(R.id.adminAddClinicButton)
+        adminLogoutButton = view.findViewById(R.id.adminLogoutButton)
+
+        adminAddClinicButton.setOnClickListener() {
+
         }
+
+        adminLogoutButton.setOnClickListener() {
+            it.findNavController().navigate(R.id.loginFragment)
+        }
+
+        return view
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_admin_clinics, container, false)
-    }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AdminClinicsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AdminClinicsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun getDataClinics(): List<AdminClinicsModel> {
+        val listClinics: MutableList<AdminClinicsModel> = java.util.ArrayList()
+        listClinics.add(
+            AdminClinicsModel( "Лаповое", "adress1",
+                "10", "service1", "phone1"))
+        listClinics.add(
+            AdminClinicsModel( "Крутое название", "adress2",
+                "200", "service2", "phone2"))
+
+        return listClinics
     }
 }

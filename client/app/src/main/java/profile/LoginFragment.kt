@@ -28,7 +28,11 @@ class LoginFragment : Fragment() {
         toRegisterButton = view.findViewById(R.id.toRegisterButton)
 
         loginButton.setOnClickListener() {
-
+            if (userLogin.text.equals("admin")) {
+                it.findNavController().navigate(R.id.adminClinicsFragment)
+            } else {
+                it.findNavController().navigate(R.id.profileFragment)
+            }
         }
 
         toRegisterButton.setOnClickListener() {

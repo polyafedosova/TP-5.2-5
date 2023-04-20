@@ -13,9 +13,9 @@ class EventAdapter (_newEvents: MutableList<EventsModel>) : RecyclerView.Adapter
 
     private var newEvents: MutableList<EventsModel> = _newEvents
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventAdapter.EventsViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventsViewHolder {
         val eventsItems: View = LayoutInflater.from(parent.context).inflate(R.layout.event_item, parent, false)
-        return EventAdapter.EventsViewHolder(eventsItems)
+        return EventsViewHolder(eventsItems)
     }
 
     override fun onBindViewHolder(holder: EventsViewHolder, position: Int) {
