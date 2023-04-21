@@ -1,12 +1,14 @@
 package ru.vsu.dogapp.controller;
 
 import org.springframework.web.bind.annotation.*;
+import ru.vsu.dogapp.dto.EventDto;
 import ru.vsu.dogapp.entity.Event;
 import ru.vsu.dogapp.service.EventService;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/owner/{owner_id}/events")
 public class EventController {
 
     private final EventService service;
@@ -15,24 +17,20 @@ public class EventController {
         this.service = service;
     }
 
-    @GetMapping("/events")
-    public List<Event> getAllEvents() {
-        return service.getAll();
+    @PostMapping("/new")
+    public void saveNewEvent(@PathVariable Integer owner_id, @RequestBody EventDto event) {
+        service.save(owner_id, event);
     }
-    @PostMapping("/events/new")
-    public void saveNewEvent(@RequestBody Event event) {
-        service.save(event);
-    }
-    @PutMapping("/events/update/{id}")
-    public void updateEvent(@PathVariable Integer id, @RequestBody Event event) {
+    @PutMapping("/{id}/update")
+    public void updateEvent(@PathVariable Integer id, @RequestBody EventDto event) {
         service.update(id, event);
     }
-    @DeleteMapping("/events/delete/{id}")
+    @DeleteMapping("/{id}/delete")
     public void deleteEvent(@PathVariable Integer id) {
         service.delete(id);
     }
-    @GetMapping("/owner/{id}/events")
-    public List<Event> getEventsOwner(@PathVariable Integer id) {
-        return service.find(id);
+    @GetMapping()
+    public List<EventDto> getEventsOwner(@PathVariable Integer owner_id) {
+        return service.find(owner_id);
     }
 }

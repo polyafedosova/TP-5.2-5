@@ -1,11 +1,13 @@
 package ru.vsu.dogapp.controller;
 
 import org.springframework.web.bind.annotation.*;
+import ru.vsu.dogapp.dto.TreatmentDto;
 import ru.vsu.dogapp.entity.Treatment;
 import ru.vsu.dogapp.service.TreatmentService;
 import java.util.List;
 
 @RestController
+@RequestMapping("/vetclinic/{vetclinic_id}/treatments")
 public class TreatmentController {
 
     private final TreatmentService service;
@@ -14,25 +16,21 @@ public class TreatmentController {
         this.service = service;
     }
 
-    @GetMapping("/treatments")
-    public List<Treatment> getAllTreatments() {
-        return service.getAll();
+    @PostMapping("/new")
+    public void saveNewTreatment(@PathVariable Integer vetclinic_id, @RequestBody TreatmentDto treatment) {
+        service.save(vetclinic_id, treatment);
     }
-    @PostMapping("/treatments/new")
-    public void saveNewTreatment(@RequestBody Treatment treatment) {
-        service.save(treatment);
-    }
-    @PutMapping("/treatments/update/{id}")
-    public void updateTreatment(@PathVariable Integer id, @RequestBody Treatment treatment) {
+    @PutMapping("/{id}/update")
+    public void updateTreatment(@PathVariable Integer id, @RequestBody TreatmentDto treatment) {
         service.update(id, treatment);
     }
-    @DeleteMapping("/treatments/delete/{id}")
+    @DeleteMapping("/{id}/delete")
     public void deleteTreatment(@PathVariable Integer id) {
         service.delete(id);
     }
-    @GetMapping("/vetclinic/{id}/treatments")
-    public List<Treatment> getVetclinicTreatments(@PathVariable Integer id) {
-        return service.find(id);
+    @GetMapping()
+    public List<TreatmentDto> getVetclinicTreatments(@PathVariable Integer vetclinic_id) {
+        return service.find(vetclinic_id);
     }
 
 }

@@ -1,12 +1,14 @@
 package ru.vsu.dogapp.controller;
 
 import org.springframework.web.bind.annotation.*;
+import ru.vsu.dogapp.dto.DogDto;
 import ru.vsu.dogapp.entity.Dog;
 import ru.vsu.dogapp.service.DogService;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/owner/{owner_id}/dogs")
 public class DogController {
 
     private final DogService service;
@@ -15,24 +17,20 @@ public class DogController {
         this.service = service;
     }
 
-    @GetMapping("/dogs")
-    public List<Dog> getAllDogs() {
-        return service.getAll();
+    @PostMapping("/new")
+    public void saveNewDog(@PathVariable Integer owner_id, @RequestBody DogDto dog) {
+        service.save(owner_id, dog);
     }
-    @PostMapping("/dogs/new")
-    public void saveNewDog(@RequestBody Dog dog) {
-        service.save(dog);
-    }
-    @PutMapping("/dogs/update/{id}")
-    public void updateDog(@PathVariable Integer id, @RequestBody Dog dog) {
+    @PutMapping("/{id}/update")
+    public void updateDog(@PathVariable Integer id, @RequestBody DogDto dog) {
         service.update(id, dog);
     }
-    @DeleteMapping("/dogs/delete/{id}")
+    @DeleteMapping("/{id}/delete")
     public void deleteDog(@PathVariable Integer id) {
         service.delete(id);
     }
-    @GetMapping("/owner/{id}/dogs")
-    public List<Dog> getDogsOwner(@PathVariable Integer id) {
-        return service.find(id);
+    @GetMapping()
+    public List<DogDto> getDogsOwner(@PathVariable Integer owner_id) {
+        return service.find(owner_id);
     }
 }

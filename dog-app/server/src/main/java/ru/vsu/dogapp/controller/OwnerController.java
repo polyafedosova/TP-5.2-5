@@ -8,6 +8,7 @@ import ru.vsu.dogapp.service.OwnerService;
 import java.util.List;
 
 @RestController
+@RequestMapping("/owners")
 public class OwnerController {
 
     private final OwnerService service;
@@ -16,19 +17,19 @@ public class OwnerController {
         this.service = service;
     }
 
-    @GetMapping("/owners")
+    @GetMapping()
     public List<Owner> getAllOwner() {
         return service.getAll();
     }
-    @PostMapping("/owners/new")
+    @PostMapping("/new")
     public void saveNewOwner(@RequestBody OwnerDto owner) {
         service.save(owner);
     }
-    @PutMapping("/owners/update/{id}")
-    public void updateOwner(@PathVariable Integer id, @RequestBody Owner owner) {
+    @PutMapping("/{id}/update")
+    public void updateOwner(@PathVariable Integer id, @RequestBody OwnerDto owner) {
         service.update(id, owner);
     }
-    @DeleteMapping("/owners/delete/{id}")
+    @DeleteMapping("/{id}/delete")
     public void deleteOwner(@PathVariable Integer id) {
         service.delete(id);
     }
