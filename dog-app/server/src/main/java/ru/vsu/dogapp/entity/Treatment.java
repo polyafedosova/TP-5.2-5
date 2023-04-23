@@ -1,6 +1,8 @@
 package ru.vsu.dogapp.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+
 import lombok.*;
 
 import java.math.BigDecimal;

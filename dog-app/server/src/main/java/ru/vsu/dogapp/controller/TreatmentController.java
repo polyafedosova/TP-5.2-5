@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.vsu.dogapp.dto.TreatmentDto;
 import ru.vsu.dogapp.entity.Treatment;
 import ru.vsu.dogapp.service.TreatmentService;
+
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -17,11 +19,11 @@ public class TreatmentController {
     }
 
     @PostMapping("/new")
-    public void saveNewTreatment(@PathVariable Integer vetclinic_id, @RequestBody TreatmentDto treatment) {
+    public void saveNewTreatment(@PathVariable Integer vetclinic_id, @Valid @RequestBody TreatmentDto treatment) {
         service.save(vetclinic_id, treatment);
     }
     @PutMapping("/{id}/update")
-    public void updateTreatment(@PathVariable Integer id, @RequestBody TreatmentDto treatment) {
+    public void updateTreatment(@PathVariable Integer id, @Valid @RequestBody TreatmentDto treatment) {
         service.update(id, treatment);
     }
     @DeleteMapping("/{id}/delete")

@@ -5,6 +5,7 @@ import ru.vsu.dogapp.dto.EventDto;
 import ru.vsu.dogapp.entity.Event;
 import ru.vsu.dogapp.service.EventService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -18,11 +19,11 @@ public class EventController {
     }
 
     @PostMapping("/new")
-    public void saveNewEvent(@PathVariable Integer owner_id, @RequestBody EventDto event) {
+    public void saveNewEvent(@PathVariable Integer owner_id, @Valid @RequestBody EventDto event) {
         service.save(owner_id, event);
     }
     @PutMapping("/{id}/update")
-    public void updateEvent(@PathVariable Integer id, @RequestBody EventDto event) {
+    public void updateEvent(@PathVariable Integer id, @Valid @RequestBody EventDto event) {
         service.update(id, event);
     }
     @DeleteMapping("/{id}/delete")

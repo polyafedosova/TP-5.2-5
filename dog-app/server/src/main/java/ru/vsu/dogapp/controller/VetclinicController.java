@@ -5,6 +5,7 @@ import ru.vsu.dogapp.dto.VetclinicDto;
 import ru.vsu.dogapp.entity.Vetclinic;
 import ru.vsu.dogapp.service.VetclinicService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,11 +23,11 @@ public class VetclinicController {
         return service.getAll();
     }
     @PostMapping("/new")
-    public void saveNewVetclinic(@RequestBody VetclinicDto vetclinic) {
+    public void saveNewVetclinic(@Valid  @RequestBody VetclinicDto vetclinic) {
         service.save(vetclinic);
     }
     @PutMapping("/{id}/update")
-    public void updateVetclinic(@PathVariable Integer id, @RequestBody VetclinicDto vetclinic) {
+    public void updateVetclinic(@PathVariable Integer id, @Valid @RequestBody VetclinicDto vetclinic) {
         service.update(id, vetclinic);
     }
     @DeleteMapping("/{id}/delete")

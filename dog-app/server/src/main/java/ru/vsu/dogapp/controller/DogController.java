@@ -5,6 +5,7 @@ import ru.vsu.dogapp.dto.DogDto;
 import ru.vsu.dogapp.entity.Dog;
 import ru.vsu.dogapp.service.DogService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -18,11 +19,11 @@ public class DogController {
     }
 
     @PostMapping("/new")
-    public void saveNewDog(@PathVariable Integer owner_id, @RequestBody DogDto dog) {
+    public void saveNewDog(@PathVariable Integer owner_id, @Valid @RequestBody DogDto dog) {
         service.save(owner_id, dog);
     }
     @PutMapping("/{id}/update")
-    public void updateDog(@PathVariable Integer id, @RequestBody DogDto dog) {
+    public void updateDog(@PathVariable Integer id, @Valid @RequestBody DogDto dog) {
         service.update(id, dog);
     }
     @DeleteMapping("/{id}/delete")

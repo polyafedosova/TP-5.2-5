@@ -5,6 +5,7 @@ import ru.vsu.dogapp.dto.OwnerDto;
 import ru.vsu.dogapp.entity.Owner;
 import ru.vsu.dogapp.service.OwnerService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,11 +23,11 @@ public class OwnerController {
         return service.getAll();
     }
     @PostMapping("/new")
-    public void saveNewOwner(@RequestBody OwnerDto owner) {
+    public void saveNewOwner(@Valid  @RequestBody OwnerDto owner) {
         service.save(owner);
     }
     @PutMapping("/{id}/update")
-    public void updateOwner(@PathVariable Integer id, @RequestBody OwnerDto owner) {
+    public void updateOwner(@PathVariable Integer id, @Valid @RequestBody OwnerDto owner) {
         service.update(id, owner);
     }
     @DeleteMapping("/{id}/delete")
