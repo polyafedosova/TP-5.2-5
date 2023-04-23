@@ -71,8 +71,13 @@
                 android:id="@+id/deleteEventButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:text="Удалить" />
+
+            <Button
+                android:id="@+id/backFromEditEventButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Назад" />
 
         </LinearLayout>
 

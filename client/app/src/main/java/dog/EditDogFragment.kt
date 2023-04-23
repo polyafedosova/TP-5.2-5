@@ -20,6 +20,7 @@ class EditDogFragment : Fragment() {
 
     lateinit var completeEditButton: Button
     lateinit var deleteDogButton: Button
+    lateinit var backFromEditDogButton: Button
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_edit_dog, container, false)
@@ -32,6 +33,7 @@ class EditDogFragment : Fragment() {
 
         completeEditButton = view.findViewById(R.id.completeDogEditButton)
         deleteDogButton = view.findViewById(R.id.deleteDogButton)
+        backFromEditDogButton = view.findViewById(R.id.backFromEditDogButton)
 
         ArrayAdapter.createFromResource(this.requireContext(), R.array.sex_array,
             androidx.appcompat.R.layout.support_simple_spinner_dropdown_item).also {
@@ -67,6 +69,10 @@ class EditDogFragment : Fragment() {
         }
 
         deleteDogButton.setOnClickListener() {
+            it.findNavController().popBackStack()
+        }
+
+        backFromEditDogButton.setOnClickListener {
             it.findNavController().popBackStack()
         }
 

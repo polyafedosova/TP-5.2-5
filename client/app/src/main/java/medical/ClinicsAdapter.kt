@@ -26,15 +26,15 @@ class ClinicsAdapter(_newClinics: MutableList<ClinicsModel>) : RecyclerView.Adap
     }
 
     override fun onBindViewHolder(holder: ClinicsViewHolder, position: Int) {
-        holder.clinicsTitle.text = newClinics[position].getTitle()
+        holder.clinicsTitle.text = newClinics[position].getName()
         holder.clinicsAddress.text = newClinics[position].getAddress()
         holder.clinicsPrice.text = newClinics[position].getPrice()
-//        holder.clinicsName.text = newClinics[position].getName()
+
 
         val bundle = Bundle()
 
         bundle.putString("name", newClinics[position].getName())
-        bundle.putString("service", newClinics[position].getTitle())
+        bundle.putString("service", newClinics[position].getService())
         bundle.putString("address", newClinics[position].getAddress())
 
 
@@ -59,7 +59,7 @@ class ClinicsAdapter(_newClinics: MutableList<ClinicsModel>) : RecyclerView.Adap
             } else {
                 val filterPattern = constraint.toString().lowercase().trim { it <= ' ' }
                 for (item in newClinicsFull) {
-                    if (item.getTitle().toLowerCase().contains(filterPattern) || item.getAddress()
+                    if (item.getService().toLowerCase().contains(filterPattern) || item.getAddress()
                             .toLowerCase().contains(filterPattern)
                     ) {
                         filteredList.add(item)
@@ -87,7 +87,6 @@ class ClinicsAdapter(_newClinics: MutableList<ClinicsModel>) : RecyclerView.Adap
         var clinicsTitle: TextView
         var clinicsAddress: TextView
         var clinicsPrice: TextView
-//        val clinicsName: TextView
 
 
         init {

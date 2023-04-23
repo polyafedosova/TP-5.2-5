@@ -49,9 +49,19 @@ class AdminClinicsAdapter (_newClinics: MutableList<AdminClinicsModel>) :
 
         lateinit var clinicsServices: String
         lateinit var clinicsPhone: String
-        var clinicsTitle: TextView = itemView.findViewById(R.id.preview_title)
-        var clinicsAddress: TextView = itemView.findViewById(R.id.preview_data)
-        var clinicsPrice: TextView = itemView.findViewById(R.id.comment)
+        var clinicsTitle: TextView
+        var clinicsAddress: TextView
+        var clinicsPrice: TextView
+
+
+        init {
+            super.itemView
+            clinicsTitle = itemView.findViewById(R.id.clinics_preview_title)
+            clinicsAddress = itemView.findViewById(R.id.clinics_preview_address)
+//            clinicsName = itemView.findViewById(R.id.clinics_preview_price)
+            clinicsPrice = itemView.findViewById(R.id.clinics_preview_price)
+
+        }
 
     }
 

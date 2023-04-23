@@ -67,14 +67,12 @@ class ProfileFragment : Fragment() {
         }
 
 
-
-
         return view
     }
 
     //временные костыли
     private fun isAuthorized(): Boolean {
-        return false
+        return true
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

@@ -14,12 +14,13 @@ import ru.vsu.cs.tp.paws.R
 
 class EditEventFragment : Fragment() {
 
-    lateinit var newEventName: EditText
-    lateinit var newEventDate: EditText
-    lateinit var newEventComment: EditText
+    private lateinit var newEventName: EditText
+    private lateinit var newEventDate: EditText
+    private lateinit var newEventComment: EditText
 
-    lateinit var completeEditEventButton: Button
-    lateinit var deleteEventButton: Button
+    private lateinit var completeEditEventButton: Button
+    private lateinit var deleteEventButton: Button
+    private lateinit var backFromEditEventButton: Button
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_edit_event, container, false)
@@ -30,6 +31,7 @@ class EditEventFragment : Fragment() {
 
         completeEditEventButton = view.findViewById(R.id.completeEditEventButton)
         deleteEventButton = view.findViewById(R.id.deleteEventButton)
+        backFromEditEventButton = view.findViewById(R.id.backFromEditEventButton)
 
         val nameValue = requireArguments().getString("name")
         val idValue = requireArguments().getInt("id")
@@ -51,6 +53,10 @@ class EditEventFragment : Fragment() {
         }
 
         deleteEventButton.setOnClickListener() {
+            it.findNavController().popBackStack()
+        }
+
+        backFromEditEventButton.setOnClickListener {
             it.findNavController().popBackStack()
         }
 

@@ -55,10 +55,9 @@
                 android:id="@+id/clinics_preview_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1000$"
-                android:textColor="#F10707"
+                android:text="1000"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
 
