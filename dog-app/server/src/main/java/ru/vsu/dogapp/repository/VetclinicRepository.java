@@ -2,6 +2,8 @@ package ru.vsu.dogapp.repository;
 
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.vsu.dogapp.entity.Vetclinic;
 
@@ -12,5 +14,6 @@ public interface VetclinicRepository extends JpaRepository<Vetclinic, Integer> {
 
     @NonNull
     List<Vetclinic> findAll();
-    Vetclinic findVetclinicById(Integer id);
+    @Query("SELECT v FROM Vetclinic v WHERE v.id = :id")
+    Vetclinic findVetclinicById(@Param("id") Integer id);
 }
