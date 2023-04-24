@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/medicalFragment">
+
+    <fragment
+        android:id="@+id/medicalFragment"
+        android:name="medical.MedicalFragment"
+        android:label="fragment_medical"
+        tools:layout="@layout/fragment_medical" >
+        <action
+            android:id="@+id/action_medicalFragment_to_specificFragment"
+            app:destination="@id/specificFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/calculatorFragment"
+        android:name="calculator.CalculatorFragment"
+        android:label="fragment_calculator"
+        tools:layout="@layout/fragment_calculator" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_dogAddFragment"
+            app:destination="@id/dogAddFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_eventsFragment"
+            app:destination="@id/eventsFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_editDogFragment"
+            app:destination="@id/editDogFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/specificFragment"
+        android:name="medical.SpecificFragment"
+        android:label="SpecificFragment" >
+        <action
+            android:id="@+id/action_specificFragment_to_medicalFragment"
+            app:destination="@id/medicalFragment" />
+        <argument
+            android:name="clinicName"
+            app:argType="string"
+            android:defaultValue="defaultName" />
+    </fragment>
+    <fragment
+        android:id="@+id/dogAddFragment"
+        android:name="dog.DogAddFragment"
+        android:label="fragment_dog_add"
+        tools:layout="@layout/fragment_dog_add" />
+    <fragment
+        android:id="@+id/eventsFragment"
+        android:name="event.EventsFragment"
+        android:label="fragment_events"
+        tools:layout="@layout/fragment_events" >
+        <action
+            android:id="@+id/action_eventsFragment_to_specificEventFragment"
+            app:destination="@id/specificEventFragment" />
+        <action
+            android:id="@+id/action_eventsFragment_to_addEventFragment"
+            app:destination="@id/addEventFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="profile.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" >
+        <action
+            android:id="@+id/action_editProfileFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="profile.ChangePasswordFragment"
+        android:label="fragment_change_password"
+        tools:layout="@layout/fragment_change_password" />
+    <fragment
+        android:id="@+id/specificEventFragment"
+        android:name="event.EditEventFragment"
+        android:label="fragment_specific_event"
+        tools:layout="@layout/fragment_edit_event" />
+    <fragment
+        android:id="@+id/addEventFragment"
+        android:name="event.AddEventFragment"
+        android:label="fragment_add_event"
+        tools:layout="@layout/fragment_add_event" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="profile.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="profile.RegistrationFragment"
+        android:label="fragment_registration"
+        tools:layout="@layout/fragment_registration" />
+    <fragment
+        android:id="@+id/editDogFragment"
+        android:name="dog.EditDogFragment"
+        android:label="fragment_edit_dog"
+        tools:layout="@layout/fragment_edit_dog" />
+    <fragment
+        android:id="@+id/adminClinicsFragment"
+        android:name="admin.AdminClinicsFragment"
+        android:label="fragment_admin_clinics"
+        tools:layout="@layout/fragment_admin_clinics" >
+        <action
+            android:id="@+id/action_adminClinicsFragment_to_adminEditClinicFragment"
+            app:destination="@id/adminEditClinicFragment" />
+        <action
+            android:id="@+id/action_adminClinicsFragment_to_adminAddClinicFragment"
+            app:destination="@id/adminAddClinicFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/adminEditClinicFragment"
+        android:name="admin.AdminEditClinicFragment"
+        android:label="fragment_admin_edit_clinic"
+        tools:layout="@layout/fragment_admin_edit_clinic" />
+    <fragment
+        android:id="@+id/adminAddClinicFragment"
+        android:name="admin.AdminAddClinicFragment"
+        android:label="fragment_admin_add_clinic"
+        tools:layout="@layout/fragment_admin_add_clinic" />
+
+</navigation>

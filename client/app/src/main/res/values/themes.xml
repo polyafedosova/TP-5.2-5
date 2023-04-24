@@ -1,0 +1,16 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Paws" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/new_purple</item>
+        <item name="colorPrimaryVariant">@color/new_light</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/new_purple</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/new_green_text</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/new_purple</item>
+        <!-- Customize your theme here. -->
+    </style>
+</resources>

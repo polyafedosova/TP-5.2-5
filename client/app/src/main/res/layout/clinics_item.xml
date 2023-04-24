@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/clinics_item_click"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="40dp"
+            app:cardElevation="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            app:cardBackgroundColor="@color/item_white"
+            tools:ignore="MissingConstraints">
+
+            <LinearLayout
+                android:id="@+id/cardView_preview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/clinics_preview_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Название"
+                        android:fontFamily="@font/inter"
+                        android:textColor="@color/new_purple"
+                        android:textAlignment="center"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:ellipsize="end"
+                        android:maxLines="1"/>
+
+                    <TextView
+                        android:id="@+id/clinics_preview_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/clinics_preview_title"
+                        android:text="Шишкова 72/2"
+                        android:textAlignment="center"
+                        android:layout_marginTop="10dp"
+                        style="@style/Text"
+                        android:textColor="@color/new_purple"
+                        android:ellipsize="end"
+                        android:maxLines="1"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp">
+
+                        <TextView
+                            android:id="@+id/clinics_preview_treatment"
+                            style="@style/Text"
+                            android:layout_width="208dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/clinics_preview_title"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="УЗИ брюшной полости"
+                            android:textColor="@color/new_purple" />
+
+                        <TextView
+                            android:id="@+id/clinics_preview_price"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="1000$"
+                            style="@style/Text"
+                            android:textStyle="bold"
+                            android:textColor="@color/new_purple"/>
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="profile.ProfileFragment">
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="15dp"
+        android:paddingRight="30dp"
+        android:paddingLeft="30dp"
+        android:layout_margin="10dp"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/toolbar_name_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Имя"
+                android:fontFamily="@font/inter"
+                android:textColor="@color/new_purple"
+                android:textSize="30sp"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/addDogButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Добавить питомца"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button_style"
+                style="@style/ButtonRadius"
+                android:textColor="@color/white"
+                android:padding="10dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerDogs"
+                android:layout_width="match_parent"
+                android:layout_height="290dp"
+                android:background="@color/white"
+                android:visibility="visible" >
+
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <Button
+                android:id="@+id/eventsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="События"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button_style"
+                style="@style/ButtonRadius"
+                android:textColor="@color/white"
+                android:padding="10dp"/>
+
+            <Button
+                android:id="@+id/editProfileButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Редактировать профиль"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button_style"
+                style="@style/ButtonRadius"
+                android:textColor="@color/white"
+                android:padding="10dp"/>
+
+            <Button
+                android:id="@+id/exitButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Выйти"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button_style"
+                style="@style/ButtonRadius"
+                android:textColor="@color/white"
+                android:padding="10dp"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+
+
+
+</FrameLayout>
