@@ -72,7 +72,7 @@ class ProfileFragment : Fragment() {
 
     //временные костыли
     private fun isAuthorized(): Boolean {
-        return false
+        return true
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
