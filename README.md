@@ -19,7 +19,7 @@
 [Диаграммы](https://github.com/polyafedosova/TP-5.2-5/tree/master/Documentation/Diagrams)<br />
 
 # Аттестация 2
-[Демонстрационное видео](https://disk.yandex.ru/i/rxx9JC499WPdYQ)<br />
+[Демонстрационное видео](https://disk.yandex.ru/i/J9s1b3K_-PB41A)<br />
 
 # Реализация
 [Сервер](https://github.com/polyafedosova/TP-5.2-5/tree/master/dog-app/server)<br />
