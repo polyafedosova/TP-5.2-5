@@ -20,3 +20,4 @@
 
 # Реализация
 [Сервер](https://github.com/polyafedosova/TP-5.2-5/tree/master/dog-app/server)<br />
+[Клиент](https://github.com/polyafedosova/TP-5.2-5/tree/master/client)<br />
