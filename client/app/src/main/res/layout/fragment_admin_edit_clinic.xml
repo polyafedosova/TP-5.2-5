@@ -7,80 +7,171 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
+        android:paddingTop="15dp"
+        android:paddingRight="30dp"
+        android:paddingLeft="30dp"
         android:layout_margin="10dp"
         android:background="@color/white">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Редактирование клиники"
-            android:textAlignment="center"
-            android:textSize="30sp"
-            android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/adminEditClinicName"
+            android:layout_height="660sp">
+            <LinearLayout
+                android:id="@+id/linearScroll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Название клиники"
-                android:inputType="textPersonName"
-                android:layout_marginTop="15dp"
-                android:textSize="20sp" />
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/adminEditClinicAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Адресс клиники"
-                android:inputType="textPersonName"
-                android:textSize="20sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter"
+                    android:text="Редактирование клиники"
+                    android:textAlignment="center"
+                    android:textColor="@color/new_purple"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/adminEditClinicPhone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Телефон клиники"
-                android:inputType="textPersonName"
-                android:textSize="20sp" />
-
-            <EditText
-                android:id="@+id/adminEditClinicServices"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Услуги клиники"
-                android:inputType="textPersonName"
-                android:textSize="20sp" />
-
-            <Button
-                android:id="@+id/adminEditClinic"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="55dp"
-                android:text="Редактировать" />
-
-            <Button
-                android:id="@+id/adminDeleteClinic"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Удалить" />
-
-            <Button
-                android:id="@+id/adminBackFromClinic"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Назад" />
+                <EditText
+                    android:id="@+id/adminEditClinicPhone"
+                    style="@style/EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext_style"
+                    android:ems="10"
+                    android:hint="Телефон клиники"
+                    android:inputType="textPersonName"
+                    android:textAlignment="textStart"
+                    android:textSize="16sp" />
 
 
-        </LinearLayout>
+
+                <EditText
+                    android:id="@+id/adminEditClinicName"
+                    style="@style/EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext_style"
+                    android:ems="10"
+                    android:hint="Название клиники"
+                    android:inputType="textPersonName"
+                    android:textAlignment="textStart"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/adminEditClinicCountry"
+                    style="@style/EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext_style"
+                    android:ems="10"
+                    android:hint="Страна"
+                    android:inputType="textPersonName"
+                    android:textAlignment="textStart"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/adminEditClinicRegion"
+                    style="@style/EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext_style"
+                    android:ems="10"
+                    android:hint="Регион"
+                    android:inputType="textPersonName"
+                    android:textAlignment="textStart"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/adminEditClinicDistrict"
+                    style="@style/EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext_style"
+                    android:ems="10"
+                    android:hint="Округ"
+                    android:inputType="textPersonName"
+                    android:textAlignment="textStart"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/adminEditClinicCity"
+                    style="@style/EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext_style"
+                    android:ems="10"
+                    android:hint="Город"
+                    android:inputType="textPersonName"
+                    android:textAlignment="textStart"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/adminEditClinicStreet"
+                    style="@style/EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext_style"
+                    android:ems="10"
+                    android:hint="Улица"
+                    android:inputType="textPersonName"
+                    android:textAlignment="textStart"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/adminEditClinicHouse"
+                    style="@style/EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext_style"
+                    android:ems="10"
+                    android:hint="Дом"
+                    android:inputType="textPersonName"
+                    android:textAlignment="textStart"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/adminEditClinicServices"
+                    style="@style/EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext_style"
+                    android:ems="10"
+                    android:hint="Услуги клиники"
+                    android:inputType="textPersonName"
+                    android:textAlignment="textStart"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/adminEditClinic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="55dp"
+                    android:text="Редактировать" />
+
+                <Button
+                    android:id="@+id/adminDeleteClinic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Удалить" />
+
+                <Button
+                    android:id="@+id/adminBackFromClinic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Назад" />
+
+
+            </LinearLayout>
+        </ScrollView>
     </RelativeLayout>
 </FrameLayout>

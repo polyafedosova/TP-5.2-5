@@ -5,10 +5,12 @@
     android:layout_height="match_parent"
     tools:context="profile.LoginFragment">
 
-    <RelativeLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
+        android:paddingTop="15dp"
+        android:paddingRight="30dp"
+        android:paddingLeft="30dp"
         android:layout_margin="10dp"
         android:background="@color/white">
 
@@ -21,61 +23,69 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Авторизация"
+                android:fontFamily="@font/inter"
+                android:textColor="@color/new_purple"
                 android:textAlignment="center"
                 android:textSize="30sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
+
+
+            <ImageView
+                android:id="@+id/corgi_1"
+                android:layout_width="wrap_content"
+                android:layout_height="180dp"
+                android:layout_marginTop="45dp"
+                android:src="@drawable/corgi1"
+                android:layout_gravity="center"
+                android:visibility="visible"/>
 
             <EditText
                 android:id="@+id/userLoginEntry"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:ems="10"
                 android:hint="Введите логин"
+                android:layout_marginTop="45dp"
                 android:inputType="text"
                 android:textAlignment="textStart"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                style="@style/EditText"
+                android:background="@drawable/edittext_style"/>
 
             <EditText
                 android:id="@+id/userPasswordEntry"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:ems="10"
                 android:hint="Ведите пароль"
+                android:layout_marginTop="15dp"
                 android:inputType="textPassword"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                style="@style/EditText"
+                android:background="@drawable/edittext_style"/>
 
             <Button
                 android:id="@+id/loginButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="70dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginRight="70dp"
-                android:text="Продолжить" />
-
-            <TextView
-                android:id="@+id/textViewRegister"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="Ещё нет аккаунта?"
-                android:textAlignment="center" />
+                android:layout_marginTop="15dp"
+                android:text="Продолжить"
+                android:background="@drawable/button_style"
+                style="@style/ButtonRadius"
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/toRegisterButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="70dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="70dp"
-                android:text="Зарегестрироваться" />
+                android:layout_marginTop="5dp"
+                android:text="Регистрация"
+                android:background="@drawable/button_style"
+                style="@style/ButtonRadius"
+                android:textColor="@color/white"/>
 
 
             <ProgressBar
                 android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyleLarge"
+                style="@style/Widget.AppCompat.ProgressBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -85,6 +95,6 @@
         </LinearLayout>
 
 
-    </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </FrameLayout>

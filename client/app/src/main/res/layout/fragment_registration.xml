@@ -20,9 +20,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Регистрация"
+                android:fontFamily="@font/inter"
+                android:textColor="@color/new_purple"
                 android:textAlignment="center"
                 android:textSize="30sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
 
             <EditText
@@ -31,10 +33,12 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Придумайте логин"
+                android:layout_marginTop="45dp"
                 android:inputType="text"
                 android:textAlignment="textStart"
-                android:layout_marginTop="15dp"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                style="@style/EditText"
+                android:background="@drawable/edittext_style"/>
 
 
             <EditText
@@ -45,28 +49,34 @@
                 android:hint="Ваше имя"
                 android:layout_marginTop="15dp"
                 android:inputType="text"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                style="@style/EditText"
+                android:background="@drawable/edittext_style"/>
 
 
             <EditText
                 android:id="@+id/userPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:ems="8"
                 android:hint="Придумайте пароль"
+                android:layout_marginTop="15dp"
                 android:inputType="textPassword"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                style="@style/EditText"
+                android:background="@drawable/edittext_style"/>
 
             <EditText
                 android:id="@+id/userRepeatPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:ems="8"
                 android:hint="Повторите пароль"
+                android:layout_marginTop="15dp"
                 android:inputType="textPassword"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                style="@style/EditText"
+                android:background="@drawable/edittext_style"/>
 
 
             <Button
@@ -74,7 +84,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
+                android:background="@drawable/button_style"
+                style="@style/ButtonRadius"
+                android:textColor="@color/white"
                 android:text="Готово" />
+
+            <Button
+                android:id="@+id/cancelRegistrationButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/button_style"
+                style="@style/ButtonRadius"
+                android:textColor="@color/white"
+                android:text="Назад" />
 
         </LinearLayout>
 

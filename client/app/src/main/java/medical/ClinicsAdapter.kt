@@ -10,6 +10,13 @@ import android.widget.Filterable
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+<<<<<<< Updated upstream
+=======
+import dto.VetclinicDto
+import interfaces.VetclinicApi
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+>>>>>>> Stashed changes
 import ru.vsu.cs.tp.paws.R
 
 
@@ -18,6 +25,9 @@ class ClinicsAdapter(_newClinics: MutableList<ClinicsModel>) : RecyclerView.Adap
     private var newClinics: MutableList<ClinicsModel> = _newClinics
     private var newClinicsFull: List<ClinicsModel> = java.util.ArrayList<ClinicsModel>(newClinics)
 
+    fun addClinics(list: List<VetclinicDto>) {
+
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClinicsViewHolder {
         val clinicsItems: View = LayoutInflater.from(parent.context)

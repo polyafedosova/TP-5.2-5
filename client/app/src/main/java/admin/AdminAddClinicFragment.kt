@@ -1,12 +1,13 @@
 package admin
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import ru.vsu.cs.tp.paws.R
 
@@ -14,9 +15,10 @@ import ru.vsu.cs.tp.paws.R
 class AdminAddClinicFragment : Fragment() {
 
     private lateinit var adminAddClinicName: EditText
-    private lateinit var adminAddClinicAddress: EditText
+    private lateinit var adminAddClinicCountry: EditText
     private lateinit var adminAddClinicPhone: EditText
     private lateinit var adminAddClinicServices: EditText
+
 
     private lateinit var adminAddClinic: Button
     private lateinit var adminCancelAddClinic: Button
@@ -25,7 +27,7 @@ class AdminAddClinicFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_admin_add_clinic, container, false)
 
         adminAddClinicName = view.findViewById(R.id.adminAddClinicName)
-        adminAddClinicAddress = view.findViewById(R.id.adminAddClinicAddress)
+        adminAddClinicCountry = view.findViewById(R.id.adminAddClinicCountry)
         adminAddClinicPhone = view.findViewById(R.id.adminAddClinicPhone)
         adminAddClinicServices = view.findViewById(R.id.adminAddClinicServices)
 
@@ -33,7 +35,7 @@ class AdminAddClinicFragment : Fragment() {
         adminCancelAddClinic = view.findViewById(R.id.adminCancelAddClinic)
 
         adminAddClinic.setOnClickListener() {
-            addClinic(adminAddClinicName, adminAddClinicAddress, adminAddClinicPhone, adminAddClinicServices)
+            addClinic(adminAddClinicName, adminAddClinicCountry, adminAddClinicPhone, adminAddClinicServices)
         }
 
         adminCancelAddClinic.setOnClickListener() {

@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import ru.vsu.cs.tp.paws.R
@@ -21,7 +20,7 @@ class SpecificFragment : Fragment(){
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val view: View = inflater.inflate(R.layout.fragment_specific, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_clinic_open, container, false)
 
         clinicName = view.findViewById(R.id.toolbar_name_text)
         clinicAddress = view.findViewById(R.id.clinicAddress)

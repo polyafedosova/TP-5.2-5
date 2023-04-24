@@ -81,8 +81,8 @@ class ProfileFragment : Fragment() {
         val date: LocalDate = LocalDate.of(2015, 7,24)
         val dateString = date.year.toString()+ " " + date.month.value.toString() + " " + date.dayOfMonth.toString()
 
-        listDogs.add(DogModel(1,"Собак 1", dateString, "Порода 1"))
-        listDogs.add(DogModel(2,"Собак 2", dateString, "Порода 2"))
+        listDogs.add(DogModel(1,"Собака 1", dateString, "Порода 1"))
+        listDogs.add(DogModel(2,"Собака 2", dateString, "Порода 2"))
 
         return listDogs
     }

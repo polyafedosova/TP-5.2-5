@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".medical.SpecificFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:background="@color/white"
+        android:padding="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/image_tittle"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:src="@drawable/hospital"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="10dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp">
+
+                <TextView
+                    android:id="@+id/toolbar_name_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Название ветклиники"
+                    android:fontFamily="@font/inter"
+                    android:textColor="@color/new_purple"
+                    android:textSize="30sp"
+                    android:layout_marginTop="10dp"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="10dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp">
+
+                <TextView
+                    android:id="@+id/clinic_description"
+                    android:layout_width="105dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter"
+                    android:padding="5dp"
+                    android:text="Телефон:"
+                    android:textColor="@color/new_purple"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/clinicDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:hint="text"
+                    android:fontFamily="@font/inter"
+                    android:textColor="@color/new_purple"
+                    android:textSize="18sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="10dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp">
+
+                <TextView
+                    android:id="@+id/clinic_tittle_city"
+                    android:layout_width="105dp"
+                    android:layout_height="wrap_content"
+                    android:text="Обл./г.:"
+                    android:padding="5dp"
+                    android:fontFamily="@font/inter"
+                    android:textColor="@color/new_purple"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/clinicCityDistrict"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:hint="text"
+                    android:fontFamily="@font/inter"
+                    android:textColor="@color/new_purple"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="10dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp">
+
+                <TextView
+                    android:id="@+id/clinic_tittle_address"
+                    android:layout_width="105dp"
+                    android:layout_height="wrap_content"
+                    android:text="Адрес:"
+                    android:padding="5dp"
+                    android:fontFamily="@font/inter"
+                    android:textColor="@color/new_purple"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/clinicAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:hint="text"
+                    android:fontFamily="@font/inter"
+                    android:textColor="@color/new_purple"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="10dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp">
+
+                <TextView
+                    android:id="@+id/clinic_tittle_nomber"
+                    android:layout_width="105dp"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Услуги:"
+                    android:fontFamily="@font/inter"
+                    android:textColor="@color/new_purple"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/clinicServices"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:hint="text"
+                    android:fontFamily="@font/inter"
+                    android:textColor="@color/new_purple"
+                    android:textSize="18sp"/>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/specificClinicBackButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Назад"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/button_style"
+                style="@style/ButtonRadius"
+                android:textColor="@color/white"
+                android:padding="10dp"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>

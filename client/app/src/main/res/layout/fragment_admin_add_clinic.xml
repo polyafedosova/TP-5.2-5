@@ -5,76 +5,176 @@
     tools:context="admin.AdminAddClinicFragment">
 
     <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="10dp"
-    android:layout_margin="10dp"
-    android:background="@color/white">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="15dp"
+        android:paddingRight="30dp"
+        android:paddingLeft="30dp"
+        android:layout_margin="10dp"
+        android:background="@color/white">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="660sp">
+        <LinearLayout
+            android:id="@+id/linearScroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/inter"
                 android:text="Добавление клиники"
                 android:textAlignment="center"
-                android:textSize="30sp"
+                android:textColor="@color/new_purple"
+                android:textSize="28sp"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/adminAddClinicName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Название клиники"
-                android:inputType="textPersonName"
-                android:layout_marginTop="15dp"
-                android:textSize="20sp" />
-
-            <EditText
-                android:id="@+id/adminAddClinicAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Адресс клиники"
-                android:inputType="textPersonName"
-                android:textSize="20sp" />
-
-            <EditText
                 android:id="@+id/adminAddClinicPhone"
+                style="@style/EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_style"
                 android:ems="10"
                 android:hint="Телефон клиники"
                 android:inputType="textPersonName"
-                android:textSize="20sp" />
+                android:textAlignment="textStart"
+                android:textSize="16sp" />
+
+
+
+            <EditText
+                android:id="@+id/adminAddClinicName"
+                style="@style/EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_style"
+                android:ems="10"
+                android:hint="Название клиники"
+                android:inputType="textPersonName"
+                android:textAlignment="textStart"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/adminAddClinicCountry"
+                style="@style/EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_style"
+                android:ems="10"
+                android:hint="Страна"
+                android:inputType="textPersonName"
+                android:textAlignment="textStart"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/adminAddClinicRegion"
+                style="@style/EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_style"
+                android:ems="10"
+                android:hint="Регион"
+                android:inputType="textPersonName"
+                android:textAlignment="textStart"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/adminAddClinicDistrict"
+                style="@style/EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_style"
+                android:ems="10"
+                android:hint="Округ"
+                android:inputType="textPersonName"
+                android:textAlignment="textStart"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/adminAddClinicCity"
+                style="@style/EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_style"
+                android:ems="10"
+                android:hint="Город"
+                android:inputType="textPersonName"
+                android:textAlignment="textStart"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/adminAddClinicStreet"
+                style="@style/EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_style"
+                android:ems="10"
+                android:hint="Улица"
+                android:inputType="textPersonName"
+                android:textAlignment="textStart"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/adminAddClinicHouse"
+                style="@style/EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_style"
+                android:ems="10"
+                android:hint="Дом"
+                android:inputType="textPersonName"
+                android:textAlignment="textStart"
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/adminAddClinicServices"
+                style="@style/EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_style"
                 android:ems="10"
                 android:hint="Услуги клиники"
                 android:inputType="textPersonName"
-                android:textSize="20sp" />
+                android:textAlignment="textStart"
+                android:textSize="16sp" />
 
             <Button
                 android:id="@+id/adminAddClinic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="55dp"
-                android:text="Добавить" />
+                android:layout_marginTop="10dp"
+                android:text="Добавить"
+                android:background="@drawable/button_style"
+                style="@style/ButtonRadius"
+                android:textColor="@color/white"
+                android:padding="10dp"/>
 
             <Button
                 android:id="@+id/adminCancelAddClinic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Назад" />
+                android:text="Назад"
+                android:background="@drawable/button_style"
+                style="@style/ButtonRadius"
+                android:textColor="@color/white"
+                android:layout_marginTop="20dp"
+                android:padding="10dp"/>
 
         </LinearLayout>
+        </ScrollView>
 
     </RelativeLayout>
 

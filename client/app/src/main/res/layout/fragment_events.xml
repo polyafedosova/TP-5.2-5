@@ -12,6 +12,7 @@
         android:padding="15dp"
         tools:ignore="UselessParent">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -26,7 +27,7 @@
                 android:text="События"
                 android:textSize="30sp"
                 android:textStyle="bold" />
-            
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_event_events"
@@ -39,9 +40,7 @@
 
             </androidx.recyclerview.widget.RecyclerView>
 
-
         </LinearLayout>
-
 
 
     </RelativeLayout>

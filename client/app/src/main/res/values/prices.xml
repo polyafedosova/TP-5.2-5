@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="prices_array">
+        <item>Дешевле</item>
+        <item>Дороже</item>
+    </string-array>
+</resources>

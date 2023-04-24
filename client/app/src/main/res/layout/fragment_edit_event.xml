@@ -8,7 +8,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
+        android:paddingTop="15dp"
+        android:paddingRight="30dp"
+        android:paddingLeft="30dp"
         android:layout_margin="10dp"
         android:background="@color/white">
 
@@ -21,11 +23,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Редоктирование события"
+                android:fontFamily="@font/inter"
+                android:textColor="@color/new_purple"
                 android:textAlignment="center"
                 android:textSize="30sp"
-                android:textStyle="bold" />
-
-
+                android:textStyle="bold"/>
 
             <EditText
                 android:id="@+id/newEventName"
@@ -33,10 +35,12 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Название события"
-                android:inputType="number"
+                android:inputType="text"
+                android:layout_marginTop="45dp"
                 android:textAlignment="textStart"
-                android:layout_marginTop="15dp"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                style="@style/EditText"
+                android:background="@drawable/edittext_style"/>
 
             <EditText
                 android:id="@+id/newEventDate"
@@ -45,8 +49,11 @@
                 android:ems="10"
                 android:hint="Дата dd.mm.yyyy"
                 android:inputType="date"
-                android:layout_marginTop="15dp"
-                android:textSize="20sp" />
+                android:layout_marginTop="20dp"
+                android:textAlignment="textStart"
+                android:textSize="20sp"
+                style="@style/EditText"
+                android:background="@drawable/edittext_style"/>
 
             <EditText
                 android:id="@+id/newEventComment"
@@ -55,29 +62,45 @@
                 android:ems="10"
                 android:gravity="start|top"
                 android:hint="Комментарий"
-                android:layout_marginTop="15dp"
                 android:inputType="textMultiLine"
-                android:textSize="20sp" />
-
+                android:layout_marginTop="20dp"
+                android:textAlignment="textStart"
+                android:textSize="20sp"
+                style="@style/EditText"
+                android:background="@drawable/edittext_style"/>
 
             <Button
                 android:id="@+id/completeEditEventButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="55dp"
-                android:text="Редактировать" />
+                android:text="Редактировать"
+                android:background="@drawable/button_style"
+                style="@style/ButtonRadius"
+                android:textColor="@color/white"
+                android:layout_marginTop="50dp"
+                android:padding="10dp"/>
 
             <Button
                 android:id="@+id/deleteEventButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Удалить" />
+                android:text="Удалить"
+                android:background="@drawable/button_style"
+                style="@style/ButtonRadius"
+                android:textColor="@color/white"
+                android:layout_marginTop="20dp"
+                android:padding="10dp"/>
 
             <Button
                 android:id="@+id/backFromEditEventButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Назад" />
+                android:text="Назад"
+                android:background="@drawable/button_style"
+                style="@style/ButtonRadius"
+                android:textColor="@color/white"
+                android:layout_marginTop="20dp"
+                android:padding="10dp"/>
 
         </LinearLayout>
 

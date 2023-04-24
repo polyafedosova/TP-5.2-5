@@ -11,9 +11,17 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+<<<<<<< Updated upstream
+=======
+import interfaces.VetclinicApi
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+>>>>>>> Stashed changes
 import ru.vsu.cs.tp.paws.R
 
 
@@ -43,10 +51,24 @@ class MedicalFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recycler_events)
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
+<<<<<<< Updated upstream
+=======
+        val api = retrofit.create(VetclinicApi::class.java)
+
+>>>>>>> Stashed changes
         clinicsAdapter = ClinicsAdapter(getDataClinics() as MutableList<ClinicsModel>)
         recyclerView.adapter = clinicsAdapter
 
+//        CoroutineScope(Dispatchers.IO).launch {
+//            val list = api.getAllVetclinics().execute().body()
+//            clinicsAdapter.addClinics(list)
+//        }
 
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
         var adapterSearch = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, getDataSearch())
         var adapterSearchCity = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, getDataCity())
 
@@ -133,15 +155,6 @@ class MedicalFragment : Fragment() {
         data.add("Полное обследование сердца")
         data.add("Мочеполовая система")
         data.add("Диагностика беременности")
-        data.add("C#")
-        data.add("Python")
-        data.add("Ruby")
-        data.add("JavaScript")
-        data.add("PHP")
-        data.add("Go")
-        data.add("Rust")
-        data.add("Scala")
-        data.add("Clojure")
         return data
     }
 
@@ -156,16 +169,11 @@ class MedicalFragment : Fragment() {
     }
 
     private fun getDataClinics(): List<ClinicsModel> {
+
         val listClinics: MutableList<ClinicsModel> = java.util.ArrayList()
-        listClinics.add(ClinicsModel(1, "Лаповое","Предоперационный эхо Диагностика сердца", "Воронеж", "60"))
-        listClinics.add(ClinicsModel(2, "Крутое название","УЗИ брюшной обследование", "Москва", "100"))
-//        listClinics.add(ClinicsModel(3, "Полное обследование сердца", "Новгород", "1000"))
-//        listClinics.add(ClinicsModel(4, "Мочеполовая система", "Нижний", "1000"))
-//        listClinics.add(ClinicsModel(5, "Диагностика беременности", "Екатеринбург", "2000"))
-//        listClinics.add(ClinicsModel(9, "Диагностика беременности", "Москва", "2000"))
-//        listClinics.add(ClinicsModel(6, "Диагностика", "Екатеринбург", "5000"))
-//        listClinics.add(ClinicsModel(7, "УЗИ", "Новосибирск", "8000"))
-//        listClinics.add(ClinicsModel(8, "обследование", "Новосибирск", "50000"))
+        listClinics.add(ClinicsModel(1, "Лаповое","Диагностика сердца", "Воронеж", "60"))
+        listClinics.add(ClinicsModel(2, "Название 2","УЗИ", "Москва", "100"))
+
         return listClinics
     }
 

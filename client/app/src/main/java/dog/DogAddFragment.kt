@@ -1,5 +1,6 @@
 package dog
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -21,6 +22,7 @@ class DogAddFragment : Fragment() {
 
     private var chosenSex = -1
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val view = inflater.inflate(R.layout.fragment_dog_add, container, false)
@@ -28,15 +30,30 @@ class DogAddFragment : Fragment() {
         this.cancelButton = view.findViewById(R.id.cancelButton)
         this.completeButton = view.findViewById(R.id.completeButton)
 
-        val spinnerSex: Spinner = view.findViewById(R.id.sex)
+        val autoCompleteSex: AutoCompleteTextView = view.findViewById(R.id.sex)
+        val age = resources.getStringArray(R.array.sex_array)
+        val arrayAdapterAge = ArrayAdapter(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, age)
+        autoCompleteSex.setAdapter(arrayAdapterAge)
 
-        ArrayAdapter.createFromResource(this.requireContext(), R.array.sex_array,
-            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item).also {
-                adapter -> adapter.setDropDownViewResource(androidx.transition.R.layout.support_simple_spinner_dropdown_item)
-            spinnerSex.adapter = adapter
-        }
 
-        spinnerSex.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+//        ArrayAdapter.createFromResource(this.requireContext(), R.array.sex_array,
+//            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item).also {
+//                adapter -> adapter.setDropDownViewResource(androidx.transition.R.layout.support_simple_spinner_dropdown_item)
+//            spinnerSex.adapter = adapter
+//        }
+//
+//        spinnerSex.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(
+//                parent: AdapterView<*>?,
+//                itemSelected: View, selectedItemPosition: Int, selectedId: Long
+//            ) {
+//                chosenSex = selectedItemPosition
+//            }
+//
+//            override fun onNothingSelected(parent: AdapterView<*>?) {}
+//        })
+
+        autoCompleteSex.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 itemSelected: View, selectedItemPosition: Int, selectedId: Long
@@ -46,6 +63,7 @@ class DogAddFragment : Fragment() {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         })
+
 
         this.cancelButton.setOnClickListener {
             it.findNavController().popBackStack()
