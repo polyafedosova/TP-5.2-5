@@ -4,6 +4,6 @@ import java.util.*
 
 data class EventDto (
     var name: String,
-    var date: Date,
+    var birthday: Date,
     var description: String
 )

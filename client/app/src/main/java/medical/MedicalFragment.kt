@@ -13,15 +13,14 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-<<<<<<< Updated upstream
-=======
+
 import interfaces.VetclinicApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
->>>>>>> Stashed changes
+
 import ru.vsu.cs.tp.paws.R
 
 
@@ -51,11 +50,10 @@ class MedicalFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recycler_events)
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-<<<<<<< Updated upstream
-=======
-        val api = retrofit.create(VetclinicApi::class.java)
 
->>>>>>> Stashed changes
+//        val api = retrofit.create(VetclinicApi::class.java)
+
+
         clinicsAdapter = ClinicsAdapter(getDataClinics() as MutableList<ClinicsModel>)
         recyclerView.adapter = clinicsAdapter
 
@@ -64,11 +62,7 @@ class MedicalFragment : Fragment() {
 //            clinicsAdapter.addClinics(list)
 //        }
 
-<<<<<<< Updated upstream
-=======
 
-
->>>>>>> Stashed changes
         var adapterSearch = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, getDataSearch())
         var adapterSearchCity = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, getDataCity())
 

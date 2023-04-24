@@ -140,16 +140,14 @@
 
                 <EditText
                     android:id="@+id/adminEditClinicServices"
-                    style="@style/EditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/edittext_style"
+                    android:hint="     Услуги клиники"
                     android:ems="10"
-                    android:hint="Услуги клиники"
-                    android:inputType="textPersonName"
-                    android:textAlignment="textStart"
-                    android:textSize="16sp" />
+                    android:layout_marginTop="10dp"
+                    android:gravity="start|top"
+                    android:textSize="16sp"
+                    android:inputType="textMultiLine" />
 
                 <Button
                     android:id="@+id/adminEditClinic"

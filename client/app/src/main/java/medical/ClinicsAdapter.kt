@@ -10,13 +10,12 @@ import android.widget.Filterable
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-<<<<<<< Updated upstream
-=======
 import dto.VetclinicDto
-import interfaces.VetclinicApi
+
+
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
->>>>>>> Stashed changes
+
 import ru.vsu.cs.tp.paws.R
 
 
