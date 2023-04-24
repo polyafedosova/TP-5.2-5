@@ -10,10 +10,6 @@
         android:id="@+id/toolbar_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="15dp"
-        android:paddingRight="15dp"
-        android:paddingLeft="15dp"
-        android:layout_margin="10dp"
         tools:ignore="UselessParent">
 
         <LinearLayout
@@ -35,12 +31,11 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
-                    android:fontFamily="@font/inter"
                     android:text="Ветклиники"
-                    android:textAlignment="center"
+                    android:fontFamily="@font/inter"
                     android:textColor="@color/new_purple"
                     android:textSize="30sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
                 <androidx.appcompat.widget.SearchView
                     android:id="@+id/search_widget"
@@ -54,6 +49,14 @@
                     style="@style/EditText2"
                     android:background="@drawable/edittext_style"/>
 
+                <ListView
+                    android:id="@+id/list_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/search_widget"
+                    android:background="@color/white"
+                    android:visibility="gone" />
+
                 <androidx.appcompat.widget.SearchView
                     android:id="@+id/search_widget_city"
                     android:layout_width="match_parent"
@@ -66,31 +69,13 @@
                     style="@style/EditText2"
                     android:background="@drawable/edittext_style"/>
 
-                <!--                <Spinner-->
-                <!--                    android:id="@+id/price"-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_below="@id/search_widget_city"-->
-                <!--                    android:layout_marginTop="15dp"-->
-                <!--                    android:spinnerMode="dialog" />-->
+                <ListView
+                    android:id="@+id/list_item_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:visibility="gone" />
 
-                <!--                <com.google.android.material.textfield.TextInputLayout-->
-                <!--                    android:layout_marginTop="20dp"-->
-                <!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
-                <!--                    android:hint="Упорядочить"-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content">-->
-
-                <!--                    <AutoCompleteTextView-->
-                <!--                        android:id="@+id/autoCompletePrice"-->
-                <!--                        android:layout_width="wrap_content"-->
-                <!--                        android:layout_height="wrap_content"-->
-                <!--                        android:inputType="none"-->
-                <!--                        android:text="Дешевле"-->
-                <!--                        android:textSize="16sp"-->
-                <!--                        tools:ignore="LabelFor"/>-->
-
-                <!--                </com.google.android.material.textfield.TextInputLayout>-->
 
             </LinearLayout>
 
@@ -102,20 +87,9 @@
                 android:visibility="visible"
                 android:backgroundTint="@color/item_white"/>
 
-            <ListView
-                android:id="@+id/list_item_city"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:visibility="gone" />
 
-            <ListView
-                android:id="@+id/list_item"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/search_widget"
-                android:background="@color/white"
-                android:visibility="gone" />
+
+
 
         </LinearLayout>
 
