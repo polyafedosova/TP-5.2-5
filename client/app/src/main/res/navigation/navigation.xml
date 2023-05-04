@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="profile.ProfileFragment"
+        android:name="auth.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <action
@@ -95,7 +95,7 @@
         tools:layout="@layout/fragment_add_event" />
     <fragment
         android:id="@+id/loginFragment"
-        android:name="profile.LoginFragment"
+        android:name="auth.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action

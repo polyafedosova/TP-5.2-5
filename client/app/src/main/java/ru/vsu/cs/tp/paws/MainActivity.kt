@@ -9,6 +9,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import medical.MedicalFragment
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import ru.vsu.cs.tp.paws.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -29,6 +31,14 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun checkAuth() {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        
+    }
 
 
 }

@@ -38,28 +38,30 @@ class CalculatorFragment : Fragment() {
         val arrayAdapterMove = ArrayAdapter(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, move)
         autoCompleteMove.setAdapter(arrayAdapterMove)
 
-        autoCompleteMove.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                itemSelected: View, selectedItemPosition: Int, selectedId: Long
-            ) {
-                //                chosenMove = resources.getStringArray(R.array.move_array)[selectedItemPosition].toString()
-                chosenMove = selectedItemPosition
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
-
-        autoCompleteAge.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                itemSelected: View, selectedItemPosition: Int, selectedId: Long
-            ) {
-                chosenAge = selectedItemPosition
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
+//        autoCompleteMove.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(
+//                parent: AdapterView<*>?,
+//                itemSelected: View, selectedItemPosition: Int, selectedId: Long
+//            ) {
+//                //                chosenMove = resources.getStringArray(R.array.move_array)[selectedItemPosition].toString()
+//                chosenMove = selectedItemPosition
+//                println("move - " + chosenMove)
+//            }
+//
+//            override fun onNothingSelected(parent: AdapterView<*>?) {}
+//        }
+//
+//        autoCompleteAge.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(
+//                parent: AdapterView<*>?,
+//                itemSelected: View, selectedItemPosition: Int, selectedId: Long
+//            ) {
+//                chosenAge = selectedItemPosition
+//                println("age - " + chosenAge)
+//            }
+//
+//            override fun onNothingSelected(parent: AdapterView<*>?) {}
+//        }
 
         this.doneButton = view.findViewById(R.id.calculate_eat)
         this.ansField = view.findViewById(R.id.mass2)
@@ -81,9 +83,9 @@ class CalculatorFragment : Fragment() {
     }
 
     private fun calculateEat(age: Int, move: Int, mass: Int): Double {
-        println(age)
-        println(move)
-        println(mass)
+//        println(age)
+//        println(move)
+//        println(mass)
         var ageCoef: Double = 1.0
         var moveCoef: Double = 1.0
         when (age) {
