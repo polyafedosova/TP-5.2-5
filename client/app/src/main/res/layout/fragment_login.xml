@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="profile.LoginFragment">
+    tools:context="auth.LoginFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -44,6 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Введите логин"
+                android:maxLength="64"
                 android:layout_marginTop="45dp"
                 android:inputType="text"
                 android:textAlignment="textStart"
@@ -57,6 +58,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Ведите пароль"
                 android:layout_marginTop="15dp"
+                android:maxLength="64"
                 android:inputType="textPassword"
                 android:textSize="20sp"
                 style="@style/EditText"

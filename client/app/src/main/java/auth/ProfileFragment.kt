@@ -1,4 +1,4 @@
-package profile
+package auth
 
 import android.os.Build
 import android.os.Bundle
@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import auth.LoginFragment
 import dog.DogAdapter
 import dog.DogModel
 import ru.vsu.cs.tp.paws.R
@@ -31,39 +32,34 @@ class ProfileFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view: View? = null
-        if (isAuthorized()) {
-            view = inflater.inflate(R.layout.fragment_profile, container, false)
 
-            recyclerView = view.findViewById(R.id.recyclerDogs)
-            recyclerView.layoutManager = LinearLayoutManager(activity)
+        val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
-            eventsAdapter = DogAdapter(getDataDogs() as MutableList<DogModel>)
-            recyclerView.adapter = eventsAdapter
+        recyclerView = view.findViewById(R.id.recyclerDogs)
+        recyclerView.layoutManager = LinearLayoutManager(activity)
 
-            this.addDogButton = view.findViewById(R.id.addDogButton)
-            this.editProfileButton = view.findViewById(R.id.editProfileButton)
-            this.addEventsButton = view.findViewById(R.id.eventsButton)
-            this.exitProfileButton = view.findViewById(R.id.exitButton)
+        eventsAdapter = DogAdapter(getDataDogs() as MutableList<DogModel>)
+        recyclerView.adapter = eventsAdapter
 
-            addDogButton.setOnClickListener {
-                it.findNavController().navigate(R.id.action_profileFragment_to_dogAddFragment)
-            }
+        this.addDogButton = view.findViewById(R.id.addDogButton)
+        this.editProfileButton = view.findViewById(R.id.editProfileButton)
+        this.addEventsButton = view.findViewById(R.id.eventsButton)
+        this.exitProfileButton = view.findViewById(R.id.exitButton)
 
-            addEventsButton.setOnClickListener {
-                it.findNavController().navigate(R.id.action_profileFragment_to_eventsFragment)
-            }
+        addDogButton.setOnClickListener {
+            it.findNavController().navigate(R.id.action_profileFragment_to_dogAddFragment)
+        }
 
-            editProfileButton.setOnClickListener {
-                it.findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
-            }
+        addEventsButton.setOnClickListener {
+            it.findNavController().navigate(R.id.action_profileFragment_to_eventsFragment)
+        }
 
-            exitProfileButton.setOnClickListener {
-                Toast.makeText(this.context, "GG", Toast.LENGTH_SHORT).show()
-            }
-        } else {
-            view = LoginFragment().onCreateView(inflater, container, savedInstanceState)
+        editProfileButton.setOnClickListener {
+            it.findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
+        }
 
+        exitProfileButton.setOnClickListener {
+            Toast.makeText(this.context, "GG", Toast.LENGTH_SHORT).show()
         }
 
 

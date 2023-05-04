@@ -41,7 +41,7 @@
                 android:background="@drawable/edittext_style"
                 android:ems="10"
                 android:hint="Телефон клиники"
-                android:inputType="textPersonName"
+                android:inputType="phone"
                 android:textAlignment="textStart"
                 android:textSize="16sp" />
 
@@ -55,6 +55,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edittext_style"
                 android:ems="10"
+                android:maxLength="64"
                 android:hint="Название клиники"
                 android:inputType="textPersonName"
                 android:textAlignment="textStart"
@@ -68,6 +69,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edittext_style"
                 android:ems="10"
+                android:maxLength="64"
                 android:hint="Страна"
                 android:inputType="textPersonName"
                 android:textAlignment="textStart"
@@ -82,6 +84,7 @@
                 android:background="@drawable/edittext_style"
                 android:ems="10"
                 android:hint="Регион"
+                android:maxLength="64"
                 android:inputType="textPersonName"
                 android:textAlignment="textStart"
                 android:textSize="16sp" />
@@ -94,6 +97,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edittext_style"
                 android:ems="10"
+                android:maxLength="64"
                 android:hint="Округ"
                 android:inputType="textPersonName"
                 android:textAlignment="textStart"
@@ -108,6 +112,7 @@
                 android:background="@drawable/edittext_style"
                 android:ems="10"
                 android:hint="Город"
+                android:maxLength="64"
                 android:inputType="textPersonName"
                 android:textAlignment="textStart"
                 android:textSize="16sp" />
@@ -121,6 +126,7 @@
                 android:background="@drawable/edittext_style"
                 android:ems="10"
                 android:hint="Улица"
+                android:maxLength="64"
                 android:inputType="textPersonName"
                 android:textAlignment="textStart"
                 android:textSize="16sp" />
@@ -145,6 +151,7 @@
                 android:layout_height="wrap_content"
                 android:hint="     Услуги клиники"
                 android:ems="10"
+                android:maxLength="256"
                 android:layout_marginTop="10dp"
                 android:gravity="start|top"
                 android:textSize="16sp"

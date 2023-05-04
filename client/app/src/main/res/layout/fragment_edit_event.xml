@@ -33,6 +33,7 @@
                 android:id="@+id/newEventName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="64"
                 android:ems="10"
                 android:hint="Название события"
                 android:inputType="text"
@@ -47,6 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:maxLength="12"
                 android:hint="Дата dd.mm.yyyy"
                 android:inputType="date"
                 android:layout_marginTop="20dp"
@@ -66,8 +68,9 @@
                 android:layout_marginTop="20dp"
                 android:textAlignment="textStart"
                 android:textSize="20sp"
+                android:maxLength="256"
                 style="@style/EditText"
-                android:background="@drawable/edittext_style"/>
+                />
 
             <Button
                 android:id="@+id/completeEditEventButton"
