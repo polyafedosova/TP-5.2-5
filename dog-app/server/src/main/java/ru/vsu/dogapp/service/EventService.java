@@ -29,8 +29,10 @@ public class EventService {
         repository.save(event);
     }
 
-    public List<Event> getAll() {
-        return repository.findAll();
+    public List<EventDto> getAll() {
+        return repository.findAll()
+                .stream().map(mapper::toDto)
+                .collect(Collectors.toList());
     }
 
     public void update(Integer id, EventDto eventDto) {

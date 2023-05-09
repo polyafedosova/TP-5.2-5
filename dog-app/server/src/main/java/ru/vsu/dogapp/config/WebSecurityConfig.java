@@ -26,9 +26,9 @@ public class WebSecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests()
-                .antMatchers("/clients/", "/contracts/").hasAnyAuthority("ADMIN", "USER")
-                .antMatchers("/admin/", "/employees/").hasAnyAuthority("ADMIN")
-                .antMatchers("/login", "/buildings/**", "/static/**", "/owners/new").permitAll()
+                .antMatchers("/vetclinics/", "/vetclinic/{vetclinic_id}/treatments", "/owner/{owner_id}/**").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers("/vetclinics/**", "/vetclinic/{vetclinic_id}/treatments/**").hasAnyAuthority("ADMIN")
+                .antMatchers("/login", "/static/**", "/registration").permitAll()
                 .anyRequest().permitAll()
                 .and().rememberMe().and()
 

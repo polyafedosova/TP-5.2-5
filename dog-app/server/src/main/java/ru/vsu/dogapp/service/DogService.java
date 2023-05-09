@@ -29,8 +29,10 @@ public class DogService {
         repository.save(dog);
     }
 
-    public List<Dog> getAll() {
-        return repository.findAll();
+    public List<DogDto> getAll() {
+        return repository.findAll()
+                .stream().map(mapper::toDto)
+                .collect(Collectors.toList());
     }
 
     public void update(Integer id, DogDto dogDto) {

@@ -29,8 +29,10 @@ public class TreatmentService {
         repository.save(treatment);
     }
 
-    public List<Treatment> getAll() {
-        return repository.findAll();
+    public List<TreatmentDto> getAll() {
+        return repository.findAll()
+                .stream().map(mapper::toDto)
+                .collect(Collectors.toList());
     }
 
     public void update(Integer id, TreatmentDto treatmentDto) {

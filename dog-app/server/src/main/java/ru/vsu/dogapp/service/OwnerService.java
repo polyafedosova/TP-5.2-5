@@ -53,10 +53,6 @@ public class OwnerService implements UserDetailsService {
         return true;
     }
 
-    public List<Owner> getAll() {
-        return repository.findAll();
-    }
-
     public void update(Integer id, OwnerDto ownerDto) {
         Owner oldOwner = repository.findOwnerById(id);
         Owner newOwner = mapper.toEntity(ownerDto);

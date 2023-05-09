@@ -9,7 +9,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/owners")
 public class OwnerController {
 
     private final OwnerService service;
@@ -18,20 +17,20 @@ public class OwnerController {
         this.service = service;
     }
 
-    @GetMapping()
-    public List<Owner> getAllOwner() {
-        return service.getAll();
-    }
-    @PostMapping("/new")
+//    @GetMapping()
+//    public List<Owner> getAllOwner() {
+//        return service.getAll();
+//    }
+    @PostMapping("/registration")
     public void saveNewOwner(@Valid  @RequestBody OwnerDto owner) {
         service.save(owner);
     }
-    @PutMapping("/{id}/update")
-    public void updateOwner(@PathVariable Integer id, @Valid @RequestBody OwnerDto owner) {
-        service.update(id, owner);
+    @PutMapping("/owner/{owner_id}/update")
+    public void updateOwner(@PathVariable Integer owner_id, @Valid @RequestBody OwnerDto owner) {
+        service.update(owner_id, owner);
     }
-    @DeleteMapping("/{id}/delete")
-    public void deleteOwner(@PathVariable Integer id) {
-        service.delete(id);
+    @DeleteMapping("/owner/{owner_id}/delete")
+    public void deleteOwner(@PathVariable Integer owner_id) {
+        service.delete(owner_id);
     }
 }
