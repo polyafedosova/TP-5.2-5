@@ -13,9 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import dto.VetclinicDto
 
 
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-
 import ru.vsu.cs.tp.paws.R
 
 
@@ -24,8 +21,15 @@ class ClinicsAdapter(_newClinics: MutableList<ClinicsModel>) : RecyclerView.Adap
     private var newClinics: MutableList<ClinicsModel> = _newClinics
     private var newClinicsFull: List<ClinicsModel> = java.util.ArrayList<ClinicsModel>(newClinics)
 
-    fun addClinics(list: List<VetclinicDto>) {
+    private var clinicList: MutableList<VetclinicDto> = emptyList<VetclinicDto>().toMutableList()
 
+    fun setClinics(list: List<VetclinicDto>) {
+        clinicList.clear()
+        if (list.isNotEmpty()) {
+            for (i in 0..list.size - 1) {
+                clinicList.add(list[i])
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClinicsViewHolder {
@@ -35,6 +39,29 @@ class ClinicsAdapter(_newClinics: MutableList<ClinicsModel>) : RecyclerView.Adap
     }
 
     override fun onBindViewHolder(holder: ClinicsViewHolder, position: Int) {
+
+
+
+//        val call = apiService.getAllVetclinics()
+//
+//        call.enqueue(object : Callback<List<VetclinicDto>> {
+//            override fun onResponse(call: Call<List<VetclinicDto>>, response: Response<List<VetclinicDto>>) {
+//                if (response.isSuccessful) {
+//                    val clinics = response.body()
+//                    println("--------------------")
+//                    println(clinics)
+//                    // обработка полученных данных
+//                } else {
+//                    // обработка ошибок
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<List<VetclinicDto>>, t: Throwable) {
+//                println("--------------------")
+//                println(t)
+//            }
+//        })
+
         holder.clinicsTitle.text = newClinics[position].getName()
         holder.clinicsAddress.text = newClinics[position].getAddress()
         holder.clinicsPrice.text = newClinics[position].getPrice()

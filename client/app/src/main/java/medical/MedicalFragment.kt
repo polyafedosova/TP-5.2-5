@@ -35,6 +35,11 @@ class MedicalFragment : Fragment() {
     private lateinit var listView: ListView
     private lateinit var listViewCity: ListView
 
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("http://10.0.2.2:8080")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -50,17 +55,21 @@ class MedicalFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recycler_events)
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-
-//        val api = retrofit.create(VetclinicApi::class.java)
-
-
         clinicsAdapter = ClinicsAdapter(getDataClinics() as MutableList<ClinicsModel>)
         recyclerView.adapter = clinicsAdapter
 
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val list = api.getAllVetclinics().execute().body()
-//            clinicsAdapter.addClinics(list)
-//        }
+        val api = retrofit.create(VetclinicApi::class.java)
+        try {
+            CoroutineScope(Dispatchers.IO).launch {
+                val list = api.getAllVetclinics().execute().body()!!
+                println("-------------")
+                println(list.size)
+                requireActivity().runOnUiThread{
+
+//                clinicsAdapter.setClinics(list)
+                }
+            }
+        } catch(ex: Exception) {}
 
 
         var adapterSearch = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, getDataSearch())

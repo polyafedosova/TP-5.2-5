@@ -6,13 +6,16 @@
 
     <application
         android:allowBackup="true"
+        android:usesCleartextTraffic="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/dog_hello"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.Paws"
-        tools:targetApi="31" >
+        tools:targetApi="31"
+        >
+
 
 
         <activity

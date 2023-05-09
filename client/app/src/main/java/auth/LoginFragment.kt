@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.vsu.cs.tp.paws.R
@@ -31,9 +32,14 @@ class LoginFragment : Fragment() {
         toRegisterButton = view.findViewById(R.id.toRegisterButton)
 
         loginButton.setOnClickListener() {
-            try {
-                checkInputAndAuth(userLogin, userPassword)
-            } catch (ex: Exception) {}
+//            try {
+//                checkInputAndAuth(userLogin, userPassword)
+
+                if (userLogin.text.toString() == "ad") {
+                    it.findNavController().navigate(R.id.loginFragment)
+                    it.findNavController().navigate(R.id.action_loginFragment_to_adminClinicsFragment)
+                }
+//            } catch (ex: Exception) {}
         }
 
         toRegisterButton.setOnClickListener() {
@@ -46,17 +52,19 @@ class LoginFragment : Fragment() {
 
     private fun checkInputAndAuth(login: EditText, password: EditText) {
         var flag = false
-        if (login.text.toString() == "" || login.text.toString() == " ") {
-            flag = true
-            Toast.makeText(this.requireContext(), "Invalid login", Toast.LENGTH_SHORT).show()
-        }
-        if (password.text.toString() == "" || password.text.toString() == " ") {
-            flag = true
-            Toast.makeText(this.requireContext(), "Invalid password", Toast.LENGTH_SHORT).show()
-        }
-        if (!flag) {
-            authorization(login, password)
-        }
+
+//        if (login.text.toString() == "" || login.text.toString() == " ") {
+//            flag = true
+//            Toast.makeText(this.requireContext(), "Invalid login", Toast.LENGTH_SHORT).show()
+//        }
+//        if (password.text.toString() == "" || password.text.toString() == " ") {
+//            flag = true
+//            Toast.makeText(this.requireContext(), "Invalid password", Toast.LENGTH_SHORT).show()
+//        }
+
+//        if (!flag) {
+//            authorization(login, password)
+//        }
 
     }
     private fun authorization(login: EditText, password: EditText) {

@@ -1,4 +1,4 @@
-package auth
+package profile
 
 import android.os.Build
 import android.os.Bundle
@@ -32,43 +32,47 @@ class ProfileFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        var view: View? = null
 
-        val view = inflater.inflate(R.layout.fragment_profile, container, false)
+        if (isAuthorized()) {
+            val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
-        recyclerView = view.findViewById(R.id.recyclerDogs)
-        recyclerView.layoutManager = LinearLayoutManager(activity)
+            recyclerView = view.findViewById(R.id.recyclerDogs)
+            recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        eventsAdapter = DogAdapter(getDataDogs() as MutableList<DogModel>)
-        recyclerView.adapter = eventsAdapter
+            eventsAdapter = DogAdapter(getDataDogs() as MutableList<DogModel>)
+            recyclerView.adapter = eventsAdapter
 
-        this.addDogButton = view.findViewById(R.id.addDogButton)
-        this.editProfileButton = view.findViewById(R.id.editProfileButton)
-        this.addEventsButton = view.findViewById(R.id.eventsButton)
-        this.exitProfileButton = view.findViewById(R.id.exitButton)
+            this.addDogButton = view.findViewById(R.id.addDogButton)
+            this.editProfileButton = view.findViewById(R.id.editProfileButton)
+            this.addEventsButton = view.findViewById(R.id.eventsButton)
+            this.exitProfileButton = view.findViewById(R.id.exitButton)
 
-        addDogButton.setOnClickListener {
-            it.findNavController().navigate(R.id.action_profileFragment_to_dogAddFragment)
+            addDogButton.setOnClickListener {
+                it.findNavController().navigate(R.id.action_profileFragment_to_dogAddFragment)
+            }
+
+            addEventsButton.setOnClickListener {
+                it.findNavController().navigate(R.id.action_profileFragment_to_eventsFragment)
+            }
+
+            editProfileButton.setOnClickListener {
+                it.findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
+            }
+
+            exitProfileButton.setOnClickListener {
+                Toast.makeText(this.context, "GG", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            view = LoginFragment().onCreateView(inflater, container, savedInstanceState)
         }
-
-        addEventsButton.setOnClickListener {
-            it.findNavController().navigate(R.id.action_profileFragment_to_eventsFragment)
-        }
-
-        editProfileButton.setOnClickListener {
-            it.findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
-        }
-
-        exitProfileButton.setOnClickListener {
-            Toast.makeText(this.context, "GG", Toast.LENGTH_SHORT).show()
-        }
-
 
         return view
     }
 
     //временные костыли
     private fun isAuthorized(): Boolean {
-        return true
+        return false
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

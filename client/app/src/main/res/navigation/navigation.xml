@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="auth.ProfileFragment"
+        android:name="profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <action
@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_profileFragment_to_editDogFragment"
             app:destination="@id/editDogFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 
     <fragment
@@ -104,6 +107,9 @@
         <action
             android:id="@+id/action_loginFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_adminClinicsFragment"
+            app:destination="@id/adminClinicsFragment" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
