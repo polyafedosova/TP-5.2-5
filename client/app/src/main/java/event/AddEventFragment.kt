@@ -35,35 +35,12 @@ class AddEventFragment : Fragment() {
         eventDate = view.findViewById(R.id.eventDate)
         eventComment = view.findViewById(R.id.eventComment)
 
-        val eventNameText = eventName.text
-        val eventDateText = eventDate.text
-        val eventCommentText = eventComment.text
-
-
         completeAddEventButton.setOnClickListener() {
-//            println("---------------------------")
-//            println(eventDateText)
-//            println("---------------------------")
-
-            var flag = 0
-            var message = "Ошибка в ведённой дате"
-            var format = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-            try {
-                val date: LocalDate = LocalDate.parse(eventDateText, format)
-
-                val dateString = date.year.toString()+ " " + date.month.value.toString() + " " + date.dayOfMonth.toString()
-
-//                println("---------------------------")
-//                println(dateString)
-//                println("---------------------------")
-            } catch (ex: java.lang.Exception) {
-                println(ex)
-                flag = 1
+            if (validate(eventName, eventDate, eventComment)) {
+                //отправка
+                it.findNavController().popBackStack()
             }
 
-            if (flag == 1) {
-                Toast.makeText(this.requireContext(), message, Toast.LENGTH_SHORT).show()
-            }
 
         }
 
@@ -74,5 +51,38 @@ class AddEventFragment : Fragment() {
         return view
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun validate(name: EditText, date: EditText, comment: EditText): Boolean {
+        var isValid = true
+
+        if (name.text.toString().isEmpty()) {
+            name.error = "Введите название"
+            isValid = false
+        }
+
+        if (date.text.toString().isEmpty()) {
+            date.error = "Введите дату"
+            isValid = false
+        }
+
+        if (comment.text.toString().isEmpty()) {
+            comment.setText("")
+        }
+
+        var parseDate: LocalDate
+        val format = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+        try {
+            parseDate = LocalDate.parse(date.text.toString(), format)
+
+//            val dateString = parseDate.year.toString()+ " " + parseDate.month.value.toString() +
+//                    " " + parseDate.dayOfMonth.toString()
+        } catch (ex: java.lang.Exception) {
+            date.error = "Ошибка в ведённой дате"
+            isValid = false
+            ex.stackTrace
+        }
+
+        return isValid
+    }
 
 }

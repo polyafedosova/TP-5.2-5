@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import androidx.navigation.findNavController
 import ru.vsu.cs.tp.paws.R
 
@@ -27,12 +26,15 @@ class EditProfileFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_edit_profile, container, false)
 
-        this.completeProfileRenameButton = view.findViewById(R.id.completeProfileRenameButton)
-        this.changePasswordButton = view.findViewById(R.id.changePasswordButton)
-        this.cancelProfileRenameButton = view.findViewById(R.id.cancelProfileRenameButton)
+        completeProfileRenameButton = view.findViewById(R.id.completeProfileRenameButton)
+        changePasswordButton = view.findViewById(R.id.changePasswordButton)
+        cancelProfileRenameButton = view.findViewById(R.id.cancelProfileRenameButton)
+
+        newLogin = view.findViewById(R.id.newLogin)
+        newName = view.findViewById(R.id.newName)
 
         completeProfileRenameButton.setOnClickListener {
-
+            validateFieldsAndUpdate(newLogin, newName)
         }
 
         changePasswordButton.setOnClickListener {
@@ -46,5 +48,26 @@ class EditProfileFragment : Fragment() {
         return view
     }
 
+    private fun validateFieldsAndUpdate(login: EditText, name: EditText) {
+        var isValid = true
+        if (login.text.toString().isEmpty() && name.text.toString().isEmpty()) {
+            login.error = "Заполните хотябы одно поле"
+            name.error = "Заполните хотябы одно поле"
+            isValid = false
+        }
+
+        if (isValid && login.text.toString().isEmpty() && name.text.toString().isNotEmpty()) {
+
+        }
+
+        if (isValid && name.text.toString().isEmpty() && login.text.toString().isNotEmpty()) {
+            //проверка на индивидуальность логина
+        }
+
+        if (isValid && name.text.toString().isNotEmpty() && login.text.toString().isNotEmpty()) {
+            //проверка на индивидуальность логина
+        }
+
+    }
 
 }
