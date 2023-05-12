@@ -1,7 +1,6 @@
 package admin
 
 import android.os.Bundle
-import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,8 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import dto.VetclinicDto
+import dto.VetclinicDtoGet
+import dto.VetclinicDtoPost
 import interfaces.VetclinicApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -76,7 +76,7 @@ class AdminAddClinicFragment : Fragment() {
                           house: EditText, services: EditText) {
 
         val api = retrofit.create(VetclinicApi::class.java)
-        val dto = VetclinicDto(name.text.toString(), phone.text.toString(),
+        val dto = VetclinicDtoPost(name.text.toString(), phone.text.toString(),
             services.text.toString(), country.text.toString(), region.text.toString(),
             district.text.toString(), city.text.toString(), street.text.toString(), house.text.toString())
 
