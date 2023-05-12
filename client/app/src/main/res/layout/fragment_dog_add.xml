@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="none"
                     android:layout_gravity="center"
-                    android:text="Мальчик"
+                    android:text="Самец"
                     android:textSize="20sp"
                     tools:ignore="LabelFor"/>
 
