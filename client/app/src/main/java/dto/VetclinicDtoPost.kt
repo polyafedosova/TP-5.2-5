@@ -1,6 +1,6 @@
 package dto
 
-data class VetclinicDto (
+data class VetclinicDtoPost (
         val name: String,
         val phone: String,
         val description: String,
@@ -11,4 +11,3 @@ data class VetclinicDto (
         val street: String,
         val house: String,
         )
-

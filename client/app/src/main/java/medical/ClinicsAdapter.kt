@@ -1,6 +1,7 @@
 package medical
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,26 +11,32 @@ import android.widget.Filterable
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import dto.VetclinicDto
+import dto.VetclinicDtoGet
 
 
 import ru.vsu.cs.tp.paws.R
 
 
-class ClinicsAdapter(_newClinics: MutableList<ClinicsModel>) : RecyclerView.Adapter<ClinicsAdapter.ClinicsViewHolder>(), Filterable {
+class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>) : RecyclerView.Adapter<ClinicsAdapter.ClinicsViewHolder>(), Filterable {
 
-    private var newClinics: MutableList<ClinicsModel> = _newClinics
-    private var newClinicsFull: List<ClinicsModel> = java.util.ArrayList<ClinicsModel>(newClinics)
+    private var newClinics: MutableList<VetclinicDtoGet> = _newClinics
+    private var newClinicsFull: List<VetclinicDtoGet> = java.util.ArrayList<VetclinicDtoGet>(newClinics)
 
-    private var clinicList: MutableList<VetclinicDto> = emptyList<VetclinicDto>().toMutableList()
 
-    fun setClinics(list: List<VetclinicDto>) {
+
+    private var clinicList: MutableList<VetclinicDtoGet> = emptyList<VetclinicDtoGet>().toMutableList()
+
+    fun setClinics(list: List<VetclinicDtoGet>) {
+//        println("------------------")
+//        println(list)
         clinicList.clear()
         if (list.isNotEmpty()) {
             for (i in 0..list.size - 1) {
                 clinicList.add(list[i])
             }
         }
+//        println("++++++++++++++++")
+//        println(clinicList)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClinicsViewHolder {
@@ -38,6 +45,7 @@ class ClinicsAdapter(_newClinics: MutableList<ClinicsModel>) : RecyclerView.Adap
         return ClinicsViewHolder(clinicsItems)
     }
 
+    @SuppressLint("SetTextI18n", "SuspiciousIndentation")
     override fun onBindViewHolder(holder: ClinicsViewHolder, position: Int) {
 
 
@@ -62,17 +70,22 @@ class ClinicsAdapter(_newClinics: MutableList<ClinicsModel>) : RecyclerView.Adap
 //            }
 //        })
 
-        holder.clinicsTitle.text = newClinics[position].getName()
-        holder.clinicsAddress.text = newClinics[position].getAddress()
-        holder.clinicsPrice.text = newClinics[position].getPrice()
-
-
+        holder.clinicsTitle.text = newClinics[position].name
+        holder.clinicsAddress.text = newClinics[position].street + " " +newClinics[position].house
+        holder.clinicsPrice.text = newClinics[position].phone
         val bundle = Bundle()
+//        println(clinicList)
+//        for (i in 0 until clinicList.size) {
+//            holder.clinicsTitle.text = clinicList[i].name
+//            holder.clinicsAddress.text = clinicList[i].street + clinicList[i].house
+//            holder.clinicsPrice.text = clinicList[i].name
 
-        bundle.putString("name", newClinics[position].getName())
-        bundle.putString("service", newClinics[position].getService())
-        bundle.putString("address", newClinics[position].getAddress())
 
+            bundle.putInt("id", newClinics[position].id)
+            bundle.putString("name", newClinics[position].name)
+            bundle.putString("service", "test")
+            bundle.putString("address", newClinics[position].street + newClinics[position].house)
+//        }
 
         holder.itemView.setOnClickListener {
             it.findNavController().navigate(R.id.action_medicalFragment_to_specificFragment, bundle)
@@ -89,14 +102,14 @@ class ClinicsAdapter(_newClinics: MutableList<ClinicsModel>) : RecyclerView.Adap
 
     private var searchFilter: Filter = object : Filter() {
         override fun performFiltering(constraint: CharSequence): FilterResults {
-            val filteredList: MutableList<ClinicsModel?> = ArrayList()
+            val filteredList: MutableList<VetclinicDtoGet?> = ArrayList()
             if (constraint == null || constraint.length == 0) {
                 filteredList.addAll(newClinicsFull)
             } else {
                 val filterPattern = constraint.toString().lowercase().trim { it <= ' ' }
                 for (item in newClinicsFull) {
-                    if (item.getService().toLowerCase().contains(filterPattern) || item.getAddress()
-                            .toLowerCase().contains(filterPattern)
+                    if (item.description.toLowerCase().contains(filterPattern) || item.street
+                        .toLowerCase().contains(filterPattern)  //спросить что с адресом и как работают услуги
                     ) {
                         filteredList.add(item)
                     }
@@ -109,15 +122,11 @@ class ClinicsAdapter(_newClinics: MutableList<ClinicsModel>) : RecyclerView.Adap
 
         override fun publishResults(charSequence: CharSequence, results: FilterResults) {
             newClinics.clear()
-            newClinics.addAll(results.values as List<ClinicsModel>)
+            newClinics.addAll(results.values as List<VetclinicDtoGet>)
             notifyDataSetChanged()
         }
     }
 
-//    init {
-//        this.newClinics = newClinics
-//        newClinicsFull = ArrayList<Any?>(newClinics)
-//    }
 
     class ClinicsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var clinicsTitle: TextView

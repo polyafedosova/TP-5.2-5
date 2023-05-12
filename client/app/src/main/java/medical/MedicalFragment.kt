@@ -13,6 +13,8 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dto.TreatmentDto
+import dto.VetclinicDtoGet
 
 import interfaces.VetclinicApi
 import kotlinx.coroutines.CoroutineScope
@@ -30,10 +32,14 @@ class MedicalFragment : Fragment() {
     private lateinit var searchView: SearchView
     private lateinit var searchViewCity: SearchView
     private lateinit var recyclerView: RecyclerView
-    private lateinit var clinicsAdapter: ClinicsAdapter
+    private var clinicsAdapter: ClinicsAdapter? = null
     private lateinit var currentQuery: String
     private lateinit var listView: ListView
     private lateinit var listViewCity: ListView
+
+    private var list: List<VetclinicDtoGet>? = null
+
+    private var services: List<TreatmentDto>? = null
 
     private val retrofit = Retrofit.Builder()
         .baseUrl("http://10.0.2.2:8080")
@@ -55,22 +61,26 @@ class MedicalFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recycler_events)
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        clinicsAdapter = ClinicsAdapter(getDataClinics() as MutableList<ClinicsModel>)
-        recyclerView.adapter = clinicsAdapter
+
 
         val api = retrofit.create(VetclinicApi::class.java)
+
         try {
             CoroutineScope(Dispatchers.IO).launch {
-                val list = api.getAllVetclinics().execute().body()!!
-                println("-------------")
-                println(list.size)
-                requireActivity().runOnUiThread{
 
+                requireActivity().runOnUiThread {
+//                    list = api.getAllVetclinics().execute().body()
+//                    clinicsAdapter = ClinicsAdapter(list as MutableList<VetclinicDtoGet>)
 //                clinicsAdapter.setClinics(list)
                 }
             }
-        } catch(ex: Exception) {}
+        } catch(ex: Exception) {
+            println("======================")
+            ex.stackTrace
+        }
 
+        clinicsAdapter = ClinicsAdapter(getDataClinics() as MutableList<VetclinicDtoGet>)
+        recyclerView.adapter = clinicsAdapter
 
         var adapterSearch = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, getDataSearch())
         var adapterSearchCity = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, getDataCity())
@@ -103,13 +113,13 @@ class MedicalFragment : Fragment() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 adapterSearch.filter.filter(query)
-                clinicsAdapter.filter.filter(query)
+                clinicsAdapter?.filter?.filter(query)
                 return false
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
                 adapterSearch.filter.filter(newText)
-                clinicsAdapter.filter.filter(newText)
+                clinicsAdapter?.filter?.filter(newText)
                 listView.visibility = View.VISIBLE
                 return true
             }
@@ -134,13 +144,13 @@ class MedicalFragment : Fragment() {
         searchViewCity.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 adapterSearchCity.filter.filter(query)
-                clinicsAdapter.filter.filter(query)
+                clinicsAdapter?.filter?.filter(query)
                 return false
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
                 adapterSearchCity.filter.filter(newText)
-                clinicsAdapter.filter.filter(newText)
+                clinicsAdapter?.filter?.filter(newText)
                 listViewCity.visibility = View.VISIBLE
                 return true
             }
@@ -171,11 +181,12 @@ class MedicalFragment : Fragment() {
         return city
     }
 
-    private fun getDataClinics(): List<ClinicsModel> {
+    private fun getDataClinics(): List<VetclinicDtoGet> {
 
-        val listClinics: MutableList<ClinicsModel> = java.util.ArrayList()
-        listClinics.add(ClinicsModel(1, "Лаповое","Диагностика сердца", "Воронеж", "60"))
-        listClinics.add(ClinicsModel(2, "Название 2","УЗИ", "Москва", "100"))
+        val listClinics: MutableList<VetclinicDtoGet> = java.util.ArrayList()
+        listClinics.add(VetclinicDtoGet(1,"name1", "5332534", "descript", "country", "reg",
+            "destr", "city", "street", "house"))
+//        listClinics.add(ClinicsModel(2, "Название 2","УЗИ", "Москва", "100"))
 
         return listClinics
     }
