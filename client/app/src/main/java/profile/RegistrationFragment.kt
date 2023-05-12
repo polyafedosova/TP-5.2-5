@@ -11,6 +11,8 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import ru.vsu.cs.tp.paws.R
 
 
@@ -23,6 +25,11 @@ class RegistrationFragment : Fragment() {
     private lateinit var userName: EditText
     private lateinit var userPassword: EditText
     private lateinit var userRepeatPassword: EditText
+
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("http://10.0.2.2:8080")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -37,7 +44,9 @@ class RegistrationFragment : Fragment() {
         userRepeatPassword = view.findViewById(R.id.userRepeatPassword)
 
         completeRegistrationButton.setOnClickListener() {
-            correctInputCheck(userLogin, userName, userPassword, userRepeatPassword)
+            if (validateFields(userLogin, userName, userPassword, userRepeatPassword)) {
+                // отправляю на сервер
+            }
         }
 
         cancelRegistrationButton.setOnClickListener {
@@ -47,23 +56,39 @@ class RegistrationFragment : Fragment() {
         return view
     }
 
-    private fun isEmpty(text: EditText): Boolean {
-        val str: CharSequence = text.text.toString()
-        return TextUtils.isEmpty(str)
-    }
+    private fun validateFields(login: EditText, name: EditText, password: EditText, repeatPassword: EditText): Boolean {
+        var isValid = true
 
-    private fun correctInputCheck(login: EditText, name: EditText, password: EditText, repeatPassword: EditText) {
-        if (isEmpty(login) && isEmpty(name) && isEmpty(password) && isEmpty(repeatPassword)) {
-//            login.setError("шо?")
-            Toast.makeText(this.requireContext(), "Нужно заполнить все поля", Toast.LENGTH_SHORT).show()
+        if (login.text.toString().isEmpty()) {
+            login.error = "Введите логин"
+            isValid = false
+        }
+
+        if (name.text.toString().isEmpty()) {
+            name.error = "Введите имя"
+            isValid = false
+        }
+
+        if (password.text.toString().isEmpty()) {
+            password.error = "Введите пароль"
+            isValid = false
+        }
+
+        if (repeatPassword.text.toString().isEmpty()) {
+            repeatPassword.error = "Повторите пароль"
+            isValid = false
         }
 
         if (password.text.toString() != repeatPassword.text.toString()) {
-            Toast.makeText(this.requireContext(), "Пароли не совпадают", Toast.LENGTH_SHORT).show()
+            password.error = "Пароли не совпадают"
+            repeatPassword.error = "Пароли не совпадают"
+            isValid = false
         }
 
-        //проверка на индивидуальный логин
 
+
+        return isValid
     }
+
 
 }

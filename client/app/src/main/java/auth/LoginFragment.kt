@@ -21,6 +21,10 @@ class LoginFragment : Fragment() {
     private lateinit var loginButton: Button
     private lateinit var toRegisterButton: Button
 
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("http://10.0.2.2:8080")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view: View = inflater.inflate(R.layout.fragment_login, container, false)
@@ -32,52 +36,37 @@ class LoginFragment : Fragment() {
         toRegisterButton = view.findViewById(R.id.toRegisterButton)
 
         loginButton.setOnClickListener() {
-//            try {
-//                checkInputAndAuth(userLogin, userPassword)
+            try {
+                checkInputAndAuth(userLogin, userPassword)
 
-                if (userLogin.text.toString() == "ad") {
-                    it.findNavController().navigate(R.id.loginFragment)
-                    it.findNavController().navigate(R.id.action_loginFragment_to_adminClinicsFragment)
-                }
-//            } catch (ex: Exception) {}
+            } catch (ex: Exception) {}
         }
 
         toRegisterButton.setOnClickListener() {
-//            it.findNavController().navigate(R.id.loginFragment)
-//            it.findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
+            it.findNavController().navigate(R.id.loginFragment)
+            it.findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
         }
 
         return view
     }
 
     private fun checkInputAndAuth(login: EditText, password: EditText) {
-        var flag = false
+        var isValid = true
 
-//        if (login.text.toString() == "" || login.text.toString() == " ") {
-//            flag = true
-//            Toast.makeText(this.requireContext(), "Invalid login", Toast.LENGTH_SHORT).show()
-//        }
-//        if (password.text.toString() == "" || password.text.toString() == " ") {
-//            flag = true
-//            Toast.makeText(this.requireContext(), "Invalid password", Toast.LENGTH_SHORT).show()
-//        }
+        if (login.text.toString().isEmpty()) {
+            login.error = "Введите логин"
+            isValid = false
+        }
+        if (password.text.toString().isEmpty()) {
+            password.error = "Введите пароль"
+            isValid = false
+        }
 
-//        if (!flag) {
-//            authorization(login, password)
-//        }
-
+        if (isValid) {
+            authorization(login, password)
+        }
     }
     private fun authorization(login: EditText, password: EditText) {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-//        if (userexist) {
-//
-//        } else {
-//
-//        }
 
     }
 
