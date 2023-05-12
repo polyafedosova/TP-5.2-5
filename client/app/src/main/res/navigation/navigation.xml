@@ -13,13 +13,20 @@
         <action
             android:id="@+id/action_medicalFragment_to_specificFragment"
             app:destination="@id/specificFragment" />
+        <action
+            android:id="@+id/action_medicalFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/calculatorFragment"
         android:name="calculator.CalculatorFragment"
         android:label="fragment_calculator"
-        tools:layout="@layout/fragment_calculator" />
+        tools:layout="@layout/fragment_calculator" >
+        <action
+            android:id="@+id/action_calculatorFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/profileFragment"
@@ -54,6 +61,9 @@
             android:name="clinicName"
             app:argType="string"
             android:defaultValue="defaultName" />
+        <action
+            android:id="@+id/action_specificFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/dogAddFragment"
@@ -115,7 +125,11 @@
         android:id="@+id/registrationFragment"
         android:name="profile.RegistrationFragment"
         android:label="fragment_registration"
-        tools:layout="@layout/fragment_registration" />
+        tools:layout="@layout/fragment_registration" >
+        <action
+            android:id="@+id/action_registrationFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/editDogFragment"
         android:name="dog.EditDogFragment"
@@ -132,6 +146,9 @@
         <action
             android:id="@+id/action_adminClinicsFragment_to_adminAddClinicFragment"
             app:destination="@id/adminAddClinicFragment" />
+        <action
+            android:id="@+id/action_adminClinicsFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/adminEditClinicFragment"
