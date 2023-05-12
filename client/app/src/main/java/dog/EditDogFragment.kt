@@ -1,14 +1,18 @@
 package dog
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.navigation.findNavController
 import ru.vsu.cs.tp.paws.R
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 
 class EditDogFragment : Fragment() {
@@ -17,13 +21,14 @@ class EditDogFragment : Fragment() {
     lateinit var newDogBurnDate: EditText
     lateinit var newBreed: EditText
 
-    private var chosenSex = -1
+    private var chosenSex = 0
 
     lateinit var completeEditButton: Button
     lateinit var deleteDogButton: Button
     lateinit var backFromEditDogButton: Button
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_edit_dog, container, false)
 
@@ -31,46 +36,17 @@ class EditDogFragment : Fragment() {
         newDogBurnDate = view.findViewById(R.id.newDogBurnDate)
         newBreed = view.findViewById(R.id.newBreed)
 
-//        val spinnerSex: Spinner = view.findViewById(R.id.newSex)
-
-        val autoCompleteSex: AutoCompleteTextView = view.findViewById(R.id.newSex)
-        val age = resources.getStringArray(R.array.sex_array)
-        val arrayAdapterAge = ArrayAdapter(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, age)
-        autoCompleteSex.setAdapter(arrayAdapterAge)
-
         completeEditButton = view.findViewById(R.id.completeDogEditButton)
         deleteDogButton = view.findViewById(R.id.deleteDogButton)
         backFromEditDogButton = view.findViewById(R.id.backFromEditDogButton)
 
+        val autoCompleteSex: AutoCompleteTextView = view.findViewById(R.id.newSex)
+        val sex = resources.getStringArray(R.array.sex_array)
+        val arrayAdapterSex = ArrayAdapter(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, sex)
+        autoCompleteSex.setAdapter(arrayAdapterSex)
 
-
-
-//        ArrayAdapter.createFromResource(this.requireContext(), R.array.sex_array,
-//            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item).also {
-//                adapter -> adapter.setDropDownViewResource(androidx.transition.R.layout.support_simple_spinner_dropdown_item)
-//            spinnerSex.adapter = adapter
-//        }
-//
-//        spinnerSex.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(
-//                parent: AdapterView<*>?,
-//                itemSelected: View, selectedItemPosition: Int, selectedId: Long
-//            ) {
-//                chosenSex = selectedItemPosition
-//            }
-//
-//            override fun onNothingSelected(parent: AdapterView<*>?) {}
-//        })
-
-        autoCompleteSex.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                itemSelected: View, selectedItemPosition: Int, selectedId: Long
-            ) {
-                chosenSex = selectedItemPosition
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        autoCompleteSex.setOnItemClickListener { adapterView, view, i, l ->
+            chosenSex = adapterView.getItemIdAtPosition(i).toInt()
         }
 
         val nameValue = requireArguments().getString("name")
@@ -85,11 +61,14 @@ class EditDogFragment : Fragment() {
         newBreed.setText(breedValue)
 
         completeEditButton.setOnClickListener() {
-            commitToServer(newDogName, newDogBurnDate, newBreed)
-            it.findNavController().popBackStack()
+            if (validate(newDogName, newDogBurnDate, newBreed)) {
+                it.findNavController().popBackStack()
+            }
+
         }
 
         deleteDogButton.setOnClickListener() {
+
             it.findNavController().popBackStack()
         }
 
@@ -102,6 +81,41 @@ class EditDogFragment : Fragment() {
 
     private fun commitToServer(newName: EditText, newDate: EditText, newBreed: EditText) {
         Toast.makeText(this.requireContext(), "Как будто отправил на сервер", Toast.LENGTH_SHORT).show()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun validate(name: EditText, date: EditText, breed: EditText): Boolean {
+        var isValid = true
+
+        if (name.text.toString().isEmpty()) {
+            name.error = "Введите название"
+            isValid = false
+        }
+
+        if (date.text.toString().isEmpty()) {
+            date.error = "Введите дату"
+            isValid = false
+        }
+
+        if (breed.text.toString().isEmpty()) {
+            breed.error = "Введите породу"
+            isValid = false
+        }
+
+        var parseDate: LocalDate
+        val format = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+        try {
+            parseDate = LocalDate.parse(date.text.toString(), format)
+
+//            val dateString = parseDate.year.toString()+ " " + parseDate.month.value.toString() +
+//                    " " + parseDate.dayOfMonth.toString()
+        } catch (ex: java.lang.Exception) {
+            date.error = "Ошибка в ведённой дате"
+            isValid = false
+            ex.stackTrace
+        }
+
+        return isValid
     }
 
 }
