@@ -1,7 +1,12 @@
 package ru.vsu.dogapp.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+
 import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,6 +19,7 @@ public class Vetclinic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @NotEmpty
     private String name;
     private String phone;
     private String description;
@@ -23,4 +29,6 @@ public class Vetclinic {
     private String city;
     private String street;
     private String house;
+    @OneToMany(mappedBy = "vetclinic", cascade = CascadeType.ALL)
+    private Set<Treatment> treatments = new HashSet<>();
 }

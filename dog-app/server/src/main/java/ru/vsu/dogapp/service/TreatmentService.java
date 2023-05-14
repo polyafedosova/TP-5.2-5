@@ -1,46 +1,55 @@
 package ru.vsu.dogapp.service;
 
 import org.springframework.stereotype.Service;
+import ru.vsu.dogapp.dto.TreatmentDto;
 import ru.vsu.dogapp.entity.Treatment;
+import ru.vsu.dogapp.mapper.TreatmentMapper;
 import ru.vsu.dogapp.repository.TreatmentRepository;
+import ru.vsu.dogapp.repository.VetclinicRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TreatmentService {
 
     private final TreatmentRepository repository;
+    private final VetclinicRepository vetclinicRepository;
+    private final TreatmentMapper mapper;
 
-    public TreatmentService(TreatmentRepository repository) {
+    public TreatmentService(TreatmentRepository repository, VetclinicRepository vetclinicRepository, TreatmentMapper mapper) {
         this.repository = repository;
+        this.vetclinicRepository = vetclinicRepository;
+        this.mapper = mapper;
     }
 
-    public void save(Treatment treatment) {
+    public void save(Integer vetclinicId, TreatmentDto treatmentDto) {
+        Treatment treatment = mapper.toEntity(treatmentDto);
+        treatment.setVetclinic(vetclinicRepository.findVetclinicById(vetclinicId));
         repository.save(treatment);
     }
 
-    public List<Treatment> getAll() {
-        return repository.findAll();
+    public List<TreatmentDto> getAll() {
+        return repository.findAll()
+                .stream().map(mapper::toDto)
+                .collect(Collectors.toList());
     }
 
-    public void update(Integer id, Treatment treatment) {
+    public void update(Integer id, TreatmentDto treatmentDto) {
         Treatment oldTreatment = repository.findTreatmentById(id);
+        Treatment treatment = mapper.toEntity(treatmentDto);
         treatment.setId(oldTreatment.getId());
+        treatment.setVetclinic(oldTreatment.getVetclinic());
         repository.save(treatment);
     }
 
     public void delete(Integer id) {
         repository.delete(repository.findTreatmentById(id));
     }
-    public boolean delete(Treatment treatment) {
-        if (repository.findById(treatment.getId()).isPresent()) {
-            repository.deleteById(treatment.getId());
-            return true;
-        } return false;
-    }
-
-    public List<Treatment> find(Integer vetclinicID) {
-        return repository.findAllByVetclinic_Id(vetclinicID);
+    public List<TreatmentDto> find(Integer vetclinicID) {
+        return repository.findAllByVetclinic_Id(vetclinicID)
+                .stream().map(mapper::toDto)
+                .collect(Collectors.toList());
     }
 
 }

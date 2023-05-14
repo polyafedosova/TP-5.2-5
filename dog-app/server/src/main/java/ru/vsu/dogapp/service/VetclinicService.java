@@ -1,30 +1,39 @@
 package ru.vsu.dogapp.service;
 
 import org.springframework.stereotype.Service;
+import ru.vsu.dogapp.dto.VetclinicDto;
 import ru.vsu.dogapp.entity.Vetclinic;
+import ru.vsu.dogapp.mapper.VetclinicMapper;
 import ru.vsu.dogapp.repository.VetclinicRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class VetclinicService {
 
     private final VetclinicRepository repository;
+    private final VetclinicMapper mapper;
 
-    public VetclinicService(VetclinicRepository repository) {
+    public VetclinicService(VetclinicRepository repository, VetclinicMapper mapper) {
         this.repository = repository;
+        this.mapper = mapper;
     }
 
-    public void save(Vetclinic vetclinic) {
+    public void save(VetclinicDto vetclinicDto) {
+        Vetclinic vetclinic = mapper.toEntity(vetclinicDto);
         repository.save(vetclinic);
     }
 
-    public List<Vetclinic> getAll() {
-        return repository.findAll();
+    public List<VetclinicDto> getAll() {
+        return repository.findAll()
+                .stream().map(mapper::toDto)
+                .collect(Collectors.toList());
     }
 
-    public void update(Integer id, Vetclinic vetclinic) {
+    public void update(Integer id, VetclinicDto vetclinicDto) {
         Vetclinic oldVetclinic = repository.findVetclinicById(id);
+        Vetclinic vetclinic = mapper.toEntity(vetclinicDto);
         vetclinic.setId(oldVetclinic.getId());
         repository.save(vetclinic);
     }
@@ -32,14 +41,8 @@ public class VetclinicService {
     public void delete(Integer id) {
         repository.delete(repository.findVetclinicById(id));
     }
-    public boolean delete(Vetclinic vetclinic) {
-        if (repository.findById(vetclinic.getId()).isPresent()) {
-            repository.deleteById(vetclinic.getId());
-            return true;
-        } return false;
-    }
 
-    public Vetclinic find(Integer id) {
-        return repository.findVetclinicById(id);
+    public VetclinicDto find(Integer id) {
+        return mapper.toDto(repository.findVetclinicById(id));
     }
 }

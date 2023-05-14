@@ -2,6 +2,8 @@ package ru.vsu.dogapp.repository;
 
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.vsu.dogapp.entity.Event;
 
@@ -12,6 +14,9 @@ public interface EventRepository extends JpaRepository<Event, Integer>  {
 
     @NonNull
     List<Event> findAll();
-    List<Event> findAllByOwner_Id(Integer ownerID);
-    Event findEventById(Integer id);
+    @Query("SELECT e FROM Event e WHERE e.owner.id = :ownerID")
+    List<Event> findAllByOwner_Id(@Param("ownerID") Integer ownerID);
+
+    @Query("SELECT e FROM Event e WHERE e.id = :id")
+    Event findEventById(@Param("id") Integer id);
 }
