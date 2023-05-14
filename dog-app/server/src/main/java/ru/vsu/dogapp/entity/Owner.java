@@ -32,10 +32,6 @@ public class Owner implements UserDetails {
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<GrantedAuthority> roles;
-    @OneToMany(mappedBy = "dog", cascade = CascadeType.ALL)
-    private Set<Dog> dogs;
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
-    private Set<Event> events;
 
     @Override
     public String getUsername() {

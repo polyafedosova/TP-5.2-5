@@ -81,4 +81,8 @@ public class OwnerService implements UserDetailsService {
     public OwnerDto find(Integer id) {
         return mapper.toDto(repository.findOwnerById(id));
     }
+
+    public OwnerDto find(String username) {
+        return mapper.toDto(repository.findByUsername(username));
+    }
 }

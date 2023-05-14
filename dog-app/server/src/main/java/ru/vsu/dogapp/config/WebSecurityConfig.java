@@ -39,11 +39,12 @@ public class WebSecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
-                .antMatchers("/vetclinics/", "/vetclinic/{vetclinic_id}/treatments", "/owner/{owner_id}/**").hasAnyAuthority("ADMIN", "USER")
-                .antMatchers("/vetclinics/**", "/vetclinic/{vetclinic_id}/treatments/**").hasAnyAuthority("ADMIN")
-                .antMatchers("/vetclinics/", "/vetclinic/{vetclinic_id}/treatments", "/owner/{owner_id}/**").authenticated()
-                .antMatchers("/vetclinics/**", "/vetclinic/{vetclinic_id}/treatments/**").authenticated()
-                .antMatchers( "/static/**", "/registration", "/api/auth/login", "/api/auth/token").permitAll()
+                .antMatchers("/owner/{owner_id}/**").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers("/vetclinics/edit/**", "/vetclinic/{vetclinic_id}/treatments/edit/**").hasAnyAuthority("ADMIN")
+                .antMatchers("/owner/{owner_id}/**").authenticated()
+                .antMatchers("/vetclinics/edit/**", "/vetclinic/{vetclinic_id}/treatments/edit/**").authenticated()
+                .antMatchers( "/vetclinics", "/vetclinic/{vetclinic_id}/treatments", "/static/**",
+                        "/registration", "/api/auth/login", "/api/auth/token").permitAll()
 
                 .anyRequest().authenticated()
                 .and()

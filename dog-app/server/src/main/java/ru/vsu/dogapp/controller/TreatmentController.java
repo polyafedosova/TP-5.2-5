@@ -20,15 +20,15 @@ public class TreatmentController {
         this.service = service;
     }
 
-    @PostMapping("/new")
+    @PostMapping("/edit/new")
     public void saveNewTreatment(@PathVariable Integer vetclinic_id, @Valid @RequestBody TreatmentDto treatment) {
         service.save(vetclinic_id, treatment);
     }
-    @PutMapping("/{id}/update")
+    @PutMapping("/edit/{id}/update")
     public void updateTreatment(@PathVariable Integer id, @Valid @RequestBody TreatmentDto treatment) {
         service.update(id, treatment);
     }
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/edit/{id}/delete")
     public void deleteTreatment(@PathVariable Integer id) {
         service.delete(id);
     }
@@ -36,5 +36,4 @@ public class TreatmentController {
     public List<TreatmentDto> getVetclinicTreatments(@PathVariable Integer vetclinic_id) {
         return service.find(vetclinic_id);
     }
-
 }

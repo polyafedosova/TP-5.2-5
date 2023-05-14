@@ -22,15 +22,15 @@ public class VetclinicController {
     public List<VetclinicDto> getAllVetclinic() {
         return service.getAll();
     }
-    @PostMapping("/new")
+    @PostMapping("/edit/new")
     public void saveNewVetclinic(@Valid  @RequestBody VetclinicDto vetclinic) {
         service.save(vetclinic);
     }
-    @PutMapping("/{id}/update")
+    @PutMapping("/edit/{id}/update")
     public void updateVetclinic(@PathVariable Integer id, @Valid @RequestBody VetclinicDto vetclinic) {
         service.update(id, vetclinic);
     }
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/edit/{id}/delete")
     public void deleteVetclinic(@PathVariable Integer id) {
         service.delete(id);
     }

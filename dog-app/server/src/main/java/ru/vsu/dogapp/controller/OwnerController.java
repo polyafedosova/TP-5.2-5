@@ -17,6 +17,10 @@ public class OwnerController {
         this.service = service;
     }
 
+    @GetMapping("/owner")
+    public OwnerDto get(String username) {
+        return service.find(username);
+    }
     @PostMapping("/registration")
     public void saveNewOwner(@Valid  @RequestBody OwnerDto owner) {
         service.save(owner);
