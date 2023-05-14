@@ -1,5 +1,6 @@
 package ru.vsu.dogapp.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -10,6 +11,8 @@ import javax.validation.constraints.Size;
 @Data
 public class OwnerDto {
 
+    @JsonIgnore
+    private Integer id;
     @NotBlank
     @Size(min = 5, max = 30)
     @Pattern(regexp = "^[a-zA-Zа-яА-Я0-9*_@.-]+$",

@@ -1,5 +1,6 @@
 package ru.vsu.dogapp.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -10,6 +11,8 @@ import java.util.Date;
 @Data
 public class DogDto {
 
+    @JsonIgnore
+    private Integer id;
     @NotEmpty
     @Size(min = 5, max = 30)
     @Pattern(regexp = "^[a-zA-Zа-яА-Я\\s]+$",

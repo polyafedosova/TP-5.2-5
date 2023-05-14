@@ -15,6 +15,7 @@ import ru.vsu.dogapp.repository.OwnerRepository;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OwnerService implements UserDetailsService {
@@ -60,6 +61,15 @@ public class OwnerService implements UserDetailsService {
         newOwner.setPassword(bCryptPasswordEncoder.encode(newOwner.getPassword()));
         newOwner.setRoles(oldOwner.getRoles());
         repository.save(newOwner);
+    }
+
+    public void updatePassword(Integer id, String oldPassword, String newPassword) {
+        Owner owner = repository.findOwnerById(id);
+        if (bCryptPasswordEncoder.encode(oldPassword).equals(owner.getPassword())) {
+            owner.setPassword(bCryptPasswordEncoder.encode(newPassword));
+        } else {
+            throw new IllegalArgumentException("Old password is incorrect");
+        }
     }
 
     public void delete(Integer id) {

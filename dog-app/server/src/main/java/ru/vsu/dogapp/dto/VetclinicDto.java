@@ -1,15 +1,19 @@
 package ru.vsu.dogapp.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Data
 public class VetclinicDto {
 
+    @JsonIgnore
+    private Integer id;
     @NotBlank
     @Pattern(regexp = "^[A-Za-zА-Яа-я0-9.,!?:;()\\[\\]{}'\"\\s]{3,40}$",
             message = "Name should be between 3 and 40 characters and contain only letters, digits, and basic punctuation.")
@@ -50,16 +54,11 @@ public class VetclinicDto {
 
     @NotBlank(message = "House number must not be blank.")
     @Size(max = 10, message = "House number must be no longer than 10 characters.")
-    @Pattern(regexp = "^[A-Za-zА-Яа-я0-9()\\[\\]'\"\\s-]+$", message = "House number must be a valid address.")
+    @Pattern(regexp = "^[A-Za-zА-Яа-я0-9()\\[\\]'\"\\s/-]+$", message = "House number must be a valid address.")
     private String house;
-
-
     public void setPhone(String phoneNumber) {
         if (phoneNumber != null) {
-            // удаление всех символов, кроме цифр
-            String normalizedPhoneNumber = phoneNumber.replaceAll("[^0-9]", "");
-            this.phone = normalizedPhoneNumber;
+            this.phone = phoneNumber.replaceAll("[^0-9]", "");
         }
     }
-
 }

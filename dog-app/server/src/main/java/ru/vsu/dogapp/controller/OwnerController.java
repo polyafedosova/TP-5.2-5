@@ -17,10 +17,6 @@ public class OwnerController {
         this.service = service;
     }
 
-//    @GetMapping()
-//    public List<Owner> getAllOwner() {
-//        return service.getAll();
-//    }
     @PostMapping("/registration")
     public void saveNewOwner(@Valid  @RequestBody OwnerDto owner) {
         service.save(owner);
@@ -28,6 +24,10 @@ public class OwnerController {
     @PutMapping("/owner/{owner_id}/update")
     public void updateOwner(@PathVariable Integer owner_id, @Valid @RequestBody OwnerDto owner) {
         service.update(owner_id, owner);
+    }
+    @PutMapping("/owner/{owner_id}/update/password")
+    public void updateOwner(@PathVariable Integer owner_id, @RequestBody String oldPassword, @RequestBody String newPassword) {
+        service.updatePassword(owner_id, oldPassword, newPassword);
     }
     @DeleteMapping("/owner/{owner_id}/delete")
     public void deleteOwner(@PathVariable Integer owner_id) {
