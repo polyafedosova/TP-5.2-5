@@ -49,7 +49,7 @@ public class WebSecurityConfig {
                 .anyRequest().authenticated()
                 .and()
                 .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-
+                .antMatcher("/swagger-ui/index.html#")
                 .logout(logout -> logout
                         .logoutSuccessUrl("/")
                         .permitAll()
