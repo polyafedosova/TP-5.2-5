@@ -9,15 +9,9 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import dto.TreatmentDto
-import dto.VetclinicDtoGet
+import dto.TreatmentDtoGet
 import interfaces.TreatmentApi
-import interfaces.VetclinicApi
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.vsu.cs.tp.paws.R
@@ -29,7 +23,7 @@ class SpecificFragment : Fragment(){
     private lateinit var clinicAddress: TextView
     private lateinit var clinicServices: TextView
 
-    private var serviceList: List<TreatmentDto>? = null
+    private var serviceList: List<TreatmentDtoGet>? = null
 
     private val retrofit = Retrofit.Builder()
         .baseUrl("http://10.0.2.2:8080")

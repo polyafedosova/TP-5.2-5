@@ -13,7 +13,7 @@ interface VetclinicApi {
     fun saveNewVetclinic(@Body vetclinic: VetclinicDtoPost): Call<Void>
 
     @PUT("/vetclinics/{id}/update")
-    fun updateVetclinic(@Path("id") id: Int, @Body vetclinic: VetclinicDtoGet): Call<Void>
+    fun updateVetclinic(@Path("id") id: Int, @Body vetclinic: VetclinicDtoPost): Call<Void>
 
     @DELETE("/vetclinics/{id}/delete")
     fun deleteVetclinic(@Path("id") id: Int): Call<Void>

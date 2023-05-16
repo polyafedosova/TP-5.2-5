@@ -22,23 +22,6 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>) : RecyclerView.A
     private var newClinics: MutableList<VetclinicDtoGet> = _newClinics
     private var newClinicsFull: List<VetclinicDtoGet> = java.util.ArrayList<VetclinicDtoGet>(newClinics)
 
-
-
-    private var clinicList: MutableList<VetclinicDtoGet> = emptyList<VetclinicDtoGet>().toMutableList()
-
-    fun setClinics(list: List<VetclinicDtoGet>) {
-//        println("------------------")
-//        println(list)
-        clinicList.clear()
-        if (list.isNotEmpty()) {
-            for (i in 0..list.size - 1) {
-                clinicList.add(list[i])
-            }
-        }
-//        println("++++++++++++++++")
-//        println(clinicList)
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClinicsViewHolder {
         val clinicsItems: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.clinics_item, parent, false)
@@ -49,43 +32,18 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>) : RecyclerView.A
     override fun onBindViewHolder(holder: ClinicsViewHolder, position: Int) {
 
 
-
-//        val call = apiService.getAllVetclinics()
-//
-//        call.enqueue(object : Callback<List<VetclinicDto>> {
-//            override fun onResponse(call: Call<List<VetclinicDto>>, response: Response<List<VetclinicDto>>) {
-//                if (response.isSuccessful) {
-//                    val clinics = response.body()
-//                    println("--------------------")
-//                    println(clinics)
-//                    // обработка полученных данных
-//                } else {
-//                    // обработка ошибок
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<List<VetclinicDto>>, t: Throwable) {
-//                println("--------------------")
-//                println(t)
-//            }
-//        })
-
         holder.clinicsTitle.text = newClinics[position].name
         holder.clinicsAddress.text = newClinics[position].street + " " +newClinics[position].house
-        holder.clinicsPrice.text = newClinics[position].phone
+        holder.clinicsPrice.text = /*newClinics[position].phone*/ "price"
+        holder.clinicsPreviewTreatment.text = newClinics[position].phone
         val bundle = Bundle()
-//        println(clinicList)
-//        for (i in 0 until clinicList.size) {
-//            holder.clinicsTitle.text = clinicList[i].name
-//            holder.clinicsAddress.text = clinicList[i].street + clinicList[i].house
-//            holder.clinicsPrice.text = clinicList[i].name
 
 
             bundle.putInt("id", newClinics[position].id)
             bundle.putString("name", newClinics[position].name)
             bundle.putString("service", "test")
             bundle.putString("address", newClinics[position].street + newClinics[position].house)
-//        }
+
 
         holder.itemView.setOnClickListener {
             it.findNavController().navigate(R.id.action_medicalFragment_to_specificFragment, bundle)
@@ -132,12 +90,14 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>) : RecyclerView.A
         var clinicsTitle: TextView
         var clinicsAddress: TextView
         var clinicsPrice: TextView
+        var clinicsPreviewTreatment: TextView
 
 
         init {
             super.itemView
             clinicsTitle = itemView.findViewById(R.id.clinics_preview_title)
             clinicsAddress = itemView.findViewById(R.id.clinics_preview_address)
+            clinicsPreviewTreatment = itemView.findViewById(R.id.clinics_preview_treatment)
 //            clinicsName = itemView.findViewById(R.id.clinics_preview_price)
             clinicsPrice = itemView.findViewById(R.id.clinics_preview_price)
 

@@ -13,13 +13,15 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import dto.TreatmentDto
+import api.ApiVetclinic
+import dto.TreatmentDtoGet
 import dto.VetclinicDtoGet
 
 import interfaces.VetclinicApi
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -27,7 +29,6 @@ import ru.vsu.cs.tp.paws.R
 
 
 class MedicalFragment : Fragment() {
-
 
     private lateinit var searchView: SearchView
     private lateinit var searchViewCity: SearchView
@@ -37,17 +38,45 @@ class MedicalFragment : Fragment() {
     private lateinit var listView: ListView
     private lateinit var listViewCity: ListView
 
-    private var list: List<VetclinicDtoGet>? = null
+    private var clinicsList: List<VetclinicDtoGet>? = null
 
-    private var services: List<TreatmentDto>? = null
+    private var services: List<TreatmentDtoGet>? = null
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2.2:8080")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
+
+//    private val retrofit = Retrofit.Builder()
+//        .baseUrl("http://10.0.2.2:8080")
+//        .addConverterFactory(GsonConverterFactory.create())
+//        .build()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Выполнение запроса к серверу
+        val call = ApiVetclinic.service.getAllVetclinics()
+        call.enqueue(object : Callback<List<VetclinicDtoGet>> {
+            override fun onResponse(call: Call<List<VetclinicDtoGet>>, response: Response<List<VetclinicDtoGet>>) {
+                if (response.isSuccessful) {
+                    val dataResponse = response.body()
+                    clinicsAdapter = ClinicsAdapter(dataResponse as MutableList<VetclinicDtoGet>)
+                    recyclerView.adapter = clinicsAdapter
+                    dataResponse?.let { processData(it) }
+                } else {
+                    println("AAAAAAAAAAAAAAAA")
+                }
+            }
+
+            override fun onFailure(call: Call<List<VetclinicDtoGet>>, t: Throwable) {
+                println("BBBBBBBBBBBBBBBBB")
+            }
+        })
+    }
+
+    private fun processData(dataResponse: List<VetclinicDtoGet>) {
+        // Обработка полученных данных
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View {
@@ -61,26 +90,6 @@ class MedicalFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recycler_events)
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-
-
-        val api = retrofit.create(VetclinicApi::class.java)
-
-        try {
-            CoroutineScope(Dispatchers.IO).launch {
-
-                requireActivity().runOnUiThread {
-//                    list = api.getAllVetclinics().execute().body()
-//                    clinicsAdapter = ClinicsAdapter(list as MutableList<VetclinicDtoGet>)
-//                clinicsAdapter.setClinics(list)
-                }
-            }
-        } catch(ex: Exception) {
-            println("======================")
-            ex.stackTrace
-        }
-
-        clinicsAdapter = ClinicsAdapter(getDataClinics() as MutableList<VetclinicDtoGet>)
-        recyclerView.adapter = clinicsAdapter
 
         var adapterSearch = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, getDataSearch())
         var adapterSearchCity = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, getDataCity())
@@ -161,6 +170,29 @@ class MedicalFragment : Fragment() {
     }
 
 
+    private fun getClinicsList(): List<VetclinicDtoGet>? {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://10.0.2.2:8080") // Замените на URL вашего сервера
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        var data: Call<List<VetclinicDtoGet>>? = null
+
+        val service = retrofit.create(VetclinicApi::class.java)
+
+        GlobalScope.launch(Dispatchers.Main) {
+            try {
+                data = service.getAllVetclinics() // Замените на необходимый ID пользователя
+                // Обработка полученных данных, например:
+                // textView.text = "User ID: ${user.id}, Name: ${user.name}"
+            } catch (e: Exception) {
+                // Обработка ошибок
+            }
+        }
+        return data?.execute()?.body()
+    }
+
+
     private fun getDataSearch(): MutableList<String> {
         val data: MutableList<String> = java.util.ArrayList()
         data.add("Предоперационный эхо скрининг сердца")
@@ -179,16 +211,6 @@ class MedicalFragment : Fragment() {
         city.add("Санкт-Петербург")
         city.add("Москва")
         return city
-    }
-
-    private fun getDataClinics(): List<VetclinicDtoGet> {
-
-        val listClinics: MutableList<VetclinicDtoGet> = java.util.ArrayList()
-        listClinics.add(VetclinicDtoGet(1,"name1", "5332534", "descript", "country", "reg",
-            "destr", "city", "street", "house"))
-//        listClinics.add(ClinicsModel(2, "Название 2","УЗИ", "Москва", "100"))
-
-        return listClinics
     }
 
 }
