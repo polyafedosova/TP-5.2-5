@@ -1,5 +1,6 @@
 package profile
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +13,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+
 import auth.LoginFragment
+import auth.TokenManager
 import dog.DogAdapter
 import dog.DogModel
 import ru.vsu.cs.tp.paws.R
@@ -29,24 +32,37 @@ class ProfileFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var eventsAdapter: DogAdapter
 
+    private lateinit var tokenManager: TokenManager
+
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        tokenManager = TokenManager(requireContext())
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view: View? = null
+//        var view: View? = null
 
-        if (isAuthorized()) {
-            val view = inflater.inflate(R.layout.fragment_profile, container, false)
+        if (!tokenManager.isTokenValid()) {
+            startLoginFragment()
+        }
 
-            recyclerView = view.findViewById(R.id.recyclerDogs)
+//        if (isAuthorized()) {
+            val viewTe = inflater.inflate(R.layout.fragment_profile, container, false)
+
+            recyclerView = viewTe.findViewById(R.id.recyclerDogs)
             recyclerView.layoutManager = LinearLayoutManager(activity)
 
             eventsAdapter = DogAdapter(getDataDogs() as MutableList<DogModel>)
             recyclerView.adapter = eventsAdapter
 
-            this.addDogButton = view.findViewById(R.id.addDogButton)
-            this.editProfileButton = view.findViewById(R.id.editProfileButton)
-            this.addEventsButton = view.findViewById(R.id.eventsButton)
-            this.exitProfileButton = view.findViewById(R.id.exitButton)
+            this.addDogButton = viewTe.findViewById(R.id.addDogButton)
+            this.editProfileButton = viewTe.findViewById(R.id.editProfileButton)
+            this.addEventsButton = viewTe.findViewById(R.id.eventsButton)
+            this.exitProfileButton = viewTe.findViewById(R.id.exitButton)
 
             addDogButton.setOnClickListener {
                 it.findNavController().navigate(R.id.action_profileFragment_to_dogAddFragment)
@@ -62,12 +78,24 @@ class ProfileFragment : Fragment() {
 
             exitProfileButton.setOnClickListener {
                 Toast.makeText(this.context, "GG", Toast.LENGTH_SHORT).show()
+                //logout
+                it.findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
             }
-        } else {
-            view = LoginFragment().onCreateView(inflater, container, savedInstanceState)
-        }
 
-        return view
+            return viewTe
+//        } else {
+//            view = LoginFragment().onCreateView(inflater, container, savedInstanceState)
+//        }
+
+//        return view
+    }
+
+    private fun startLoginFragment() {
+        val loginFragment = LoginFragment()
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_container, loginFragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     //временные костыли
