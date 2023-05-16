@@ -1,6 +1,7 @@
 package profile
 
-import android.content.Intent
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import auth.LoginFragment
-import auth.TokenManager
 import dog.DogAdapter
 import dog.DogModel
 import ru.vsu.cs.tp.paws.R
@@ -23,6 +23,9 @@ import java.time.LocalDate
 
 
 class ProfileFragment : Fragment() {
+
+    private lateinit var sharedPreferencesToken: SharedPreferences
+    private lateinit var sharedPreferencesLogin: SharedPreferences
 
     private lateinit var addDogButton: Button
     private lateinit var editProfileButton: Button
@@ -32,62 +35,80 @@ class ProfileFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var eventsAdapter: DogAdapter
 
-    private lateinit var tokenManager: TokenManager
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        sharedPreferencesToken = requireActivity().getSharedPreferences("userToken", Context.MODE_PRIVATE)
+        sharedPreferencesLogin = requireActivity().getSharedPreferences("userLogin", Context.MODE_PRIVATE)
 
-        tokenManager = TokenManager(requireContext())
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        var view: View? = null
 
-        if (!tokenManager.isTokenValid()) {
+        println("==================")
+        println(getTokenFromSharedPreferences())
+        println(getLoginFromSharedPreferences())
+        if (getTokenFromSharedPreferences() == "") {
             startLoginFragment()
         }
 
-//        if (isAuthorized()) {
-            val viewTe = inflater.inflate(R.layout.fragment_profile, container, false)
+        val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
-            recyclerView = viewTe.findViewById(R.id.recyclerDogs)
-            recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView = view.findViewById(R.id.recyclerDogs)
+        recyclerView.layoutManager = LinearLayoutManager(activity)
 
-            eventsAdapter = DogAdapter(getDataDogs() as MutableList<DogModel>)
-            recyclerView.adapter = eventsAdapter
+        eventsAdapter = DogAdapter(getDataDogs() as MutableList<DogModel>)
+        recyclerView.adapter = eventsAdapter
 
-            this.addDogButton = viewTe.findViewById(R.id.addDogButton)
-            this.editProfileButton = viewTe.findViewById(R.id.editProfileButton)
-            this.addEventsButton = viewTe.findViewById(R.id.eventsButton)
-            this.exitProfileButton = viewTe.findViewById(R.id.exitButton)
+        this.addDogButton = view.findViewById(R.id.addDogButton)
+        this.editProfileButton = view.findViewById(R.id.editProfileButton)
+        this.addEventsButton = view.findViewById(R.id.eventsButton)
+        this.exitProfileButton = view.findViewById(R.id.exitButton)
 
-            addDogButton.setOnClickListener {
-                it.findNavController().navigate(R.id.action_profileFragment_to_dogAddFragment)
-            }
+        addDogButton.setOnClickListener {
+            it.findNavController().navigate(R.id.action_profileFragment_to_dogAddFragment)
+        }
 
-            addEventsButton.setOnClickListener {
-                it.findNavController().navigate(R.id.action_profileFragment_to_eventsFragment)
-            }
+        addEventsButton.setOnClickListener {
+            it.findNavController().navigate(R.id.action_profileFragment_to_eventsFragment)
+        }
 
-            editProfileButton.setOnClickListener {
-                it.findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
-            }
+        editProfileButton.setOnClickListener {
+            it.findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
+        }
 
-            exitProfileButton.setOnClickListener {
-                Toast.makeText(this.context, "GG", Toast.LENGTH_SHORT).show()
-                //logout
-                it.findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
-            }
+        exitProfileButton.setOnClickListener {
+            Toast.makeText(this.context, "GG", Toast.LENGTH_SHORT).show()
+            clearSharedPreferencesToken()
+            clearSharedPreferencesLogin()
+            it.findNavController().navigate(R.id.profileFragment)
+            it.findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
+        }
 
-            return viewTe
-//        } else {
-//            view = LoginFragment().onCreateView(inflater, container, savedInstanceState)
-//        }
+        return view
+    }
 
-//        return view
+    private fun clearSharedPreferencesToken() {
+        val editor = sharedPreferencesToken.edit()
+        editor.clear()
+        editor.apply()
+    }
+
+    private fun clearSharedPreferencesLogin() {
+        val editor = sharedPreferencesLogin.edit()
+        editor.clear()
+        editor.apply()
+    }
+
+    private fun getTokenFromSharedPreferences(): String {
+        return sharedPreferencesToken.getString("token", "") ?: ""
+    }
+
+    private fun getLoginFromSharedPreferences(): String {
+        return sharedPreferencesLogin.getString("login", "") ?: ""
     }
 
     private fun startLoginFragment() {
@@ -99,9 +120,6 @@ class ProfileFragment : Fragment() {
     }
 
     //временные костыли
-    private fun isAuthorized(): Boolean {
-        return false
-    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getDataDogs(): List<DogModel> {
