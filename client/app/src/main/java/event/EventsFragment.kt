@@ -43,9 +43,9 @@ class EventsFragment : Fragment() {
     private fun getDataEvents(): List<EventsModel> {
         val listEvents: MutableList<EventsModel> = java.util.ArrayList()
         val date: LocalDate = LocalDate.of(2023, 7,24)
-        val dateString = date.year.toString()+ " " + date.month.value.toString() + " " + date.dayOfMonth.toString()
+        val dateString = date.dayOfMonth.toString()+ "." + date.month.value.toString() + "." + date.year.toString()
 
-        listEvents.add(EventsModel(1,"Событие 1", dateString, "Коммент"))
+        listEvents.add(EventsModel(1,"Событие 1", dateString, "guladhsnvyu ghkyusgnefgdjhbg kjhdbcsiuhrstgh khrfkt"))
         listEvents.add(EventsModel(2,"Событие 2", dateString, "Коммент 2"))
 
         return listEvents
