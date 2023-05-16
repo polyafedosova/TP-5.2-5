@@ -15,6 +15,10 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
+import android.app.AlertDialog
+import android.content.DialogInterface
+import androidx.navigation.fragment.findNavController
+
 import auth.LoginFragment
 import dog.DogAdapter
 import dog.DogModel
@@ -35,11 +39,13 @@ class ProfileFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var eventsAdapter: DogAdapter
 
+    private var confirm = false
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        confirm = false
         sharedPreferencesToken = requireActivity().getSharedPreferences("userToken", Context.MODE_PRIVATE)
         sharedPreferencesLogin = requireActivity().getSharedPreferences("userLogin", Context.MODE_PRIVATE)
 
@@ -81,15 +87,33 @@ class ProfileFragment : Fragment() {
         }
 
         exitProfileButton.setOnClickListener {
-            Toast.makeText(this.context, "GG", Toast.LENGTH_SHORT).show()
-            clearSharedPreferencesToken()
-            clearSharedPreferencesLogin()
-            it.findNavController().navigate(R.id.profileFragment)
-            it.findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
+            showExitConfirmationDialog()
         }
 
         return view
     }
+
+    private fun showExitConfirmationDialog() {
+        val alertDialogBuilder = AlertDialog.Builder(requireContext())
+
+        alertDialogBuilder.setTitle("Подтверждение")
+        alertDialogBuilder.setMessage("Вы уверены, что хотите выполнить это действие?")
+
+        alertDialogBuilder.setPositiveButton("Да") { dialogInterface: DialogInterface, i: Int ->
+            Toast.makeText(this.context, "Вы вышли из профиля", Toast.LENGTH_SHORT).show()
+            clearSharedPreferencesToken()
+            clearSharedPreferencesLogin()
+            findNavController().navigate(R.id.profileFragment)
+            findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
+        }
+
+        alertDialogBuilder.setNegativeButton("Нет") { dialogInterface: DialogInterface, i: Int ->
+            confirm = false
+        }
+
+        alertDialogBuilder.create().show()
+    }
+
 
     private fun clearSharedPreferencesToken() {
         val editor = sharedPreferencesToken.edit()
