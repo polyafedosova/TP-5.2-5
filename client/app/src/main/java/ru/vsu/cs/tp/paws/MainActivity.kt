@@ -31,14 +31,12 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun checkAuth() {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        
-    }
+//    private fun checkAuth() {
+//        val retrofit = Retrofit.Builder()
+//            .baseUrl("http://")
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .build()
+//    }
 
 
 }
