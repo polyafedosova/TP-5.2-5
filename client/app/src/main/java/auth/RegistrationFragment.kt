@@ -1,8 +1,7 @@
-package profile
+package auth
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,11 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import dto.OwnerDtoPost
+import interfaces.OwnerApi
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.vsu.cs.tp.paws.R
@@ -45,7 +49,12 @@ class RegistrationFragment : Fragment() {
 
         completeRegistrationButton.setOnClickListener() {
             if (validateFields(userLogin, userName, userPassword, userRepeatPassword)) {
-                // отправляю на сервер
+                try {
+                    if (registration(userLogin, userName, userPassword)){
+                        it.findNavController().popBackStack()
+                    }
+                } catch (e: Exception) { e.stackTrace }
+
             }
         }
 
@@ -54,6 +63,33 @@ class RegistrationFragment : Fragment() {
         }
 
         return view
+    }
+//  login2
+//
+//    Test1@*!
+    private fun registration(login: EditText, name: EditText, password: EditText): Boolean {
+        val api = retrofit.create(OwnerApi::class.java)
+        val dto = OwnerDtoPost(login.text.toString(), password.text.toString(), name.text.toString())
+        var isSuccess = false
+        try {
+            CoroutineScope(Dispatchers.IO).launch {
+                val response = api.saveNewOwner(dto).execute()
+                if (response.isSuccessful) {
+                    println(":D")
+                    isSuccess = true
+                }else{
+                    println("D:")
+                    println(response.message())
+                }
+            }
+        } catch (ex: Exception) {
+            ex.stackTrace
+        }
+        if (isSuccess){
+            Toast.makeText(requireContext(), "Успешно", Toast.LENGTH_SHORT).show()
+        }
+
+        return isSuccess
     }
 
     private fun validateFields(login: EditText, name: EditText, password: EditText, repeatPassword: EditText): Boolean {

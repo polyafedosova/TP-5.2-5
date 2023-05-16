@@ -1,7 +1,8 @@
 package dto
 
-data class OwnerDto (
+data class OwnerDtoPost (
     val username: String,
     val password: String,
     val name: String
+//    val roles:
     )

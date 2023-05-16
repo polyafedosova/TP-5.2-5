@@ -62,6 +62,20 @@
                 android:textSize="16sp" />
 
             <EditText
+                android:id="@+id/adminAddClinicDisription"
+                style="@style/EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_style"
+                android:ems="10"
+                android:maxLength="256"
+                android:hint="Описание"
+                android:inputType="textPersonName"
+                android:textAlignment="textStart"
+                android:textSize="16sp" />
+
+            <EditText
                 android:id="@+id/adminAddClinicCountry"
                 style="@style/EditText"
                 android:layout_width="match_parent"
