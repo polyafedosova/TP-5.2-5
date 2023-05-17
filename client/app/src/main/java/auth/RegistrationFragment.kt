@@ -65,7 +65,7 @@ class RegistrationFragment : Fragment() {
         return view
     }
 //  login2
-//
+
 //    Test1@*!
     private fun registration(login: EditText, name: EditText, password: EditText): Boolean {
         val api = retrofit.create(OwnerApi::class.java)
