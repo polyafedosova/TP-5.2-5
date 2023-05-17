@@ -29,12 +29,6 @@ public class EventService {
         repository.save(event);
     }
 
-    public List<EventDto> getAll() {
-        return repository.findAll()
-                .stream().map(mapper::toDto)
-                .collect(Collectors.toList());
-    }
-
     public void update(Integer id, EventDto eventDto) {
         Event oldEvent = repository.findEventById(id);
         Event event = mapper.toEntity(eventDto);
@@ -46,7 +40,8 @@ public class EventService {
     public void delete(Integer id) {
         repository.delete(repository.findEventById(id));
     }
-    public List<EventDto> find(Integer ownerID) {
+
+    public List<EventDto> getByOwner(Integer ownerID) {
         return repository.findAllByOwner_Id(ownerID)
                 .stream().map(mapper::toDto)
                 .collect(Collectors.toList());

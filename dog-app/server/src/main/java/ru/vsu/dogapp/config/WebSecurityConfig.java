@@ -43,7 +43,7 @@ public class WebSecurityConfig {
                 .antMatchers("/vetclinics/edit/**", "/vetclinic/{vetclinic_id}/treatments/edit/**").hasAnyAuthority("ADMIN")
                 .antMatchers("/owner/{owner_id}/**").authenticated()
                 .antMatchers("/vetclinics/edit/**", "/vetclinic/{vetclinic_id}/treatments/edit/**").authenticated()
-                .antMatchers( "/vetclinics", "/vetclinic/{vetclinic_id}/treatments", "/static/**",
+                .antMatchers( "/vetclinics", "/vetclinics/{id}", "/vetclinic/{vetclinic_id}/treatments", "/static/**",
                         "/registration", "/api/auth/login", "/api/auth/token").permitAll()
 
                 .anyRequest().authenticated()

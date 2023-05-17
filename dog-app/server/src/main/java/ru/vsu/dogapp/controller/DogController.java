@@ -2,7 +2,6 @@ package ru.vsu.dogapp.controller;
 
 import org.springframework.web.bind.annotation.*;
 import ru.vsu.dogapp.dto.DogDto;
-import ru.vsu.dogapp.entity.Dog;
 import ru.vsu.dogapp.service.DogService;
 
 import javax.validation.Valid;
@@ -31,7 +30,7 @@ public class DogController {
         service.delete(id);
     }
     @GetMapping()
-    public List<DogDto> getDogsOwner(@PathVariable Integer owner_id) {
-        return service.find(owner_id);
+    public List<DogDto> getDogs(@PathVariable Integer owner_id) {
+        return service.getByOwner(owner_id);
     }
 }

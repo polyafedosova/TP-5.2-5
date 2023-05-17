@@ -29,12 +29,6 @@ public class TreatmentService {
         repository.save(treatment);
     }
 
-    public List<TreatmentDto> getAll() {
-        return repository.findAll()
-                .stream().map(mapper::toDto)
-                .collect(Collectors.toList());
-    }
-
     public void update(Integer id, TreatmentDto treatmentDto) {
         Treatment oldTreatment = repository.findTreatmentById(id);
         Treatment treatment = mapper.toEntity(treatmentDto);
@@ -46,10 +40,10 @@ public class TreatmentService {
     public void delete(Integer id) {
         repository.delete(repository.findTreatmentById(id));
     }
-    public List<TreatmentDto> find(Integer vetclinicID) {
+
+    public List<TreatmentDto> getByVentclinic(Integer vetclinicID) {
         return repository.findAllByVetclinic_Id(vetclinicID)
                 .stream().map(mapper::toDto)
                 .collect(Collectors.toList());
     }
-
 }
