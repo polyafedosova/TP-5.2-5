@@ -22,6 +22,10 @@ public class VetclinicController {
     public List<VetclinicDto> getAllVetclinic() {
         return service.getAll();
     }
+    @GetMapping("/{id}")
+    public VetclinicDto find(@PathVariable Integer id) {
+        return service.find(id);
+    }
     @PostMapping("/edit/new")
     public void saveNewVetclinic(@Valid  @RequestBody VetclinicDto vetclinic) {
         service.save(vetclinic);

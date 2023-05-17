@@ -2,11 +2,13 @@ package ru.vsu.dogapp.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Data
 public class OwnerDto {
@@ -32,4 +34,6 @@ public class OwnerDto {
     @Pattern(regexp = "^[A-Za-zА-Яа-я0-9\\s]+$",
             message = "Name should be between 3 and 30 characters and contain only letters and digits.")
     private String name;
+    private Set<GrantedAuthority> roles;
+
 }

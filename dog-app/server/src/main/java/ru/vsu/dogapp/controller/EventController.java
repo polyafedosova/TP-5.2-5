@@ -2,7 +2,6 @@ package ru.vsu.dogapp.controller;
 
 import org.springframework.web.bind.annotation.*;
 import ru.vsu.dogapp.dto.EventDto;
-import ru.vsu.dogapp.entity.Event;
 import ru.vsu.dogapp.service.EventService;
 
 import javax.validation.Valid;
@@ -31,7 +30,7 @@ public class EventController {
         service.delete(id);
     }
     @GetMapping()
-    public List<EventDto> getEventsOwner(@PathVariable Integer owner_id) {
-        return service.find(owner_id);
+    public List<EventDto> getEvents(@PathVariable Integer owner_id) {
+        return service.getByOwner(owner_id);
     }
 }

@@ -29,12 +29,6 @@ public class DogService {
         repository.save(dog);
     }
 
-    public List<DogDto> getAll() {
-        return repository.findAll()
-                .stream().map(mapper::toDto)
-                .collect(Collectors.toList());
-    }
-
     public void update(Integer id, DogDto dogDto) {
         Dog oldDog = repository.findDogById(id);
         Dog dog = mapper.toEntity(dogDto);
@@ -47,7 +41,7 @@ public class DogService {
         repository.delete(repository.findDogById(id));
     }
 
-    public List<DogDto> find(Integer ownerID) {
+    public List<DogDto> getByOwner(Integer ownerID) {
         return repository.findAllByOwner_Id(ownerID)
                 .stream().map(mapper::toDto)
                 .collect(Collectors.toList());

@@ -1,10 +1,7 @@
 package ru.vsu.dogapp.controller;
 
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import ru.vsu.dogapp.dto.TreatmentDto;
-import ru.vsu.dogapp.entity.Treatment;
 import ru.vsu.dogapp.service.TreatmentService;
 
 import javax.validation.Valid;
@@ -33,7 +30,7 @@ public class TreatmentController {
         service.delete(id);
     }
     @GetMapping()
-    public List<TreatmentDto> getVetclinicTreatments(@PathVariable Integer vetclinic_id) {
-        return service.find(vetclinic_id);
+    public List<TreatmentDto> getTreatments(@PathVariable Integer vetclinic_id) {
+        return service.getByVentclinic(vetclinic_id);
     }
 }

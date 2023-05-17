@@ -28,5 +28,4 @@ public final class JwtUtils {
                 .map(Role::valueOf)
                 .collect(Collectors.toSet());
     }
-
 }
