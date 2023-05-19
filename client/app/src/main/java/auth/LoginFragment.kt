@@ -11,13 +11,15 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import dto.JwtGet
 import dto.JwtPost
-import interfaces.AuthApi
+import dto.OwnerDtoGet
+import interfaces.AuthInterface
+import interfaces.OwnerInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import profile.ProfileFragment
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.vsu.cs.tp.paws.R
@@ -31,6 +33,7 @@ class LoginFragment : Fragment() {
     private lateinit var userPassword: EditText
     private lateinit var loginButton: Button
     private lateinit var toRegisterButton: Button
+    private var userInfo: OwnerDtoGet? = null
 
     var isSuccess = 0
 
@@ -38,6 +41,7 @@ class LoginFragment : Fragment() {
         .baseUrl("http://10.0.2.2:8080")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,12 +65,13 @@ class LoginFragment : Fragment() {
                     1 -> { Toast.makeText(requireContext(), "Неверный логин", Toast.LENGTH_SHORT).show() }
                     2 -> { Toast.makeText(requireContext(), "Неверный пароль", Toast.LENGTH_SHORT).show() }
                 }
+
             }
 
         }
 
         toRegisterButton.setOnClickListener() {
-            it.findNavController().navigate(R.id.loginFragment)
+//            it.findNavController().navigate(R.id.loginFragment)
             it.findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
         }
 
@@ -87,11 +92,11 @@ class LoginFragment : Fragment() {
     }
 
     private fun startProfileFragment() {
-        val profileFragment = ProfileFragment()
-        val transaction = requireActivity().supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, profileFragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
+        findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
+    }
+
+    private fun startAdminFragment() {
+        findNavController().navigate(R.id.action_loginFragment_to_adminClinicsFragment)
     }
 
     private fun checkInput(login: EditText, password: EditText): Boolean {
@@ -108,10 +113,14 @@ class LoginFragment : Fragment() {
 
         return isValid
     }
+
+
     private fun authorization(login: EditText, password: EditText) {
-        val api = retrofit.create(AuthApi::class.java)
+        val api = retrofit.create(AuthInterface::class.java)
         val dto = JwtPost(login.text.toString(), password.text.toString())
         var data: JwtGet?
+
+        val apiUser = retrofit.create(OwnerInterface::class.java)
 
         try {
             CoroutineScope(Dispatchers.IO).launch {
@@ -119,10 +128,30 @@ class LoginFragment : Fragment() {
                 if (response.isSuccessful) {
                     data = response.body()
                     data?.let { saveTokenToSharedPreferences(it.accessToken) }
-                    saveLoginToSharedPreferences(userLogin.text.toString())
+                    saveLoginToSharedPreferences(login.text.toString())
                     println("L:D")
 
-                    startProfileFragment()
+                    userInfo = apiUser.findByLogin(login.text.toString()).execute().body()
+
+                    if (userInfo?.roles?.contains("ADMIN") == true) {
+                        requireActivity().runOnUiThread {
+                            startAdminFragment()
+                        }
+                    }
+                    if (userInfo?.roles?.contains("USER") == true &&
+                        userInfo?.roles?.contains("ADMIN") == false) {
+                        requireActivity().runOnUiThread {
+                            startProfileFragment()
+//                            val bundle = Bundle()
+//
+//                            userInfo?.id?.let { bundle.putInt("id", it) }
+//                            userInfo?.username?.let { bundle.putString("login", it) }
+//                            userInfo?.password?.let { bundle.putString("password", it) }
+//                            userInfo?.name?.let { bundle.putString("name", it) }
+
+                        }
+                    }
+
 
                     isSuccess = 0
                 }else{
@@ -140,7 +169,6 @@ class LoginFragment : Fragment() {
         } catch (ex: Exception) {
             ex.stackTrace
         }
-
 
     }
 

@@ -23,14 +23,15 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/toolbar_name_text"
+                android:id="@+id/userName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Имя"
                 android:fontFamily="@font/inter"
+                android:text="Имя"
+                android:textAlignment="center"
                 android:textColor="@color/new_purple"
                 android:textSize="30sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/addDogButton"

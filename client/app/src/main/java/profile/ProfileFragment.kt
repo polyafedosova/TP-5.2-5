@@ -17,11 +17,22 @@ import androidx.recyclerview.widget.RecyclerView
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.widget.EditText
+import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 
 import auth.LoginFragment
 import dog.DogAdapter
 import dog.DogModel
+import dto.OwnerDtoGet
+import interfaces.AuthInterface
+import interfaces.OwnerInterface
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import ru.vsu.cs.tp.paws.R
 import java.time.LocalDate
 
@@ -36,16 +47,25 @@ class ProfileFragment : Fragment() {
     private lateinit var addEventsButton: Button
     private lateinit var exitProfileButton: Button
 
+    private var userName:TextView? = null
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var eventsAdapter: DogAdapter
 
-    private var confirm = false
+    private  var userId: Int? = null
+    private  var userLogin: String? = null
+    private  var userPassword: String? = null
+    private  var name: String? = null
 
+
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("http://10.0.2.2:8080")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        confirm = false
         sharedPreferencesToken = requireActivity().getSharedPreferences("userToken", Context.MODE_PRIVATE)
         sharedPreferencesLogin = requireActivity().getSharedPreferences("userLogin", Context.MODE_PRIVATE)
 
@@ -54,10 +74,11 @@ class ProfileFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        println("==================")
-        println(getTokenFromSharedPreferences())
-        println(getLoginFromSharedPreferences())
-        if (getTokenFromSharedPreferences() == "") {
+//        println("==================")
+//        println(getTokenFromSharedPreferences())
+//        println(getLoginFromSharedPreferences())
+
+        if (getTokenFromSharedPreferences() == "" || getLoginFromSharedPreferences() == "") {
             startLoginFragment()
         }
 
@@ -69,10 +90,13 @@ class ProfileFragment : Fragment() {
         eventsAdapter = DogAdapter(getDataDogs() as MutableList<DogModel>)
         recyclerView.adapter = eventsAdapter
 
-        this.addDogButton = view.findViewById(R.id.addDogButton)
-        this.editProfileButton = view.findViewById(R.id.editProfileButton)
-        this.addEventsButton = view.findViewById(R.id.eventsButton)
-        this.exitProfileButton = view.findViewById(R.id.exitButton)
+        addDogButton = view.findViewById(R.id.addDogButton)
+        editProfileButton = view.findViewById(R.id.editProfileButton)
+        addEventsButton = view.findViewById(R.id.eventsButton)
+        exitProfileButton = view.findViewById(R.id.exitButton)
+
+        userName = view.findViewById(R.id.userName)
+        getUserData(getLoginFromSharedPreferences())
 
         addDogButton.setOnClickListener {
             it.findNavController().navigate(R.id.action_profileFragment_to_dogAddFragment)
@@ -93,22 +117,41 @@ class ProfileFragment : Fragment() {
         return view
     }
 
+    private fun getUserData(login: String) {
+        val api = retrofit.create(OwnerInterface::class.java)
+
+        try {
+            CoroutineScope(Dispatchers.IO).launch {
+                val response = api.findByLogin(login).execute()
+                if (response.isSuccessful) {
+                    userId = response.body()?.id
+                    name = response.body()?.name
+                    userPassword = response.body()?.password
+                    userName?.text = name
+                }
+
+            }
+        } catch (ex: Exception) {
+            ex.stackTrace
+        }
+    }
+
     private fun showExitConfirmationDialog() {
         val alertDialogBuilder = AlertDialog.Builder(requireContext())
 
         alertDialogBuilder.setTitle("Подтверждение")
-        alertDialogBuilder.setMessage("Вы уверены, что хотите выполнить это действие?")
+        alertDialogBuilder.setMessage("Вы уверены, что хотите выйти из профиля?")
 
         alertDialogBuilder.setPositiveButton("Да") { dialogInterface: DialogInterface, i: Int ->
             Toast.makeText(this.context, "Вы вышли из профиля", Toast.LENGTH_SHORT).show()
             clearSharedPreferencesToken()
             clearSharedPreferencesLogin()
-            findNavController().navigate(R.id.profileFragment)
-            findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
+//            findNavController().navigate(R.id.profileFragment)
+            startLoginFragment()
         }
 
         alertDialogBuilder.setNegativeButton("Нет") { dialogInterface: DialogInterface, i: Int ->
-            confirm = false
+
         }
 
         alertDialogBuilder.create().show()
@@ -136,11 +179,8 @@ class ProfileFragment : Fragment() {
     }
 
     private fun startLoginFragment() {
-        val loginFragment = LoginFragment()
-        val transaction = requireActivity().supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, loginFragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
+//        findNavController().navigate(R.id.profileFragment)
+        findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
     }
 
     //временные костыли
