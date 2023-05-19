@@ -1,16 +1,19 @@
 package interfaces
 
+import dto.OwnerDtoGet
 import dto.OwnerDtoPost
 import retrofit2.Call
 import retrofit2.http.*
 
-interface OwnerApi {
+interface OwnerInterface {
 //    @GET("owners")
 //    fun getAllOwners(): Call<List<OwnerDto>>
 
-    @POST("owner")
-    fun findByLogin(login: String) : OwnerDtoPost
+    @POST("/owner/{username}")
+    fun findByLogin(@Path ("username") username: String) : Call<OwnerDtoGet>
 
+    @POST("/owner/{owner_id}")
+    fun findById(@Path ("owner_id") id: Int): Call<OwnerDtoGet>
     @POST("registration")
     fun saveNewOwner(@Body owner: OwnerDtoPost): Call<Void>
 

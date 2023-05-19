@@ -9,7 +9,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 
-interface AuthApi {
+interface AuthInterface {
     @GET("api/auth/token")
     fun getToken(): Response
 

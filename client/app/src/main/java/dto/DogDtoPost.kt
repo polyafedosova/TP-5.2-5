@@ -1,10 +1,9 @@
 package dto
 
 import java.util.*
-import kotlin.properties.Delegates
 
 
-data class DogDto (
+data class DogDtoPost (
     var name: String,
     var birthday: Date,
     var sex: Boolean,

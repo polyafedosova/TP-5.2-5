@@ -5,7 +5,7 @@ import dto.TreatmentDtoPost
 import retrofit2.Call
 import retrofit2.http.*
 
-interface TreatmentApi {
+interface TreatmentInterface {
     @POST("/vetclinic/{vetclinic_id}/treatments/new")
     fun saveNewTreatment(@Path("vetclinic_id") vetclinic_id: Int, @Body treatment: TreatmentDtoPost): Call<Void>
 

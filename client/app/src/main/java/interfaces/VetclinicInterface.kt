@@ -5,7 +5,7 @@ import dto.VetclinicDtoPost
 import retrofit2.Call
 import retrofit2.http.*
 
-interface VetclinicApi {
+interface VetclinicInterface {
     @GET("/vetclinics")
     fun getAllVetclinics(): Call<List<VetclinicDtoGet>>
 

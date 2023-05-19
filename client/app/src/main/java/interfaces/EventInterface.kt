@@ -1,10 +1,9 @@
 package interfaces
 
 import dto.EventDto
-import retrofit2.Call
 import retrofit2.http.*
 
-interface EventApi {
+interface EventInterface {
     @POST("/owner/{owner_id}/events/new")
     suspend fun saveNewEvent(@Path("owner_id") ownerId: Int, @Body event: EventDto)
 
