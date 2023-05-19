@@ -13,12 +13,11 @@ import api.ApiVetclinic
 import dto.TreatmentDtoPost
 import dto.VetclinicDtoGet
 import dto.VetclinicDtoPost
-import interfaces.TreatmentApi
-import interfaces.VetclinicApi
+import interfaces.TreatmentInterface
+import interfaces.VetclinicInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import medical.ClinicsAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -89,7 +88,7 @@ class AdminAddClinicFragment : Fragment() {
                           region: EditText, district: EditText, city: EditText, street: EditText,
                           house: EditText, discription: EditText, services: EditText) {
 
-        val api = retrofit.create(VetclinicApi::class.java)
+        val api = retrofit.create(VetclinicInterface::class.java)
         val dto = VetclinicDtoPost(name.text.toString(), phone.text.toString(),
             discription.text.toString(), country.text.toString(), region.text.toString(),
             district.text.toString(), city.text.toString(), street.text.toString(), house.text.toString())
@@ -119,7 +118,7 @@ class AdminAddClinicFragment : Fragment() {
     }
 
     private fun addTreatments(services: EditText) {
-        val api = retrofit.create(TreatmentApi::class.java)
+        val api = retrofit.create(TreatmentInterface::class.java)
 
         val call = ApiVetclinic.service.getAllVetclinics()
         call.enqueue(object : Callback<List<VetclinicDtoGet>> {

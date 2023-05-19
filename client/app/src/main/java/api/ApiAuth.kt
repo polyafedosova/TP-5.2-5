@@ -1,6 +1,6 @@
 package api
 
-import interfaces.AuthApi
+import interfaces.AuthInterface
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -10,5 +10,5 @@ object ApiAuth {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    val service = retrofit.create(AuthApi::class.java)
+    val service = retrofit.create(AuthInterface::class.java)
 }

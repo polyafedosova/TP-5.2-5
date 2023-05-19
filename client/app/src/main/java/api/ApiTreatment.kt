@@ -1,6 +1,6 @@
 package api
 
-import interfaces.TreatmentApi
+import interfaces.TreatmentInterface
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -10,5 +10,5 @@ object ApiTreatment {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    val service = retrofit.create(TreatmentApi::class.java)
+    val service = retrofit.create(TreatmentInterface::class.java)
 }

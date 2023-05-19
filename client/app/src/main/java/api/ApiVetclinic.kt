@@ -1,6 +1,6 @@
 package api
 
-import interfaces.VetclinicApi
+import interfaces.VetclinicInterface
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -10,5 +10,5 @@ object ApiVetclinic {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    val service = retrofit.create(VetclinicApi::class.java)
+    val service = retrofit.create(VetclinicInterface::class.java)
 }

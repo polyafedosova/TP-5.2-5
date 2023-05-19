@@ -1,6 +1,6 @@
 package api
 
-import interfaces.OwnerApi
+import interfaces.OwnerInterface
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -10,5 +10,5 @@ object ApiOwner {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    val service = retrofit.create(OwnerApi::class.java)
+    val service = retrofit.create(OwnerInterface::class.java)
 }

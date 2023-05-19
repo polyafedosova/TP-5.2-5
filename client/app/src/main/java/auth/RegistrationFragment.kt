@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import dto.OwnerDtoPost
-import interfaces.OwnerApi
+import interfaces.OwnerInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -68,7 +68,7 @@ class RegistrationFragment : Fragment() {
 
 //    Test1@*!
     private fun registration(login: EditText, name: EditText, password: EditText): Boolean {
-        val api = retrofit.create(OwnerApi::class.java)
+        val api = retrofit.create(OwnerInterface::class.java)
         val dto = OwnerDtoPost(login.text.toString(), password.text.toString(), name.text.toString())
         var isSuccess = false
         try {

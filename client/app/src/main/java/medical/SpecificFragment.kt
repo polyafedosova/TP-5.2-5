@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import dto.TreatmentDtoGet
-import interfaces.TreatmentApi
+import interfaces.TreatmentInterface
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -55,7 +55,7 @@ class SpecificFragment : Fragment(){
 //        Toast.makeText(this.requireContext(), addressValue, Toast.LENGTH_SHORT).show()
 
 
-        val api = retrofit.create(TreatmentApi::class.java)
+        val api = retrofit.create(TreatmentInterface::class.java)
 
 //        try {
 //            CoroutineScope(Dispatchers.IO).launch {

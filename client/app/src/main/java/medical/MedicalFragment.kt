@@ -17,7 +17,7 @@ import api.ApiVetclinic
 import dto.TreatmentDtoGet
 import dto.VetclinicDtoGet
 
-import interfaces.VetclinicApi
+import interfaces.VetclinicInterface
 import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -61,9 +61,10 @@ class MedicalFragment : Fragment() {
             override fun onResponse(call: Call<List<VetclinicDtoGet>>, response: Response<List<VetclinicDtoGet>>) {
                 if (response.isSuccessful) {
                     val dataResponse = response.body()
+
                     clinicsAdapter = ClinicsAdapter(dataResponse as MutableList<VetclinicDtoGet>)
                     recyclerView.adapter = clinicsAdapter
-                    dataResponse?.let { processData(it) }
+//                    dataResponse.let { processData(it) }
                 } else {
                     println("AAAAAAAAAAAAAAAA")
                 }
@@ -76,7 +77,7 @@ class MedicalFragment : Fragment() {
     }
 
     private fun processData(dataResponse: List<VetclinicDtoGet>) {
-        // Обработка полученных данных
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View {
@@ -178,7 +179,7 @@ class MedicalFragment : Fragment() {
 
         var data: Call<List<VetclinicDtoGet>>? = null
 
-        val service = retrofit.create(VetclinicApi::class.java)
+        val service = retrofit.create(VetclinicInterface::class.java)
 
         GlobalScope.launch(Dispatchers.Main) {
             try {
