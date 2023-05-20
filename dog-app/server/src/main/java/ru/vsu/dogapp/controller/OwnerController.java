@@ -17,12 +17,8 @@ public class OwnerController {
         this.service = service;
     }
 
-    @GetMapping("/owner/{owner_id}")
-    public OwnerDto get(@PathVariable Integer owner_id) {
-        return service.find(owner_id);
-    }
-    @GetMapping("/owner")
-    public OwnerDto get(@RequestBody String username) {
+    @PostMapping("/owner/{username}")
+    public OwnerDto get(@PathVariable String username) {
         return service.find(username);
     }
     @PostMapping("/registration")

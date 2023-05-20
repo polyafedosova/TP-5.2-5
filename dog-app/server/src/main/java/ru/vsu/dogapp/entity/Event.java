@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -23,9 +24,7 @@ public class Event {
     private Integer id;
     @NotEmpty
     private String name;
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
-    private Date date;
+    private LocalDate date;
     private String description;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner")

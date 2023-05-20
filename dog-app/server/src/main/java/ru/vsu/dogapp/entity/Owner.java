@@ -31,7 +31,7 @@ public class Owner implements UserDetails {
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
-    private Set<GrantedAuthority> roles;
+    private Set<Role> roles;
 
     @Override
     public String getUsername() {
