@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import dto.OwnerDtoPost
 import interfaces.OwnerInterface
 import kotlinx.coroutines.CoroutineScope
@@ -50,9 +51,8 @@ class RegistrationFragment : Fragment() {
         completeRegistrationButton.setOnClickListener() {
             if (validateFields(userLogin, userName, userPassword, userRepeatPassword)) {
                 try {
-                    if (registration(userLogin, userName, userPassword)){
-                        it.findNavController().popBackStack()
-                    }
+                    registration(userLogin, userName, userPassword)
+
                 } catch (e: Exception) { e.stackTrace }
 
             }
@@ -76,7 +76,9 @@ class RegistrationFragment : Fragment() {
                 val response = api.saveNewOwner(dto).execute()
                 if (response.isSuccessful) {
                     println(":D")
-                    isSuccess = true
+                    requireActivity().runOnUiThread {
+                        findNavController().popBackStack()
+                    }
                 }else{
                     println("D:")
                     println(response.message())
@@ -85,11 +87,13 @@ class RegistrationFragment : Fragment() {
         } catch (ex: Exception) {
             ex.stackTrace
         }
-        if (isSuccess){
-            Toast.makeText(requireContext(), "Успешно", Toast.LENGTH_SHORT).show()
-        }
 
         return isSuccess
+    }
+
+    private fun startLoginFragment() {
+//        findNavController().navigate(R.id.profileFragment)
+        findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
     }
 
     private fun validateFields(login: EditText, name: EditText, password: EditText, repeatPassword: EditText): Boolean {
