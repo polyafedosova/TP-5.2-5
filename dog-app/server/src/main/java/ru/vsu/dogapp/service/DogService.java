@@ -23,9 +23,9 @@ public class DogService {
         this.mapper = mapper;
     }
 
-    public void save(Integer id, DogDto dogDto) {
+    public void save(String username, DogDto dogDto) {
         Dog dog = mapper.toEntity(dogDto);
-        dog.setOwner(ownerRepository.findOwnerById(id));
+        dog.setOwner(ownerRepository.findByUsername(username));
         repository.save(dog);
     }
 
@@ -41,8 +41,8 @@ public class DogService {
         repository.delete(repository.findDogById(id));
     }
 
-    public List<DogDto> getByOwner(Integer ownerID) {
-        return repository.findAllByOwner_Id(ownerID)
+    public List<DogDto> getByOwner(String username) {
+        return repository.findAllByOwner_Username(username)
                 .stream().map(mapper::toDto)
                 .collect(Collectors.toList());
     }

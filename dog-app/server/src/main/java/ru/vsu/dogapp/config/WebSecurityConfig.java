@@ -35,7 +35,7 @@ public class WebSecurityConfig {
                 .and()
                 .authorizeHttpRequests()
                 .antMatchers("/swagger-ui.html", "/swagger-ui/**", "/v2/api-docs", "/swagger-resources/**", "/webjars/**").permitAll()
-                .antMatchers("/owner/{owner_id}/**", "/owner/{username}").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers("/owner/{username}/**", "/owner/{username}").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers("/vetclinics/edit/**", "/vetclinic/{vetclinic_id}/treatments/edit/**").hasAnyAuthority("ADMIN")
                 .antMatchers( "/vetclinics", "/vetclinics/{id}", "/vetclinic/{vetclinic_id}/treatments",
                         "/registration", "/api/auth/login", "/api/auth/token").permitAll()

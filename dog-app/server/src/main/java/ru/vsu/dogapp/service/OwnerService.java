@@ -14,8 +14,6 @@ import ru.vsu.dogapp.repository.EventRepository;
 import ru.vsu.dogapp.repository.OwnerRepository;
 
 import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class OwnerService implements UserDetailsService {
@@ -54,8 +52,8 @@ public class OwnerService implements UserDetailsService {
         return true;
     }
 
-    public void update(Integer id, OwnerDto ownerDto) {
-        Owner oldOwner = repository.findOwnerById(id);
+    public void update(String username, OwnerDto ownerDto) {
+        Owner oldOwner = repository.findByUsername(username);
         Owner newOwner = mapper.toEntity(ownerDto);
         newOwner.setId(oldOwner.getId());
         newOwner.setPassword(bCryptPasswordEncoder.encode(newOwner.getPassword()));
@@ -63,8 +61,8 @@ public class OwnerService implements UserDetailsService {
         repository.save(newOwner);
     }
 
-    public void updatePassword(Integer id, String oldPassword, String newPassword) {
-        Owner owner = repository.findOwnerById(id);
+    public void updatePassword(String username, String oldPassword, String newPassword) {
+        Owner owner = repository.findByUsername(username);
         if (bCryptPasswordEncoder.encode(oldPassword).equals(owner.getPassword())) {
             owner.setPassword(bCryptPasswordEncoder.encode(newPassword));
         } else {
@@ -72,10 +70,10 @@ public class OwnerService implements UserDetailsService {
         }
     }
 
-    public void delete(Integer id) {
-        dogRepository.deleteAll(dogRepository.findAllByOwner_Id(id));
-        eventRepository.deleteAll(eventRepository.findAllByOwner_Id(id));
-        repository.delete(repository.findOwnerById(id));
+    public void delete(String username) {
+        dogRepository.deleteAll(dogRepository.findAllByOwner_Username(username));
+        eventRepository.deleteAll(eventRepository.findAllByOwner_Username(username));
+        repository.delete(repository.findByUsername(username));
     }
 
     public OwnerDto find(String username) {

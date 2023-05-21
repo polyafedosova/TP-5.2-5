@@ -8,7 +8,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/owner/{owner_id}/events")
+@RequestMapping("/owner/{username}/events")
 public class EventController {
 
     private final EventService service;
@@ -18,19 +18,19 @@ public class EventController {
     }
 
     @PostMapping("/new")
-    public void saveNewEvent(@PathVariable Integer owner_id, @Valid @RequestBody EventDto event) {
-        service.save(owner_id, event);
+    public void saveNewEvent(@PathVariable String username, @Valid @RequestBody EventDto event) {
+        service.save(username, event);
     }
     @PutMapping("/{id}/update")
-    public void updateEvent(@PathVariable Integer id, @Valid @RequestBody EventDto event) {
+    public void updateEvent(@PathVariable Integer id, @Valid @RequestBody EventDto event, @PathVariable String username) {
         service.update(id, event);
     }
     @DeleteMapping("/{id}/delete")
-    public void deleteEvent(@PathVariable Integer id) {
+    public void deleteEvent(@PathVariable Integer id, @PathVariable String username) {
         service.delete(id);
     }
     @GetMapping()
-    public List<EventDto> getEvents(@PathVariable Integer owner_id) {
-        return service.getByOwner(owner_id);
+    public List<EventDto> getEvents(@PathVariable String username) {
+        return service.getByOwner(username);
     }
 }

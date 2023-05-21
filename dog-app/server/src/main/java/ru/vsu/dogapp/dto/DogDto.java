@@ -2,12 +2,10 @@ package ru.vsu.dogapp.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
 
 @Data
 public class DogDto {
@@ -27,4 +25,18 @@ public class DogDto {
     @Pattern(regexp = "^[а-яА-Я\\-\\s]+$",
             message = "Breed should be between 2 and 60 characters and contain only russian letters.")
     private String breed;
+
+    public void setBirthday(String birthday) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        this.birthday = LocalDate.parse(birthday, formatter);
+    }
+
+    public DogDto(Integer id, String name, String birthday, Boolean sex, String breed) {
+        this.id = id;
+        this.name = name;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        this.birthday = LocalDate.parse(birthday, formatter);
+        this.sex = sex;
+        this.breed = breed;
+    }
 }

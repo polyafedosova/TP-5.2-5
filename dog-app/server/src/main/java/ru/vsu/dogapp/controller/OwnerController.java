@@ -2,11 +2,9 @@ package ru.vsu.dogapp.controller;
 
 import org.springframework.web.bind.annotation.*;
 import ru.vsu.dogapp.dto.OwnerDto;
-import ru.vsu.dogapp.entity.Owner;
 import ru.vsu.dogapp.service.OwnerService;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 public class OwnerController {
@@ -25,16 +23,16 @@ public class OwnerController {
     public void saveNewOwner(@Valid  @RequestBody OwnerDto owner) {
         service.save(owner);
     }
-    @PutMapping("/owner/{owner_id}/update")
-    public void updateOwner(@PathVariable Integer owner_id, @Valid @RequestBody OwnerDto owner) {
-        service.update(owner_id, owner);
+    @PutMapping("/owner/{username}/update")
+    public void updateOwner(@PathVariable String username, @Valid @RequestBody OwnerDto owner) {
+        service.update(username, owner);
     }
-    @PutMapping("/owner/{owner_id}/update/password")
-    public void updateOwner(@PathVariable Integer owner_id, @RequestBody String oldPassword, @RequestBody String newPassword) {
-        service.updatePassword(owner_id, oldPassword, newPassword);
+    @PutMapping("/owner/{username}/update/password")
+    public void updatePassword(@PathVariable String username, @RequestBody String oldPassword, @RequestBody String newPassword) {
+        service.updatePassword(username, oldPassword, newPassword);
     }
-    @DeleteMapping("/owner/{owner_id}/delete")
-    public void deleteOwner(@PathVariable Integer owner_id) {
-        service.delete(owner_id);
+    @DeleteMapping("/owner/{username}/delete")
+    public void deleteOwner(@PathVariable String username) {
+        service.delete(username);
     }
 }

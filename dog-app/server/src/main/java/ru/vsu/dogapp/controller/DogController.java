@@ -8,7 +8,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/owner/{owner_id}/dogs")
+@RequestMapping("/owner/{username}/dogs")
 public class DogController {
 
     private final DogService service;
@@ -18,19 +18,20 @@ public class DogController {
     }
 
     @PostMapping("/new")
-    public void saveNewDog(@PathVariable Integer owner_id, @Valid @RequestBody DogDto dog) {
-        service.save(owner_id, dog);
+    public void saveNewDog(@PathVariable String username, @Valid @RequestBody DogDto dog) {
+        System.out.println(dog);
+        service.save(username, dog);
     }
     @PutMapping("/{id}/update")
-    public void updateDog(@PathVariable Integer id, @Valid @RequestBody DogDto dog) {
+    public void updateDog(@PathVariable Integer id, @Valid @RequestBody DogDto dog, @PathVariable String username) {
         service.update(id, dog);
     }
     @DeleteMapping("/{id}/delete")
-    public void deleteDog(@PathVariable Integer id) {
+    public void deleteDog(@PathVariable Integer id, @PathVariable String username) {
         service.delete(id);
     }
     @GetMapping()
-    public List<DogDto> getDogs(@PathVariable Integer owner_id) {
-        return service.getByOwner(owner_id);
+    public List<DogDto> getDogs(@PathVariable String username) {
+        return service.getByOwner(username);
     }
 }

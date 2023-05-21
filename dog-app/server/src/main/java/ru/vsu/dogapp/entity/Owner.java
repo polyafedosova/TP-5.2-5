@@ -1,13 +1,12 @@
 package ru.vsu.dogapp.entity;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.vsu.dogapp.entity.type.Role;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
 import java.util.Set;
 
