@@ -10,7 +10,7 @@ interface OwnerInterface {
 //    fun getAllOwners(): Call<List<OwnerDto>>
 
     @POST("/owner/{username}")
-    fun findByLogin(@Path ("username") username: String) : Call<OwnerDtoGet>
+    fun findByLogin(@Path ("username") username: String, @HeaderMap headers: Map<String, String>) : Call<OwnerDtoGet>
 
     @POST("/owner/{owner_id}")
     fun findById(@Path ("owner_id") id: Int): Call<OwnerDtoGet>

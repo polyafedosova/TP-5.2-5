@@ -20,9 +20,13 @@ import interfaces.OwnerInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.vsu.cs.tp.paws.R
+import java.util.concurrent.atomic.AtomicReference
 
 class LoginFragment : Fragment() {
 
@@ -78,6 +82,9 @@ class LoginFragment : Fragment() {
         return view
     }
 
+    private fun getLoginFromSharedPreferences(): String {
+        return sharedPreferencesLogin.getString("login", "") ?: ""
+    }
 
     private fun saveTokenToSharedPreferences(value: String) {
         val editor = sharedPreferencesToken.edit()
@@ -93,10 +100,6 @@ class LoginFragment : Fragment() {
 
     private fun startProfileFragment() {
         findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
-    }
-
-    private fun startAdminFragment() {
-        findNavController().navigate(R.id.action_loginFragment_to_adminClinicsFragment)
     }
 
     private fun checkInput(login: EditText, password: EditText): Boolean {
@@ -119,6 +122,7 @@ class LoginFragment : Fragment() {
         val api = retrofit.create(AuthInterface::class.java)
         val dto = JwtPost(login.text.toString(), password.text.toString())
         var data: JwtGet?
+        var token: String? = "err"
 
         val apiUser = retrofit.create(OwnerInterface::class.java)
 
@@ -127,43 +131,29 @@ class LoginFragment : Fragment() {
                 val response = api.login(dto).execute()
                 if (response.isSuccessful) {
                     data = response.body()
-                    data?.let { saveTokenToSharedPreferences(it.accessToken) }
+                    data?.let {
+                        saveTokenToSharedPreferences(it.accessToken)
+//                        token = getLoginFromSharedPreferences()
+//                        println("Токен - " + token)
+                    }
                     saveLoginToSharedPreferences(login.text.toString())
-                    println("L:D")
 
-                    userInfo = apiUser.findByLogin(login.text.toString()).execute().body()
-
-                    if (userInfo?.roles?.contains("ADMIN") == true) {
-                        requireActivity().runOnUiThread {
-                            startAdminFragment()
-                        }
-                    }
-                    if (userInfo?.roles?.contains("USER") == true &&
-                        userInfo?.roles?.contains("ADMIN") == false) {
-                        requireActivity().runOnUiThread {
+                    requireActivity().runOnUiThread {
                             startProfileFragment()
-//                            val bundle = Bundle()
-//
-//                            userInfo?.id?.let { bundle.putInt("id", it) }
-//                            userInfo?.username?.let { bundle.putString("login", it) }
-//                            userInfo?.password?.let { bundle.putString("password", it) }
-//                            userInfo?.name?.let { bundle.putString("name", it) }
-
-                        }
                     }
 
+//                    if (userInfo?.roles?.contains("ADMIN") == true) {
+//                        requireActivity().runOnUiThread {
+//                            startAdminFragment()
+//                        }
+//                    }
+//                    if (userInfo?.roles?.contains("USER") == true &&
+//                        userInfo?.roles?.contains("ADMIN") == false) {
+//                        requireActivity().runOnUiThread {
+//                            startProfileFragment()
+//                        }
+//                    }
 
-                    isSuccess = 0
-                }else{
-                    println(response.code())
-                    if (response.code() == 403) {
-                        isSuccess = 1
-                    }
-                    if (response.code() == 500) {
-                        isSuccess = 2
-                    }
-                    println("D:L")
-                    println(response.message())
                 }
             }
         } catch (ex: Exception) {

@@ -17,19 +17,22 @@ import androidx.recyclerview.widget.RecyclerView
 
 import android.app.AlertDialog
 import android.content.DialogInterface
-import android.widget.EditText
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
+import api.ApiDog
 
-import auth.LoginFragment
 import dog.DogAdapter
 import dog.DogModel
-import dto.OwnerDtoGet
+import dto.DogDtoGet
+import dto.VetclinicDtoGet
 import interfaces.AuthInterface
 import interfaces.OwnerInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import medical.ClinicsAdapter
+import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -49,11 +52,11 @@ class ProfileFragment : Fragment() {
 
     private var userName:TextView? = null
 
+
     private lateinit var recyclerView: RecyclerView
-    private lateinit var eventsAdapter: DogAdapter
+    private var dogsAdapter: DogAdapter? = null
 
     private  var userId: Int? = null
-    private  var userLogin: String? = null
     private  var userPassword: String? = null
     private  var name: String? = null
 
@@ -69,14 +72,40 @@ class ProfileFragment : Fragment() {
         sharedPreferencesToken = requireActivity().getSharedPreferences("userToken", Context.MODE_PRIVATE)
         sharedPreferencesLogin = requireActivity().getSharedPreferences("userLogin", Context.MODE_PRIVATE)
 
+        getUserData(getLoginFromSharedPreferences(), getTokenFromSharedPreferences())
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val call = ApiDog.service.getDogsOwner(userId)
+
+        call.enqueue(object : Callback<List<DogDtoGet>> {
+            override fun onResponse(call: Call<List<DogDtoGet>>, response: Response<List<DogDtoGet>>) {
+                if (response.isSuccessful) {
+                    val dataResponse = response.body()
+                    println(dataResponse)
+                    dogsAdapter = DogAdapter(dataResponse as MutableList<DogDtoGet>)
+                    recyclerView.adapter = dogsAdapter
+//                    dataResponse.let { processData(it) }
+                } else {
+                    println("Не успешно")
+                }
+            }
+
+            override fun onFailure(call: Call<List<DogDtoGet>>, t: Throwable) {
+                println("Ошибка")
+                println(t)
+            }
+        })
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-//        println("==================")
-//        println(getTokenFromSharedPreferences())
-//        println(getLoginFromSharedPreferences())
+        println("==================")
+        println(getTokenFromSharedPreferences())
+        println(getLoginFromSharedPreferences())
 
         if (getTokenFromSharedPreferences() == "" || getLoginFromSharedPreferences() == "") {
             startLoginFragment()
@@ -87,8 +116,9 @@ class ProfileFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recyclerDogs)
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        eventsAdapter = DogAdapter(getDataDogs() as MutableList<DogModel>)
-        recyclerView.adapter = eventsAdapter
+
+
+//        recyclerView.adapter = eventsAdapter
 
         addDogButton = view.findViewById(R.id.addDogButton)
         editProfileButton = view.findViewById(R.id.editProfileButton)
@@ -96,10 +126,13 @@ class ProfileFragment : Fragment() {
         exitProfileButton = view.findViewById(R.id.exitButton)
 
         userName = view.findViewById(R.id.userName)
-        getUserData(getLoginFromSharedPreferences())
+        getUserName(getLoginFromSharedPreferences(), getTokenFromSharedPreferences())
 
         addDogButton.setOnClickListener {
-            it.findNavController().navigate(R.id.action_profileFragment_to_dogAddFragment)
+            val bundle = Bundle()
+
+            userId?.let { it1 -> bundle.putInt("id", it1) }
+            it.findNavController().navigate(R.id.action_profileFragment_to_dogAddFragment, bundle)
         }
 
         addEventsButton.setOnClickListener {
@@ -117,17 +150,62 @@ class ProfileFragment : Fragment() {
         return view
     }
 
-    private fun getUserData(login: String) {
+    private fun startAdminFragment() {
+        findNavController().navigate(R.id.action_profileFragment_to_adminClinicsFragment)
+    }
+
+    private fun getUserData(login: String, token: String) {
         val api = retrofit.create(OwnerInterface::class.java)
 
+        val headers = HashMap<String, String>()
+        headers["Authorization"] = "Bearer $token"
         try {
             CoroutineScope(Dispatchers.IO).launch {
-                val response = api.findByLogin(login).execute()
+
+                val response = api.findByLogin(login, headers).execute()
+
                 if (response.isSuccessful) {
                     userId = response.body()?.id
-                    name = response.body()?.name
                     userPassword = response.body()?.password
-                    userName?.text = name
+                    name = response.body()?.name
+
+                    println(response.body())
+
+                    if (response.body()?.roles?.contains("ADMIN") == true) {
+                        requireActivity().runOnUiThread {
+                           startAdminFragment()
+                        }
+                    }
+//                    if (response.body()?.roles?.contains("USER") == true &&
+//                        response.body()?.roles?.contains("ADMIN") == false) {
+//                        requireActivity().runOnUiThread {
+//
+//                        }
+//                    }
+                } else {
+                    requireActivity().runOnUiThread {
+                        startLoginFragment()
+                    }
+                    println("D:")
+                }
+
+
+            }
+        } catch (ex: Exception) {
+            ex.stackTrace
+        }
+    }
+
+    private fun getUserName(login: String, token: String) {
+        val api = retrofit.create(OwnerInterface::class.java)
+
+        val headers = HashMap<String, String>()
+        headers["Authorization"] = "Bearer $token"
+        try {
+            CoroutineScope(Dispatchers.IO).launch {
+                val response = api.findByLogin(login, headers).execute()
+                if (response.isSuccessful) {
+                    userName?.text = response.body()?.name
                 }
 
             }

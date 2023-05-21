@@ -5,6 +5,6 @@ data class OwnerDtoGet (
     val username: String,
     val password: String,
     val name: String,
-    val roles: List<String>
+    val roles: Set<String>
         )
 
