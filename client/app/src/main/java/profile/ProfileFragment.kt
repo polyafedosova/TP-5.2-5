@@ -78,7 +78,11 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val call = ApiDog.service.getDogsOwner(userId)
+        val token = getTokenFromSharedPreferences()
+        val headers = HashMap<String, String>()
+        headers["Authorization"] = "Bearer $token"
+
+        val call = ApiDog.service.getDogsOwner(getLoginFromSharedPreferences(), headers)
 
         call.enqueue(object : Callback<List<DogDtoGet>> {
             override fun onResponse(call: Call<List<DogDtoGet>>, response: Response<List<DogDtoGet>>) {
@@ -87,7 +91,7 @@ class ProfileFragment : Fragment() {
                     println(dataResponse)
                     dogsAdapter = DogAdapter(dataResponse as MutableList<DogDtoGet>)
                     recyclerView.adapter = dogsAdapter
-//                    dataResponse.let { processData(it) }
+
                 } else {
                     println("Не успешно")
                 }
@@ -117,7 +121,6 @@ class ProfileFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
 
-
 //        recyclerView.adapter = eventsAdapter
 
         addDogButton = view.findViewById(R.id.addDogButton)
@@ -129,10 +132,7 @@ class ProfileFragment : Fragment() {
         getUserName(getLoginFromSharedPreferences(), getTokenFromSharedPreferences())
 
         addDogButton.setOnClickListener {
-            val bundle = Bundle()
-
-            userId?.let { it1 -> bundle.putInt("id", it1) }
-            it.findNavController().navigate(R.id.action_profileFragment_to_dogAddFragment, bundle)
+            it.findNavController().navigate(R.id.action_profileFragment_to_dogAddFragment)
         }
 
         addEventsButton.setOnClickListener {
@@ -154,6 +154,8 @@ class ProfileFragment : Fragment() {
         findNavController().navigate(R.id.action_profileFragment_to_adminClinicsFragment)
     }
 
+
+
     private fun getUserData(login: String, token: String) {
         val api = retrofit.create(OwnerInterface::class.java)
 
@@ -165,9 +167,10 @@ class ProfileFragment : Fragment() {
                 val response = api.findByLogin(login, headers).execute()
 
                 if (response.isSuccessful) {
-                    userId = response.body()?.id
+//                    userId = response.body()?.id
                     userPassword = response.body()?.password
                     name = response.body()?.name
+
 
                     println(response.body())
 
@@ -195,6 +198,8 @@ class ProfileFragment : Fragment() {
             ex.stackTrace
         }
     }
+
+
 
     private fun getUserName(login: String, token: String) {
         val api = retrofit.create(OwnerInterface::class.java)
@@ -224,6 +229,7 @@ class ProfileFragment : Fragment() {
             Toast.makeText(this.context, "Вы вышли из профиля", Toast.LENGTH_SHORT).show()
             clearSharedPreferencesToken()
             clearSharedPreferencesLogin()
+//            clearSharedPreferencesId()
 //            findNavController().navigate(R.id.profileFragment)
             startLoginFragment()
         }
@@ -257,22 +263,8 @@ class ProfileFragment : Fragment() {
     }
 
     private fun startLoginFragment() {
-//        findNavController().navigate(R.id.profileFragment)
-        findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
-    }
-
-    //временные костыли
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun getDataDogs(): List<DogModel> {
-        val listDogs: MutableList<DogModel> = java.util.ArrayList()
-        val date: LocalDate = LocalDate.of(2015, 7,24)
-        val dateString = date.year.toString()+ " " + date.month.value.toString() + " " + date.dayOfMonth.toString()
-
-        listDogs.add(DogModel(1,"Собака 1", dateString, "Порода 1"))
-        listDogs.add(DogModel(2,"Собака 2", dateString, "Порода 2"))
-
-        return listDogs
+        findNavController().navigate(R.id.loginFragment)
+//        findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
     }
 
 }

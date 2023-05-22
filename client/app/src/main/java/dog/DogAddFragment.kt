@@ -45,7 +45,6 @@ class DogAddFragment : Fragment() {
 
     private lateinit var sharedPreferencesToken: SharedPreferences
     private lateinit var sharedPreferencesLogin: SharedPreferences
-//    private lateinit var sharedPreferencesId: SharedPreferences
 
     private val retrofit = Retrofit.Builder()
         .baseUrl("http://10.0.2.2:8080")
@@ -56,9 +55,6 @@ class DogAddFragment : Fragment() {
         super.onCreate(savedInstanceState)
         sharedPreferencesLogin = requireActivity().getSharedPreferences("userLogin", Context.MODE_PRIVATE)
         sharedPreferencesToken = requireActivity().getSharedPreferences("userToken", Context.MODE_PRIVATE)
-//        sharedPreferencesId = requireActivity().getSharedPreferences("userId", Context.MODE_PRIVATE)
-
-//        getUserId(getLoginFromSharedPreferences(), getTokenFromSharedPreferences())
     }
 
 
@@ -118,12 +114,10 @@ class DogAddFragment : Fragment() {
     @SuppressLint("SimpleDateFormat")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun addDog(name: EditText, birthday: EditText, breed: EditText, sex: Int) {
-
         var ansSex = true
         if (sex == 0) {
                 ansSex = false
         }
-        println(ansSex)
 
         val token = getTokenFromSharedPreferences()
         val headers = HashMap<String, String>()

@@ -24,8 +24,11 @@ class DogAdapter (_newDogs: MutableList<DogDtoGet>) : RecyclerView.Adapter<DogAd
         holder.dogData.text = newDog[position].birthday
         holder.dogBreed.text = newDog[position].breed
 
+//        println("adapter id - " + newDog[position].id)
+
         val bundle = Bundle()
 
+        bundle.putBoolean("sex", newDog[position].sex)
         bundle.putInt("id", newDog[position].id)
         bundle.putString("name", newDog[position].name)
         bundle.putString("date", newDog[position].birthday)

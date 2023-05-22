@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:maxLength="12"
-                android:hint="Дата рождения"
+                android:hint="Дата рождения(dd.MM.yyyy)"
                 android:inputType="date"
                 android:layout_marginTop="20dp"
                 android:textAlignment="textStart"
