@@ -55,7 +55,6 @@ class MedicalFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Выполнение запроса к серверу
         val call = ApiVetclinic.service.getAllVetclinics()
         call.enqueue(object : Callback<List<VetclinicDtoGet>> {
             override fun onResponse(call: Call<List<VetclinicDtoGet>>, response: Response<List<VetclinicDtoGet>>) {

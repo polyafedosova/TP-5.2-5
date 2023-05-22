@@ -30,7 +30,7 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>) : RecyclerView.A
 
     @SuppressLint("SetTextI18n", "SuspiciousIndentation")
     override fun onBindViewHolder(holder: ClinicsViewHolder, position: Int) {
-
+//        println(newClinics)
 
         holder.clinicsTitle.text = newClinics[position].name
         holder.clinicsAddress.text = newClinics[position].street + " " +newClinics[position].house
