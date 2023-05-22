@@ -39,6 +39,8 @@ android {
 
 dependencies {
 
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
+
     implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
     implementation 'com.google.code.gson:gson:2.8.8'
 
