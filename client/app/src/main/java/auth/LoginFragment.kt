@@ -32,6 +32,7 @@ class LoginFragment : Fragment() {
 
     private lateinit var sharedPreferencesToken: SharedPreferences
     private lateinit var sharedPreferencesLogin: SharedPreferences
+    private lateinit var sharedPreferencesId: SharedPreferences
 
     private lateinit var userLogin: EditText
     private lateinit var userPassword: EditText
@@ -51,6 +52,7 @@ class LoginFragment : Fragment() {
         super.onCreate(savedInstanceState)
         sharedPreferencesToken = requireActivity().getSharedPreferences("userToken", Context.MODE_PRIVATE)
         sharedPreferencesLogin = requireActivity().getSharedPreferences("userLogin", Context.MODE_PRIVATE)
+        sharedPreferencesId = requireActivity().getSharedPreferences("userId", Context.MODE_PRIVATE)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -86,6 +88,10 @@ class LoginFragment : Fragment() {
         return sharedPreferencesLogin.getString("login", "") ?: ""
     }
 
+    private fun getTokenFromSharedPreferences(): String {
+        return sharedPreferencesLogin.getString("login", "") ?: ""
+    }
+
     private fun saveTokenToSharedPreferences(value: String) {
         val editor = sharedPreferencesToken.edit()
         editor.putString("token", value)
@@ -95,6 +101,12 @@ class LoginFragment : Fragment() {
     private fun saveLoginToSharedPreferences(value: String) {
         val editor = sharedPreferencesLogin.edit()
         editor.putString("login", value)
+        editor.apply()
+    }
+
+    private fun saveIdToSharedPreferences(value: String) {
+        val editor = sharedPreferencesId.edit()
+        editor.putString("id", value)
         editor.apply()
     }
 
@@ -117,14 +129,29 @@ class LoginFragment : Fragment() {
         return isValid
     }
 
+    private fun saveUserId(login: String, token: String) {
+        val api = retrofit.create(OwnerInterface::class.java)
+
+        val headers = HashMap<String, String>()
+        headers["Authorization"] = "Bearer $token"
+        try {
+            CoroutineScope(Dispatchers.IO).launch {
+                val response = api.findByLogin(login, headers).execute()
+                if (response.isSuccessful) {
+                    println("response = " + response.body())
+//                    saveIdToSharedPreferences(response.body()?.id.toString())
+                }
+
+            }
+        } catch (ex: Exception) {
+            ex.stackTrace
+        }
+    }
 
     private fun authorization(login: EditText, password: EditText) {
         val api = retrofit.create(AuthInterface::class.java)
         val dto = JwtPost(login.text.toString(), password.text.toString())
         var data: JwtGet?
-        var token: String? = "err"
-
-        val apiUser = retrofit.create(OwnerInterface::class.java)
 
         try {
             CoroutineScope(Dispatchers.IO).launch {
@@ -133,26 +160,18 @@ class LoginFragment : Fragment() {
                     data = response.body()
                     data?.let {
                         saveTokenToSharedPreferences(it.accessToken)
-//                        token = getLoginFromSharedPreferences()
-//                        println("Токен - " + token)
                     }
+
                     saveLoginToSharedPreferences(login.text.toString())
+
+//                    println("L token - " + data?.accessToken)
+//                    println("L login - " + getLoginFromSharedPreferences())
+//
+//                    saveUserId(getLoginFromSharedPreferences(), data?.accessToken.toString())
 
                     requireActivity().runOnUiThread {
                             startProfileFragment()
                     }
-
-//                    if (userInfo?.roles?.contains("ADMIN") == true) {
-//                        requireActivity().runOnUiThread {
-//                            startAdminFragment()
-//                        }
-//                    }
-//                    if (userInfo?.roles?.contains("USER") == true &&
-//                        userInfo?.roles?.contains("ADMIN") == false) {
-//                        requireActivity().runOnUiThread {
-//                            startProfileFragment()
-//                        }
-//                    }
 
                 }
             }
