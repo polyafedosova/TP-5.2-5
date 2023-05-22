@@ -51,10 +51,11 @@ class EditDogFragment : Fragment() {
 
         val nameValue = requireArguments().getString("name")
         val idValue = requireArguments().getInt("id")
-        var dateValue = requireArguments().getString("data")
+        var dateValue = requireArguments().getString("date")
         val breedValue = requireArguments().getString("breed")
 
-        dateValue = dateValue?.replace(" ", ".")
+        dateValue = dateValue?.replace("-", ".")
+        println("date - " + dateValue)
 
         newDogName.setText(nameValue)
         newDogBurnDate.setText(dateValue)

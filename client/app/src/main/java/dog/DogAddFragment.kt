@@ -1,5 +1,8 @@
 package dog
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,9 +12,24 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import dto.DogDtoPost
+import dto.OwnerDtoGet
+import interfaces.DogInterface
+import interfaces.OwnerInterface
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import ru.vsu.cs.tp.paws.R
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.Date
 
 
 class DogAddFragment : Fragment() {
@@ -23,13 +41,37 @@ class DogAddFragment : Fragment() {
     private lateinit var completeButton: Button
     private lateinit var cancelButton: Button
 
-    private var chosenSex = 0
+    private var chosenSex = 1
+
+    private lateinit var sharedPreferencesToken: SharedPreferences
+    private lateinit var sharedPreferencesLogin: SharedPreferences
+//    private lateinit var sharedPreferencesId: SharedPreferences
+
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("http://10.0.2.2:8080")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedPreferencesLogin = requireActivity().getSharedPreferences("userLogin", Context.MODE_PRIVATE)
+        sharedPreferencesToken = requireActivity().getSharedPreferences("userToken", Context.MODE_PRIVATE)
+//        sharedPreferencesId = requireActivity().getSharedPreferences("userId", Context.MODE_PRIVATE)
+
+//        getUserId(getLoginFromSharedPreferences(), getTokenFromSharedPreferences())
+    }
 
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val view = inflater.inflate(R.layout.fragment_dog_add, container, false)
+
+
+
+        println("==========================")
+        println(getLoginFromSharedPreferences())
+        println(getTokenFromSharedPreferences())
 
         cancelButton = view.findViewById(R.id.cancelButton)
         completeButton = view.findViewById(R.id.completeButton)
@@ -45,11 +87,15 @@ class DogAddFragment : Fragment() {
 
         autoCompleteSex.setOnItemClickListener { adapterView, view, i, l ->
             chosenSex = adapterView.getItemIdAtPosition(i).toInt()
+            println(chosenSex)
         }
 
         completeButton.setOnClickListener {
+            println("chose - " + chosenSex)
             if (validate(dogName, dogBurnDate, breed)) {
-//                println(chosenSex)
+
+                addDog(dogName, dogBurnDate, breed, chosenSex)
+
             }
         }
 
@@ -58,6 +104,78 @@ class DogAddFragment : Fragment() {
         }
 
         return view
+    }
+
+    private fun getTokenFromSharedPreferences(): String {
+        return sharedPreferencesToken.getString("token", "") ?: ""
+    }
+
+    private fun getLoginFromSharedPreferences(): String {
+        return sharedPreferencesLogin.getString("login", "") ?: ""
+    }
+
+
+    @SuppressLint("SimpleDateFormat")
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun addDog(name: EditText, birthday: EditText, breed: EditText, sex: Int) {
+
+        var ansSex = true
+        if (sex == 0) {
+                ansSex = false
+        }
+        println(ansSex)
+
+        val token = getTokenFromSharedPreferences()
+        val headers = HashMap<String, String>()
+        headers["Authorization"] = "Bearer $token"
+
+        val api = retrofit.create(DogInterface::class.java)
+
+        val format = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+
+        try {
+            var dateString = "1212-12-12"
+
+            val parseDate = LocalDate.parse(birthday.text.toString(), format)
+
+            if (parseDate.monthValue < 10 && parseDate.dayOfMonth < 10) {
+                dateString = parseDate.year.toString() + "-" + "0" + parseDate.monthValue.toString() +
+                        "-" + "0" + parseDate.dayOfMonth.toString()
+            }
+            if (parseDate.monthValue >= 10 && parseDate.dayOfMonth < 10) {
+                dateString = parseDate.year.toString() + "-" + parseDate.monthValue.toString() +
+                        "-" + "0" + parseDate.dayOfMonth.toString()
+            }
+            if (parseDate.monthValue < 10 && parseDate.dayOfMonth >= 10) {
+                dateString = parseDate.year.toString() + "-" + "0" + parseDate.monthValue.toString() +
+                        "-" + parseDate.dayOfMonth.toString()
+            }
+            if (parseDate.monthValue >= 10 && parseDate.dayOfMonth >= 10) {
+                dateString = parseDate.year.toString() + "-" + parseDate.monthValue.toString() +
+                        "-" + parseDate.dayOfMonth.toString()
+            }
+
+            val dto = DogDtoPost(name.text.toString(), dateString, ansSex, breed.text.toString())
+
+            CoroutineScope(Dispatchers.IO).launch {
+                val response = api.saveNewDog(getLoginFromSharedPreferences(), dto, headers).execute()
+                if (response.isSuccessful) {
+
+                    println("L:D")
+                    requireActivity().runOnUiThread {
+                        findNavController().popBackStack()
+                    }
+                }else{
+                    println(response.code())
+
+                    println("D:L")
+                    println(response.message())
+                }
+            }
+        } catch (e: java.lang.Exception) {
+            println(e)
+        }
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
