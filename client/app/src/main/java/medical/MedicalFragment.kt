@@ -2,6 +2,8 @@ package medical
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,7 +65,7 @@ class MedicalFragment : Fragment() {
 
                     clinicsAdapter = ClinicsAdapter(dataResponse as MutableList<VetclinicDtoGet>)
                     recyclerView.adapter = clinicsAdapter
-//                    dataResponse.let { processData(it) }
+
                 } else {
                     println("AAAAAAAAAAAAAAAA")
                 }
@@ -73,16 +75,13 @@ class MedicalFragment : Fragment() {
                 println("BBBBBBBBBBBBBBBBB")
             }
         })
-    }
-
-    private fun processData(dataResponse: List<VetclinicDtoGet>) {
 
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View {
         var view: View = inflater.inflate(R.layout.fragment_medical, container, false)
 
-        searchView = view.findViewById(R.id.search_widget)
+        searchView = view.findViewById(R.id.search_treatment)
         searchViewCity = view.findViewById(R.id.search_widget_city)
         listView = view.findViewById<ListView>(R.id.list_item)
         listViewCity = view.findViewById<ListView>(R.id.list_item_city)
@@ -91,8 +90,8 @@ class MedicalFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
 
-        var adapterSearch = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, getDataSearch())
-        var adapterSearchCity = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, getDataCity())
+//        var adapterSearch = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, getDataSearch())
+//        var adapterSearchCity = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, getDataCity())
 
         view.setOnClickListener { v ->
             val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -106,7 +105,7 @@ class MedicalFragment : Fragment() {
         searchView.setOnQueryTextFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
                 listView.visibility = View.VISIBLE
-                listView.adapter = adapterSearch
+//                listView.adapter = adapterSearch
             } else {
                 listView.visibility = View.GONE
             }
@@ -121,15 +120,15 @@ class MedicalFragment : Fragment() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                adapterSearch.filter.filter(query)
+//                adapterSearch.filter.filter(query)
                 clinicsAdapter?.filter?.filter(query)
                 return false
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                adapterSearch.filter.filter(newText)
+//                adapterSearch.filter.filter(newText)
                 clinicsAdapter?.filter?.filter(newText)
-                listView.visibility = View.VISIBLE
+//                listView.visibility = View.VISIBLE
                 return true
             }
         })
@@ -137,7 +136,7 @@ class MedicalFragment : Fragment() {
         searchViewCity.setOnQueryTextFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
                 listViewCity.visibility = View.VISIBLE
-                listViewCity.adapter = adapterSearchCity
+//                listViewCity.adapter = adapterSearchCity
             } else {
                 listViewCity.visibility = View.GONE
             }
@@ -152,15 +151,15 @@ class MedicalFragment : Fragment() {
 
         searchViewCity.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                adapterSearchCity.filter.filter(query)
+//                adapterSearchCity.filter.filter(query)
                 clinicsAdapter?.filter?.filter(query)
                 return false
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                adapterSearchCity.filter.filter(newText)
+//                adapterSearchCity.filter.filter(newText)
                 clinicsAdapter?.filter?.filter(newText)
-                listViewCity.visibility = View.VISIBLE
+//                listViewCity.visibility = View.VISIBLE
                 return true
             }
         })
@@ -193,24 +192,5 @@ class MedicalFragment : Fragment() {
     }
 
 
-    private fun getDataSearch(): MutableList<String> {
-        val data: MutableList<String> = java.util.ArrayList()
-        data.add("Предоперационный эхо скрининг сердца")
-        data.add("УЗИ брюшной полости")
-        data.add("Полное обследование сердца")
-        data.add("Мочеполовая система")
-        data.add("Диагностика беременности")
-        return data
-    }
-
-    private fun getDataCity(): List<String> {
-        val city: MutableList<String> = ArrayList()
-        city.add("Новосибирск")
-        city.add("Екатеринбург")
-        city.add("Нижний Новгород")
-        city.add("Санкт-Петербург")
-        city.add("Москва")
-        return city
-    }
 
 }

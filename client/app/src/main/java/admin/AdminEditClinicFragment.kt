@@ -142,7 +142,7 @@ class AdminEditClinicFragment : Fragment() {
         val headers = HashMap<String, String>()
         headers["Authorization"] = "Bearer $token"
 
-        val call = ApiTreatment.service.getVetclinicTreatments(id, headers)
+        val call = ApiTreatment.service.getVetclinicTreatments(id)
         call.enqueue(object : Callback<List<TreatmentDtoGet>> {
             override fun onResponse(call: Call<List<TreatmentDtoGet>>, response: Response<List<TreatmentDtoGet>>) {
                 if (response.isSuccessful) {

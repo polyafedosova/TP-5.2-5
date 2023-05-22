@@ -11,10 +11,17 @@ import android.widget.Filterable
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import api.ApiTreatment
+import dto.TreatmentDtoGet
 import dto.VetclinicDtoGet
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 import ru.vsu.cs.tp.paws.R
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>) : RecyclerView.Adapter<ClinicsAdapter.ClinicsViewHolder>(), Filterable {
@@ -22,6 +29,7 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>) : RecyclerView.A
     private var newClinics: MutableList<VetclinicDtoGet> = _newClinics
     private var newClinicsFull: List<VetclinicDtoGet> = java.util.ArrayList<VetclinicDtoGet>(newClinics)
 
+    private var allTreatments = ""
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClinicsViewHolder {
         val clinicsItems: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.clinics_item, parent, false)
@@ -32,10 +40,34 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>) : RecyclerView.A
     override fun onBindViewHolder(holder: ClinicsViewHolder, position: Int) {
 //        println(newClinics)
 
+        getTrearments(newClinics[position].id, object : TreatmentCallback {
+            override fun onDataReceived(data: List<TreatmentDtoGet>) {
+                // Доступ к данным в переменной data
+
+//                println("List treatments - $data")
+                var treatmentStr = ""
+                var pricesStr = ""
+                for (i in 0 .. data.size - 1) {
+                    treatmentStr += data[i].name + " "
+                    pricesStr += data[i].price.toString() + " "
+
+                }
+                holder.clinicsPrice.text = pricesStr
+                holder.clinicsPreviewTreatment.text = treatmentStr
+
+
+            }
+
+            override fun onFailure(code: Int, message: String) {
+
+                println("Error: $code, $message")
+            }
+        })
+
         holder.clinicsTitle.text = newClinics[position].name
         holder.clinicsAddress.text = newClinics[position].street + " " +newClinics[position].house
-        holder.clinicsPrice.text = /*newClinics[position].phone*/ "price"
-        holder.clinicsPreviewTreatment.text = newClinics[position].phone
+
+
         val bundle = Bundle()
 
 
@@ -50,6 +82,31 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>) : RecyclerView.A
         }
     }
 
+    private fun getTrearments(id: Int, callback: TreatmentCallback) {
+        val call = ApiTreatment.service.getVetclinicTreatments(id)
+//        var dataResponse: List<TreatmentDtoGet>?
+        call.enqueue(object : Callback<List<TreatmentDtoGet>> {
+            override fun onResponse(call: Call<List<TreatmentDtoGet>>, response: Response<List<TreatmentDtoGet>>) {
+                if (response.isSuccessful) {
+                    val dataResponse = response.body()
+                    if (dataResponse != null) {
+                        callback.onDataReceived(dataResponse)
+                    } else {
+                        callback.onFailure(response.code(), "Empty response body")
+                    }
+                } else {
+                    callback.onFailure(response.code(), response.message())
+                }
+
+            }
+
+            override fun onFailure(call: Call<List<TreatmentDtoGet>>, t: Throwable) {
+                callback.onFailure(0, t.message ?: "Unknown error")
+            }
+        })
+    }
+
+
     override fun getItemCount(): Int {
         return newClinics.size
     }
@@ -60,15 +117,14 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>) : RecyclerView.A
 
     private var searchFilter: Filter = object : Filter() {
         override fun performFiltering(constraint: CharSequence): FilterResults {
+            println("treatments - " + allTreatments)
             val filteredList: MutableList<VetclinicDtoGet?> = ArrayList()
-            if (constraint == null || constraint.length == 0) {
+            if (constraint.isEmpty()) {
                 filteredList.addAll(newClinicsFull)
             } else {
                 val filterPattern = constraint.toString().lowercase().trim { it <= ' ' }
                 for (item in newClinicsFull) {
-                    if (item.description.toLowerCase().contains(filterPattern) || item.street
-                        .toLowerCase().contains(filterPattern)  //спросить что с адресом и как работают услуги
-                    ) {
+                    if (allTreatments.toLowerCase(Locale.ROOT).contains(filterPattern)) {
                         filteredList.add(item)
                     }
                 }

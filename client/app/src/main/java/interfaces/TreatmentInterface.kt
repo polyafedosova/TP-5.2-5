@@ -17,5 +17,5 @@ interface TreatmentInterface {
     fun deleteTreatment(@Path("vetclinic_id") vetclinic_id: Int, @Path("id") id: Int): Call<Void>
 
     @GET("/vetclinic/{vetclinic_id}/treatments")
-    fun getVetclinicTreatments(@Path("vetclinic_id") vetclinic_id: Int, @HeaderMap headers: Map<String, String>): Call<List<TreatmentDtoGet>>
+    fun getVetclinicTreatments(@Path("vetclinic_id") vetclinic_id: Int): Call<List<TreatmentDtoGet>>
 }
