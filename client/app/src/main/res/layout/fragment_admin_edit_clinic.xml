@@ -62,6 +62,20 @@
                     android:textSize="16sp" />
 
                 <EditText
+                    android:id="@+id/adminEditClinicDisription"
+                    style="@style/EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext_style"
+                    android:ems="10"
+                    android:hint="Описание клиники"
+                    android:maxLength="256"
+                    android:inputType="textPersonName"
+                    android:textAlignment="textStart"
+                    android:textSize="16sp" />
+
+                <EditText
                     android:id="@+id/adminEditClinicCountry"
                     style="@style/EditText"
                     android:layout_width="match_parent"
@@ -161,19 +175,33 @@
                     android:id="@+id/adminEditClinic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="55dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/button_style"
+                    style="@style/ButtonRadius"
+                    android:textColor="@color/white"
+                    android:padding="10dp"
                     android:text="Редактировать" />
 
                 <Button
                     android:id="@+id/adminDeleteClinic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:padding="10dp"
+                    android:background="@drawable/button_style"
+                    style="@style/ButtonRadius"
+                    android:textColor="@color/white"
                     android:text="Удалить" />
 
                 <Button
                     android:id="@+id/adminBackFromClinic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:padding="10dp"
+                    android:background="@drawable/button_style"
+                    style="@style/ButtonRadius"
+                    android:textColor="@color/white"
                     android:text="Назад" />
 
 

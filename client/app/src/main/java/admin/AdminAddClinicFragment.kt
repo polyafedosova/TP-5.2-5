@@ -1,5 +1,7 @@
 package admin
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +11,10 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import api.ApiDog
 import api.ApiVetclinic
+import dog.DogAdapter
+import dto.DogDtoGet
 import dto.TreatmentDtoPost
 import dto.VetclinicDtoGet
 import dto.VetclinicDtoPost
@@ -39,7 +44,8 @@ class AdminAddClinicFragment : Fragment() {
     private lateinit var adminAddClinicDiscriptoin: EditText
     private lateinit var adminAddClinicServices: EditText
 
-    var newClinicId = -1
+    private lateinit var sharedPreferencesToken: SharedPreferences
+    private lateinit var sharedPreferencesLogin: SharedPreferences
 
     private val retrofit = Retrofit.Builder()
         .baseUrl("http://10.0.2.2:8080")
@@ -48,6 +54,13 @@ class AdminAddClinicFragment : Fragment() {
 
     private lateinit var adminAddClinic: Button
     private lateinit var adminCancelAddClinic: Button
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedPreferencesToken = requireActivity().getSharedPreferences("userToken", Context.MODE_PRIVATE)
+        sharedPreferencesLogin = requireActivity().getSharedPreferences("userLogin", Context.MODE_PRIVATE)
+
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_admin_add_clinic, container, false)
@@ -88,45 +101,69 @@ class AdminAddClinicFragment : Fragment() {
                           region: EditText, district: EditText, city: EditText, street: EditText,
                           house: EditText, discription: EditText, services: EditText) {
 
+        val token = getTokenFromSharedPreferences()
+        val headers = HashMap<String, String>()
+        headers["Authorization"] = "Bearer $token"
+
         val api = retrofit.create(VetclinicInterface::class.java)
         val dto = VetclinicDtoPost(name.text.toString(), phone.text.toString(),
             discription.text.toString(), country.text.toString(), region.text.toString(),
             district.text.toString(), city.text.toString(), street.text.toString(), house.text.toString())
-        var flag = false
+
         try {
 
             CoroutineScope(Dispatchers.IO).launch {
-                val response = api.saveNewVetclinic(dto).execute()
+                val response = api.saveNewVetclinic(dto, headers).execute()
 
                 if (response.isSuccessful) {
-                    flag = true
+                    println("clinic was added")
                     addTreatments(services)
                 }
             }
         } catch (ex: Exception) {
             ex.stackTrace
         }
-//        if (flag) {
-//            Toast.makeText(requireContext(), "Успешно", Toast.LENGTH_LONG).show()
-//        }else {
-//            Toast.makeText(requireContext(), "Что-то не так", Toast.LENGTH_LONG).show()
-//        }
+
     }
 
-    private fun processData(dataResponse: List<VetclinicDtoGet>) {
-        newClinicId = dataResponse[dataResponse.size - 1].id
-    }
+
 
     private fun addTreatments(services: EditText) {
         val api = retrofit.create(TreatmentInterface::class.java)
+
+        val token = getTokenFromSharedPreferences()
+        val headers = HashMap<String, String>()
+        headers["Authorization"] = "Bearer $token"
 
         val call = ApiVetclinic.service.getAllVetclinics()
         call.enqueue(object : Callback<List<VetclinicDtoGet>> {
             override fun onResponse(call: Call<List<VetclinicDtoGet>>, response: Response<List<VetclinicDtoGet>>) {
                 if (response.isSuccessful) {
                     val dataResponse = response.body()
+                    println("List clinics" + dataResponse)
+                    if (dataResponse != null) {
+                        val newClinicId = dataResponse[dataResponse.size - 1].id
 
-                    dataResponse?.let { processData(it) }
+                        val prepairList = parseServices(services.text.toString())
+
+                        CoroutineScope(Dispatchers.IO).launch {
+                            try {
+                                for (i in 0 until prepairList.size - 1 step 2) {
+                                    val dto = TreatmentDtoPost(prepairList[i], prepairList[i + 1].toBigDecimal())
+//                                    println("dto " + i / 2 + " " + dto)
+//                                    println(newClinicId)
+                                    val responseTreatment = api.saveNewTreatment(newClinicId, dto, headers).execute()
+//                                    println(responseTreatment.isSuccessful)
+//                                    println(responseTreatment.code())
+//                                    println(responseTreatment.message())
+                                }
+                            } catch (ex: Exception) {
+                                println("Что-то не так")
+                                println(ex)
+                                ex.stackTrace
+                            }
+                        }
+                    }
                 } else {
                     println("AAAAAAAAAAAAAAAA")
                 }
@@ -136,21 +173,16 @@ class AdminAddClinicFragment : Fragment() {
                 println("BBBBBBBBBBBBBBBBB")
             }
         })
+    }
 //name1,price1;name2,price2
 
-        val prepairList = parseServices(services.toString())
-//        [имя1, цена1, имя2, цена2]
-        try {
-            for (i in 0 until prepairList.size / 2 step 2) {
-                val dto = TreatmentDtoPost(prepairList[i], prepairList[i + 1].toBigDecimal())
-                api.saveNewTreatment(newClinicId, dto)
-            }
-        } catch (ex: Exception) {
-            Toast.makeText(requireContext(), "Что-то не так", Toast.LENGTH_LONG).show()
-            ex.stackTrace
-        }
 
+    private fun getTokenFromSharedPreferences(): String {
+        return sharedPreferencesToken.getString("token", "") ?: ""
+    }
 
+    private fun getLoginFromSharedPreferences(): String {
+        return sharedPreferencesLogin.getString("login", "") ?: ""
     }
 
     private fun parseServices(input: String): List<String> {

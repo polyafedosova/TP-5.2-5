@@ -8,12 +8,13 @@ import android.widget.Filterable
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import dto.VetclinicDtoGet
 import ru.vsu.cs.tp.paws.R
 
-class AdminClinicsAdapter (_newClinics: MutableList<AdminClinicsModel>) :
+class AdminClinicsAdapter (_newClinics: MutableList<VetclinicDtoGet>) :
     RecyclerView.Adapter<AdminClinicsAdapter.AdminClinicsViewHolder>() {
 
-    private var newClinics: MutableList<AdminClinicsModel> = _newClinics
+    private var newClinics: MutableList<VetclinicDtoGet> = _newClinics
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdminClinicsViewHolder {
         val adminClinicsItems: View = LayoutInflater.from(parent.context)
@@ -22,16 +23,25 @@ class AdminClinicsAdapter (_newClinics: MutableList<AdminClinicsModel>) :
     }
 
     override fun onBindViewHolder(holder: AdminClinicsViewHolder, position: Int) {
-        holder.clinicsTitle.text = newClinics[position].getName()
-        holder.clinicsAddress.text = newClinics[position].getAddress()
-        holder.clinicsPrice.text = newClinics[position].getPrice()
+        holder.clinicsTitle.text = newClinics[position].name
+        holder.clinicsAddress.text = newClinics[position].street + newClinics[position].house
+//        holder.clinicsPrice.text = newClinics[position].getPrice()
+
 
         val bundle = Bundle()
 
-        bundle.putString("name", newClinics[position].getName())
-        bundle.putString("address", newClinics[position].getAddress())
-        bundle.putString("phone", newClinics[position].getPhone())
-        bundle.putString("services", newClinics[position].getServices())
+        bundle.putInt("id", newClinics[position].id)
+        bundle.putString("name", newClinics[position].name)
+        bundle.putString("phone", newClinics[position].phone)
+        bundle.putString("description", newClinics[position].description)
+        bundle.putString("country", newClinics[position].country)
+        bundle.putString("region", newClinics[position].region)
+        bundle.putString("district", newClinics[position].district)
+        bundle.putString("city", newClinics[position].city)
+        bundle.putString("street", newClinics[position].street)
+        bundle.putString("house", newClinics[position].house)
+
+        //        bundle.putString("services", newClinics[position].getServices())
 
 
 

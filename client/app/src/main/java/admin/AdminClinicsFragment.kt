@@ -15,9 +15,16 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import api.ApiVetclinic
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import dog.DogAdapter
+import dto.DogDtoGet
+import dto.VetclinicDtoGet
 import medical.ClinicsAdapter
 import medical.ClinicsModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import ru.vsu.cs.tp.paws.R
 
 class AdminClinicsFragment : Fragment() {
@@ -40,14 +47,43 @@ class AdminClinicsFragment : Fragment() {
 
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val token = getTokenFromSharedPreferences()
+        val headers = HashMap<String, String>()
+        headers["Authorization"] = "Bearer $token"
+
+        val call = ApiVetclinic.service.getAllVetclinics()
+
+        call.enqueue(object : Callback<List<VetclinicDtoGet>> {
+            override fun onResponse(call: Call<List<VetclinicDtoGet>>, response: Response<List<VetclinicDtoGet>>) {
+                if (response.isSuccessful) {
+                    val dataResponse = response.body()
+//                    println(dataResponse)
+                    adminClinicsAdapter = AdminClinicsAdapter(dataResponse as MutableList<VetclinicDtoGet>)
+                    recyclerView.adapter = adminClinicsAdapter
+
+                } else {
+                    println("Не успешно")
+                }
+            }
+
+            override fun onFailure(call: Call<List<VetclinicDtoGet>>, t: Throwable) {
+                println("Ошибка")
+                println(t)
+            }
+        })
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_admin_clinics, container, false)
 
         recyclerView = view.findViewById(R.id.recyclerClinics)
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        adminClinicsAdapter = AdminClinicsAdapter(getDataClinics() as MutableList<AdminClinicsModel>)
-        recyclerView.adapter = adminClinicsAdapter
+//        adminClinicsAdapter = AdminClinicsAdapter(getDataClinics() as MutableList<AdminClinicsModel>)
+//        recyclerView.adapter = adminClinicsAdapter
 
         adminAddClinicButton = view.findViewById(R.id.adminAddClinicButton)
         adminLogoutButton = view.findViewById(R.id.adminLogoutButton)
