@@ -22,28 +22,24 @@ import androidx.navigation.fragment.findNavController
 import api.ApiDog
 
 import dog.DogAdapter
-import dog.DogModel
 import dto.DogDtoGet
-import dto.VetclinicDtoGet
-import interfaces.AuthInterface
 import interfaces.OwnerInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import medical.ClinicsAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.vsu.cs.tp.paws.R
-import java.time.LocalDate
 
 
 class ProfileFragment : Fragment() {
 
     private lateinit var sharedPreferencesToken: SharedPreferences
     private lateinit var sharedPreferencesLogin: SharedPreferences
+//    private lateinit var sharedPreferencesPass: SharedPreferences
 
     private lateinit var addDogButton: Button
     private lateinit var editProfileButton: Button
@@ -56,7 +52,6 @@ class ProfileFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private var dogsAdapter: DogAdapter? = null
 
-    private  var userId: Int? = null
     private  var userPassword: String? = null
     private  var name: String? = null
 
@@ -71,6 +66,7 @@ class ProfileFragment : Fragment() {
         super.onCreate(savedInstanceState)
         sharedPreferencesToken = requireActivity().getSharedPreferences("userToken", Context.MODE_PRIVATE)
         sharedPreferencesLogin = requireActivity().getSharedPreferences("userLogin", Context.MODE_PRIVATE)
+//        sharedPreferencesPass = requireActivity().getSharedPreferences("userPass", Context.MODE_PRIVATE)
 
         getUserData(getLoginFromSharedPreferences(), getTokenFromSharedPreferences())
     }
@@ -140,6 +136,7 @@ class ProfileFragment : Fragment() {
         }
 
         editProfileButton.setOnClickListener {
+//            getUserPass()
             it.findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
         }
 
@@ -154,7 +151,30 @@ class ProfileFragment : Fragment() {
         findNavController().navigate(R.id.action_profileFragment_to_adminClinicsFragment)
     }
 
+    private fun getUserPass() {
+        val api = retrofit.create(OwnerInterface::class.java)
 
+        val token = getTokenFromSharedPreferences()
+        val headers = HashMap<String, String>()
+        headers["Authorization"] = "Bearer $token"
+        try {
+            CoroutineScope(Dispatchers.IO).launch {
+                val response = api.findByLogin(getLoginFromSharedPreferences(), headers).execute()
+                if (response.isSuccessful) {
+                    println(response.body())
+//                    response.body()?.password?.let { savePassToSharedPreferences(it) }
+
+
+                } else {
+                    println(response.code())
+                    println(response.message())
+                    println("D:")
+                }
+            }
+        } catch (ex: Exception) {
+            ex.stackTrace
+        }
+    }
 
     private fun getUserData(login: String, token: String) {
         val api = retrofit.create(OwnerInterface::class.java)

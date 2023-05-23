@@ -1,6 +1,8 @@
 package profile
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +11,16 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import dto.OwnerDtoPost
+import interfaces.DogInterface
+import interfaces.OwnerInterface
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExecutorCoroutineDispatcher
+import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import ru.vsu.cs.tp.paws.R
 
 
@@ -21,6 +33,22 @@ class EditProfileFragment : Fragment() {
     private lateinit var newLogin: EditText
     private lateinit var newName: EditText
 
+    private lateinit var sharedPreferencesToken: SharedPreferences
+    private lateinit var sharedPreferencesLogin: SharedPreferences
+    private lateinit var sharedPreferencesPass: SharedPreferences
+
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("http://10.0.2.2:8080")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedPreferencesLogin = requireActivity().getSharedPreferences("userLogin", Context.MODE_PRIVATE)
+        sharedPreferencesToken = requireActivity().getSharedPreferences("userToken", Context.MODE_PRIVATE)
+        sharedPreferencesPass = requireActivity().getSharedPreferences("userPass", Context.MODE_PRIVATE)
+    }
 
     @SuppressLint("RestrictedApi")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -32,6 +60,8 @@ class EditProfileFragment : Fragment() {
 
         newLogin = view.findViewById(R.id.newLogin)
         newName = view.findViewById(R.id.newName)
+
+//        newLogin.setText(getLoginFromSharedPreferences())
 
         completeProfileRenameButton.setOnClickListener {
             validateFieldsAndUpdate(newLogin, newName)
@@ -50,24 +80,71 @@ class EditProfileFragment : Fragment() {
 
     private fun validateFieldsAndUpdate(login: EditText, name: EditText) {
         var isValid = true
-        if (login.text.toString().isEmpty() && name.text.toString().isEmpty()) {
-            login.error = "Заполните хотябы одно поле"
-            name.error = "Заполните хотябы одно поле"
+        if (login.text.toString().isEmpty() ) {
+            login.error = "Заполните поле"
+            isValid = false
+        }
+        if (name.text.toString().isEmpty()) {
+            name.error = "Заполните поле"
             isValid = false
         }
 
-        if (isValid && login.text.toString().isEmpty() && name.text.toString().isNotEmpty()) {
+        if (isValid) {
+            val token = getTokenFromSharedPreferences()
+            val headers = HashMap<String, String>()
+            headers["Authorization"] = "Bearer $token"
 
-        }
+            val api = retrofit.create(OwnerInterface::class.java)
 
-        if (isValid && name.text.toString().isEmpty() && login.text.toString().isNotEmpty()) {
-            //проверка на индивидуальность логина
-        }
+            val dto = OwnerDtoPost(login.text.toString(), getPassFromSharedPreferences(), name.text.toString())
 
-        if (isValid && name.text.toString().isNotEmpty() && login.text.toString().isNotEmpty()) {
-            //проверка на индивидуальность логина
+            try {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val response = api.updateOwner(getLoginFromSharedPreferences(), dto, headers).execute()
+                    if (response.isSuccessful) {
+                        println("L:D")
+                        requireActivity().runOnUiThread {
+                            clearSharedPreferencesLogin()
+                            clearSharedPreferencesToken()
+                            findNavController().navigate(R.id.action_editProfileFragment_to_loginFragment)
+                        }
+                    }else{
+                        println(response.code())
+                        println(response.message())
+                        println("D:L")
+
+                    }
+                }
+            } catch (ex: Exception) {
+                println(ex)
+            }
+
         }
 
     }
+
+    private fun clearSharedPreferencesToken() {
+        val editor = sharedPreferencesToken.edit()
+        editor.clear()
+        editor.apply()
+    }
+
+    private fun clearSharedPreferencesLogin() {
+        val editor = sharedPreferencesLogin.edit()
+        editor.clear()
+        editor.apply()
+    }
+    private fun getTokenFromSharedPreferences(): String {
+        return sharedPreferencesToken.getString("token", "") ?: ""
+    }
+
+    private fun getLoginFromSharedPreferences(): String {
+        return sharedPreferencesLogin.getString("login", "") ?: ""
+    }
+
+    private fun getPassFromSharedPreferences(): String {
+        return sharedPreferencesPass.getString("pass", "") ?: ""
+    }
+
 
 }

@@ -17,8 +17,8 @@ interface OwnerInterface {
     @POST("registration")
     fun saveNewOwner(@Body owner: OwnerDtoPost): Call<Void>
 
-    @PUT("owners/{id}/update")
-    fun updateOwner(@Path("id") id: Int, @Body owner: OwnerDtoPost): Call<Void>
+    @PUT("owner/{username}/update")
+    fun updateOwner(@Path("username") username: String, @Body owner: OwnerDtoPost, @HeaderMap headers: Map<String, String>): Call<Void>
 
     @DELETE("owner/{id}/delete")
     fun deleteOwner(@Path("id") id: Int): Call<Void>

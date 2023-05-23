@@ -32,7 +32,7 @@ class LoginFragment : Fragment() {
 
     private lateinit var sharedPreferencesToken: SharedPreferences
     private lateinit var sharedPreferencesLogin: SharedPreferences
-    private lateinit var sharedPreferencesId: SharedPreferences
+    private lateinit var sharedPreferencesPass: SharedPreferences
 
     private lateinit var userLogin: EditText
     private lateinit var userPassword: EditText
@@ -52,7 +52,7 @@ class LoginFragment : Fragment() {
         super.onCreate(savedInstanceState)
         sharedPreferencesToken = requireActivity().getSharedPreferences("userToken", Context.MODE_PRIVATE)
         sharedPreferencesLogin = requireActivity().getSharedPreferences("userLogin", Context.MODE_PRIVATE)
-        sharedPreferencesId = requireActivity().getSharedPreferences("userId", Context.MODE_PRIVATE)
+        sharedPreferencesPass = requireActivity().getSharedPreferences("userPass", Context.MODE_PRIVATE)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -104,12 +104,6 @@ class LoginFragment : Fragment() {
         editor.apply()
     }
 
-    private fun saveIdToSharedPreferences(value: String) {
-        val editor = sharedPreferencesId.edit()
-        editor.putString("id", value)
-        editor.apply()
-    }
-
     private fun startProfileFragment() {
         findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
     }
@@ -129,23 +123,15 @@ class LoginFragment : Fragment() {
         return isValid
     }
 
-    private fun saveUserId(login: String, token: String) {
-        val api = retrofit.create(OwnerInterface::class.java)
 
-        val headers = HashMap<String, String>()
-        headers["Authorization"] = "Bearer $token"
-        try {
-            CoroutineScope(Dispatchers.IO).launch {
-                val response = api.findByLogin(login, headers).execute()
-                if (response.isSuccessful) {
-                    println("response = " + response.body())
-//                    saveIdToSharedPreferences(response.body()?.id.toString())
-                }
+    private fun getPassFromSharedPreferences(): String {
+        return sharedPreferencesPass.getString("pass", "") ?: ""
+    }
 
-            }
-        } catch (ex: Exception) {
-            ex.stackTrace
-        }
+    private fun savePassToSharedPreferences(value: String) {
+        val editor = sharedPreferencesPass.edit()
+        editor.putString("pass", value)
+        editor.apply()
     }
 
     private fun authorization(login: EditText, password: EditText) {
@@ -161,7 +147,7 @@ class LoginFragment : Fragment() {
                     data?.let {
                         saveTokenToSharedPreferences(it.accessToken)
                     }
-
+                    savePassToSharedPreferences(password.text.toString())
                     saveLoginToSharedPreferences(login.text.toString())
 
 //                    println("L token - " + data?.accessToken)
