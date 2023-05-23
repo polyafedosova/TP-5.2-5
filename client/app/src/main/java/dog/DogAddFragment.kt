@@ -63,8 +63,6 @@ class DogAddFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_dog_add, container, false)
 
-
-
         println("==========================")
         println(getLoginFromSharedPreferences())
         println(getTokenFromSharedPreferences())

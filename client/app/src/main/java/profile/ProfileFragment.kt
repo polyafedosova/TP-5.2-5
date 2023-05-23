@@ -151,31 +151,6 @@ class ProfileFragment : Fragment() {
         findNavController().navigate(R.id.action_profileFragment_to_adminClinicsFragment)
     }
 
-    private fun getUserPass() {
-        val api = retrofit.create(OwnerInterface::class.java)
-
-        val token = getTokenFromSharedPreferences()
-        val headers = HashMap<String, String>()
-        headers["Authorization"] = "Bearer $token"
-        try {
-            CoroutineScope(Dispatchers.IO).launch {
-                val response = api.findByLogin(getLoginFromSharedPreferences(), headers).execute()
-                if (response.isSuccessful) {
-                    println(response.body())
-//                    response.body()?.password?.let { savePassToSharedPreferences(it) }
-
-
-                } else {
-                    println(response.code())
-                    println(response.message())
-                    println("D:")
-                }
-            }
-        } catch (ex: Exception) {
-            ex.stackTrace
-        }
-    }
-
     private fun getUserData(login: String, token: String) {
         val api = retrofit.create(OwnerInterface::class.java)
 

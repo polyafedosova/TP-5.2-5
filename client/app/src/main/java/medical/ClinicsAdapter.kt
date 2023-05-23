@@ -50,7 +50,7 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>) : RecyclerView.A
                 for (i in 0 .. data.size - 1) {
                     treatmentStr += data[i].name + " "
                     pricesStr += data[i].price.toString() + " "
-
+                    allTreatments += data[i].name
                 }
                 holder.clinicsPrice.text = pricesStr
                 holder.clinicsPreviewTreatment.text = treatmentStr
@@ -65,7 +65,7 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>) : RecyclerView.A
         })
 
         holder.clinicsTitle.text = newClinics[position].name
-        holder.clinicsAddress.text = newClinics[position].street + " " +newClinics[position].house
+        holder.clinicsAddress.text = newClinics[position].city + " " + newClinics[position].street + " " +newClinics[position].house
 
 
         val bundle = Bundle()
@@ -74,7 +74,7 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>) : RecyclerView.A
             bundle.putInt("id", newClinics[position].id)
             bundle.putString("name", newClinics[position].name)
             bundle.putString("service", "test")
-            bundle.putString("address", newClinics[position].street + newClinics[position].house)
+            bundle.putString("address", newClinics[position].city + " " + newClinics[position].street + " " + newClinics[position].house)
 
 
         holder.itemView.setOnClickListener {

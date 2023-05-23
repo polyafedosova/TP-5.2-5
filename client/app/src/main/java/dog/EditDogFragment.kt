@@ -109,14 +109,14 @@ class EditDogFragment : Fragment() {
 
             if (validate(newDogName, newDogBurnDate, newBreed)) {
                 updateDog(newDogName, newDogBurnDate, newBreed, chosenSex)
-                it.findNavController().popBackStack()
+
             }
 
         }
 
         deleteDogButton.setOnClickListener() {
             deleteDog()
-            it.findNavController().popBackStack()
+//            it.findNavController().popBackStack()
         }
 
         backFromEditDogButton.setOnClickListener {
@@ -140,7 +140,9 @@ class EditDogFragment : Fragment() {
                 val response = api.deleteDog(idValue, getLoginFromSharedPreferences(), headers).execute()
                 if (response.isSuccessful) {
                     println("L:D")
-
+                    requireActivity().runOnUiThread {
+                        findNavController().popBackStack()
+                    }
                 } else {
                     println(response.code())
 
@@ -198,7 +200,9 @@ class EditDogFragment : Fragment() {
             CoroutineScope(Dispatchers.IO).launch {
                 val response = api.updateDog(idValue, dto, getLoginFromSharedPreferences(), headers).execute()
                 if (response.isSuccessful) {
-
+                    requireActivity().runOnUiThread {
+                        findNavController().popBackStack()
+                    }
                     println("L:D")
 
                 }else{
