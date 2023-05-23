@@ -1,5 +1,7 @@
 package event
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,6 +13,15 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import dto.EventDtoPost
+import interfaces.DogInterface
+import interfaces.EventInterface
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import ru.vsu.cs.tp.paws.R
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -23,6 +34,20 @@ class AddEventFragment : Fragment() {
     private lateinit var eventName: EditText
     private lateinit var eventDate: EditText
     private lateinit var eventComment: EditText
+
+    private lateinit var sharedPreferencesToken: SharedPreferences
+    private lateinit var sharedPreferencesLogin: SharedPreferences
+
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("http://10.0.2.2:8080")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedPreferencesLogin = requireActivity().getSharedPreferences("userLogin", Context.MODE_PRIVATE)
+        sharedPreferencesToken = requireActivity().getSharedPreferences("userToken", Context.MODE_PRIVATE)
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -37,18 +62,69 @@ class AddEventFragment : Fragment() {
 
         completeAddEventButton.setOnClickListener() {
             if (validate(eventName, eventDate, eventComment)) {
-                //отправка
-                it.findNavController().popBackStack()
+                addEvent(eventName, eventDate, eventComment)
+                it.findNavController().navigate(R.id.eventsFragment)
             }
 
 
         }
 
         cancelButton.setOnClickListener() {
-            it.findNavController().popBackStack()
+            it.findNavController().navigate(R.id.eventsFragment)
         }
 
         return view
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun addEvent(name: EditText, date: EditText, comment: EditText) {
+        val token = getTokenFromSharedPreferences()
+        val headers = HashMap<String, String>()
+        headers["Authorization"] = "Bearer $token"
+
+        val api = retrofit.create(EventInterface::class.java)
+
+        val format = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+
+        try {
+            var dateString = "1212-12-12"
+
+            val parseDate = LocalDate.parse(date.text.toString(), format)
+
+            if (parseDate.monthValue < 10 && parseDate.dayOfMonth < 10) {
+                dateString = parseDate.year.toString() + "-" + "0" + parseDate.monthValue.toString() +
+                        "-" + "0" + parseDate.dayOfMonth.toString()
+            }
+            if (parseDate.monthValue >= 10 && parseDate.dayOfMonth < 10) {
+                dateString = parseDate.year.toString() + "-" + parseDate.monthValue.toString() +
+                        "-" + "0" + parseDate.dayOfMonth.toString()
+            }
+            if (parseDate.monthValue < 10 && parseDate.dayOfMonth >= 10) {
+                dateString = parseDate.year.toString() + "-" + "0" + parseDate.monthValue.toString() +
+                        "-" + parseDate.dayOfMonth.toString()
+            }
+            if (parseDate.monthValue >= 10 && parseDate.dayOfMonth >= 10) {
+                dateString = parseDate.year.toString() + "-" + parseDate.monthValue.toString() +
+                        "-" + parseDate.dayOfMonth.toString()
+            }
+            val dto = EventDtoPost(name.text.toString(), dateString, comment.text.toString())
+            println(dto)
+            CoroutineScope(Dispatchers.IO).launch {
+                val response = api.saveNewEvent(getLoginFromSharedPreferences(), dto, headers).execute()
+                if (response.isSuccessful) {
+
+                    println("L:D")
+
+                }else{
+                    println(response.code())
+
+                    println("D:L")
+                    println(response.message())
+                }
+            }
+        } catch (e: java.lang.Exception) {
+            println(e)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -74,8 +150,6 @@ class AddEventFragment : Fragment() {
         try {
             parseDate = LocalDate.parse(date.text.toString(), format)
 
-//            val dateString = parseDate.year.toString()+ " " + parseDate.month.value.toString() +
-//                    " " + parseDate.dayOfMonth.toString()
         } catch (ex: java.lang.Exception) {
             date.error = "Ошибка в ведённой дате"
             isValid = false
@@ -83,6 +157,14 @@ class AddEventFragment : Fragment() {
         }
 
         return isValid
+    }
+
+    private fun getTokenFromSharedPreferences(): String {
+        return sharedPreferencesToken.getString("token", "") ?: ""
+    }
+
+    private fun getLoginFromSharedPreferences(): String {
+        return sharedPreferencesLogin.getString("login", "") ?: ""
     }
 
 }

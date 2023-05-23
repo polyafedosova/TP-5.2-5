@@ -1,18 +1,21 @@
 package interfaces
 
-import dto.EventDto
+import dto.EventDtoGet
+import dto.EventDtoPost
+import retrofit2.Call
 import retrofit2.http.*
 
 interface EventInterface {
-    @POST("/owner/{owner_id}/events/new")
-    suspend fun saveNewEvent(@Path("owner_id") ownerId: Int, @Body event: EventDto)
+    @POST("/owner/{username}/events/new")
+    fun saveNewEvent(@Path("username") username: String, @Body event: EventDtoPost, @HeaderMap headers: Map<String, String>): Call<Void?>
 
-    @PUT("/owner/{owner_id}/events/{id}/update")
-    suspend fun updateEvent(@Path("owner_id") ownerId: Int, @Path("id") id: Int, @Body event: EventDto)
+    @PUT("/owner/{username}/events/{id}/update")
+    fun updateEvent(@Path("id") id: Int, @Path("username") username: String, @Body event: EventDtoPost,
+                    @HeaderMap headers: Map<String, String>): Call<Void?>
 
-    @DELETE("/owner/{owner_id}/events/{id}/delete")
-    suspend fun deleteEvent(@Path("owner_id") ownerId: Int, @Path("id") id: Int)
+    @DELETE("/owner/{username}/events/{id}/delete")
+    fun deleteEvent(@Path("id") id: Int, @Path("username") username: String, @HeaderMap headers: Map<String, String>): Call<Void?>
 
-    @GET("/owner/{owner_id}/events")
-    suspend fun getEventsOwner(@Path("owner_id") ownerId: Int): List<EventDto>
+    @GET("/owner/{username}/events")
+    fun getEventsOwner(@Path("username") username: String, @HeaderMap headers: Map<String, String>): Call<List<EventDtoGet>>
 }

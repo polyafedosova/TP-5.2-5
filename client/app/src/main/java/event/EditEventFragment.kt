@@ -1,5 +1,7 @@
 package event
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,6 +13,17 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import dto.DogDtoPost
+import dto.EventDtoPost
+import interfaces.DogInterface
+import interfaces.EventInterface
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import ru.vsu.cs.tp.paws.R
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -26,6 +39,21 @@ class EditEventFragment : Fragment() {
     private lateinit var deleteEventButton: Button
     private lateinit var backFromEditEventButton: Button
 
+    private lateinit var sharedPreferencesToken: SharedPreferences
+    private lateinit var sharedPreferencesLogin: SharedPreferences
+
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("http://10.0.2.2:8080")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedPreferencesLogin = requireActivity().getSharedPreferences("userLogin", Context.MODE_PRIVATE)
+        sharedPreferencesToken = requireActivity().getSharedPreferences("userToken", Context.MODE_PRIVATE)
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_edit_event, container, false)
@@ -39,26 +67,47 @@ class EditEventFragment : Fragment() {
         backFromEditEventButton = view.findViewById(R.id.backFromEditEventButton)
 
         val nameValue = requireArguments().getString("name")
-        val idValue = requireArguments().getInt("id")
-        var dateValue = requireArguments().getString("data")
+        var dateValue = requireArguments().getString("date")
         val commentValue = requireArguments().getString("comment")
 
-//        Toast.makeText(this.requireContext(), nameValue, Toast.LENGTH_SHORT).show()
+        dateValue = dateValue?.replace("-", ".")
 
-        dateValue = dateValue?.replace(" ", ".")
+
+        val format = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+        val parseDate = LocalDate.parse(dateValue, format)
+
+        if (parseDate.monthValue < 10 && parseDate.dayOfMonth < 10) {
+            dateValue = "0" + parseDate.dayOfMonth.toString() + "." + "0" + parseDate.monthValue.toString() +
+                    "." + parseDate.year.toString()
+        }
+        if (parseDate.monthValue >= 10 && parseDate.dayOfMonth < 10) {
+            dateValue = "0" + parseDate.dayOfMonth.toString() + "." + parseDate.monthValue.toString() +
+                    "." + parseDate.year.toString()
+        }
+        if (parseDate.monthValue < 10 && parseDate.dayOfMonth >= 10) {
+            dateValue = parseDate.dayOfMonth.toString() + "." + "0" + parseDate.monthValue.toString() +
+                    "." + parseDate.year.toString()
+        }
+        if (parseDate.monthValue >= 10 && parseDate.dayOfMonth >= 10) {
+            dateValue = parseDate.dayOfMonth.toString() + "." + parseDate.monthValue.toString() +
+                    "." + parseDate.year.toString()
+        }
 
         newEventName.setText(nameValue)
         newEventDate.setText(dateValue)
         newEventComment.setText(commentValue)
 
         completeEditEventButton.setOnClickListener() {
+            if (validate(newEventName, newEventDate, newEventComment)) {
+                updateEvent(newEventName, newEventDate, newEventComment)
 
-            validate(newEventName, newEventDate, newEventComment)
-            it.findNavController().popBackStack()
+            }
+
         }
 
         deleteEventButton.setOnClickListener() {
-            it.findNavController().popBackStack()
+            deleteEvent()
+//            it.findNavController().navigate(R.id.eventsFragment)
         }
 
         backFromEditEventButton.setOnClickListener {
@@ -68,7 +117,91 @@ class EditEventFragment : Fragment() {
         return view
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun updateEvent(newName: EditText, newDate: EditText, newComment: EditText) {
+        val idValue = requireArguments().getInt("id")
 
+        val token = getTokenFromSharedPreferences()
+        val headers = HashMap<String, String>()
+        headers["Authorization"] = "Bearer $token"
+
+        val api = retrofit.create(EventInterface::class.java)
+
+        val format = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+
+        try {
+            var dateString = "1212-12-12"
+
+            val parseDate = LocalDate.parse(newDate.text.toString(), format)
+
+            if (parseDate.monthValue < 10 && parseDate.dayOfMonth < 10) {
+                dateString = parseDate.year.toString() + "-" + "0" + parseDate.monthValue.toString() +
+                        "-" + "0" + parseDate.dayOfMonth.toString()
+            }
+            if (parseDate.monthValue >= 10 && parseDate.dayOfMonth < 10) {
+                dateString = parseDate.year.toString() + "-" + parseDate.monthValue.toString() +
+                        "-" + "0" + parseDate.dayOfMonth.toString()
+            }
+            if (parseDate.monthValue < 10 && parseDate.dayOfMonth >= 10) {
+                dateString = parseDate.year.toString() + "-" + "0" + parseDate.monthValue.toString() +
+                        "-" + parseDate.dayOfMonth.toString()
+            }
+            if (parseDate.monthValue >= 10 && parseDate.dayOfMonth >= 10) {
+                dateString = parseDate.year.toString() + "-" + parseDate.monthValue.toString() +
+                        "-" + parseDate.dayOfMonth.toString()
+            }
+
+            val dto = EventDtoPost(newName.text.toString(), dateString, newComment.text.toString())
+
+            CoroutineScope(Dispatchers.IO).launch {
+                val response = api.updateEvent(idValue, getLoginFromSharedPreferences(), dto, headers).execute()
+                if (response.isSuccessful) {
+
+                    println("L:D")
+                    requireActivity().runOnUiThread {
+                        findNavController().popBackStack()
+                    }
+                }else{
+                    println(response.code())
+
+                    println("D:L")
+                    println(response.message())
+                }
+            }
+        } catch (e: java.lang.Exception) {
+            println(e)
+        }
+
+    }
+
+    private fun deleteEvent() {
+        val idValue = requireArguments().getInt("id")
+
+        val token = getTokenFromSharedPreferences()
+        val headers = HashMap<String, String>()
+        headers["Authorization"] = "Bearer $token"
+
+        val api = retrofit.create(EventInterface::class.java)
+
+        try {
+            CoroutineScope(Dispatchers.IO).launch {
+                val response = api.deleteEvent(idValue, getLoginFromSharedPreferences(), headers).execute()
+                if (response.isSuccessful) {
+                    println("L:D")
+                    requireActivity().runOnUiThread {
+                        findNavController().popBackStack()
+                    }
+                } else {
+                    println(response.code())
+
+                    println("D:L")
+                    println(response.message())
+                }
+            }
+        } catch (ex: Exception) {
+            println(ex)
+        }
+    }
     @RequiresApi(Build.VERSION_CODES.O)
     private fun validate(name: EditText, date: EditText, comment: EditText): Boolean {
         var isValid = true
@@ -101,6 +234,14 @@ class EditEventFragment : Fragment() {
         }
 
         return isValid
+    }
+
+    private fun getTokenFromSharedPreferences(): String {
+        return sharedPreferencesToken.getString("token", "") ?: ""
+    }
+
+    private fun getLoginFromSharedPreferences(): String {
+        return sharedPreferencesLogin.getString("login", "") ?: ""
     }
 
 }

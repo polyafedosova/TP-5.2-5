@@ -2,8 +2,8 @@ package dto
 
 import java.util.*
 
-data class EventDto (
+data class EventDtoPost (
     var name: String,
-    var birthday: Date,
+    var date: String,
     var description: String
-)
+        )
