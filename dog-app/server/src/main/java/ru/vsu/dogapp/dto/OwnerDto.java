@@ -1,6 +1,5 @@
 package ru.vsu.dogapp.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import ru.vsu.dogapp.entity.type.Role;
 
@@ -12,7 +11,6 @@ import java.util.Set;
 @Data
 public class OwnerDto {
 
-    @JsonIgnore
     private Integer id;
     @NotBlank
     @Size(min = 5, max = 30)

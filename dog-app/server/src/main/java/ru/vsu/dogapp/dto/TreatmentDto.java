@@ -1,6 +1,5 @@
 package ru.vsu.dogapp.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.validation.constraints.*;
@@ -8,7 +7,6 @@ import java.math.BigDecimal;
 @Data
 public class TreatmentDto {
 
-    @JsonIgnore
     private Integer id;
     @NotBlank
     @Size(min = 2, max = 70)

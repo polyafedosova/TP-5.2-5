@@ -1,6 +1,5 @@
 package ru.vsu.dogapp.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.validation.constraints.*;
@@ -10,7 +9,6 @@ import java.time.format.DateTimeFormatter;
 @Data
 public class DogDto {
 
-    @JsonIgnore
     private Integer id;
     @NotEmpty
     @Size(min = 2, max = 30)

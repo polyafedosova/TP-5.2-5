@@ -1,25 +1,52 @@
 package ru.vsu.dogapp.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.sql.Time;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Data
 public class EventDto {
 
-    @JsonIgnore
     private Integer id;
     @NotBlank
     @Pattern(regexp = "^[A-Za-zА-Яа-я0-9.,!?:;()\\[\\]{}'\"\\s]{3,40}$",
             message = "Name should be between 3 and 40 characters and contain only letters, digits, and basic punctuation.")
     private String name;
     private LocalDate date;
+    private Time time;
     @Size(max = 1000, message = "Description should be no more than 1000 characters.")
     @Pattern(regexp = "^[A-Za-zА-Яа-я0-9.,!?:;()\\[\\]{}'\"\\s]{0,1000}$",
             message = "Description should contain only letters, digits, and basic punctuation.")
     private String description;
+
+    public void setDate(String date) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            this.date = LocalDate.parse(date, formatter);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setTime(String time) {
+        try {
+            this.time = Time.valueOf(time);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public EventDto(Integer id, String name, String date, String time, String description) {
+        this.id = id;
+        this.name = name;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        this.date = LocalDate.parse(date, formatter);
+        this.time = Time.valueOf(time);
+        this.description = description;
+    }
 }

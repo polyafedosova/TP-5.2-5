@@ -1,14 +1,11 @@
 package ru.vsu.dogapp.entity;
 
+import lombok.*;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
-import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
-
+import java.sql.Time;
 import java.time.LocalDate;
-import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,6 +22,7 @@ public class Event {
     @NotEmpty
     private String name;
     private LocalDate date;
+    private Time time;
     private String description;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner")

@@ -10,7 +10,6 @@ import javax.validation.constraints.Size;
 @Data
 public class VetclinicDto {
 
-    @JsonIgnore
     private Integer id;
     @NotBlank
     @Pattern(regexp = "^[A-Za-zА-Яа-я0-9.,!?:;()\\[\\]{}'\"\\s]{3,40}$",
