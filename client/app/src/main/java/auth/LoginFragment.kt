@@ -67,10 +67,7 @@ class LoginFragment : Fragment() {
         loginButton.setOnClickListener() {
             if (checkInput(userLogin, userPassword)){
                 authorization(userLogin, userPassword)
-                when (isSuccess) {
-                    1 -> { Toast.makeText(requireContext(), "Неверный логин", Toast.LENGTH_SHORT).show() }
-                    2 -> { Toast.makeText(requireContext(), "Неверный пароль", Toast.LENGTH_SHORT).show() }
-                }
+
 
             }
 
@@ -143,12 +140,14 @@ class LoginFragment : Fragment() {
             CoroutineScope(Dispatchers.IO).launch {
                 val response = api.login(dto).execute()
                 if (response.isSuccessful) {
+
                     data = response.body()
                     data?.let {
                         saveTokenToSharedPreferences(it.accessToken)
                     }
                     savePassToSharedPreferences(password.text.toString())
                     saveLoginToSharedPreferences(login.text.toString())
+
 
 //                    println("L token - " + data?.accessToken)
 //                    println("L login - " + getLoginFromSharedPreferences())
@@ -157,6 +156,14 @@ class LoginFragment : Fragment() {
 
                     requireActivity().runOnUiThread {
                             startProfileFragment()
+                    }
+
+                } else {
+                    requireActivity().runOnUiThread() {
+                        when (response.code()) {
+                            403 -> { Toast.makeText(requireContext(), "Неверный логин", Toast.LENGTH_SHORT).show() }
+                            500 -> { Toast.makeText(requireContext(), "Неверный пароль", Toast.LENGTH_SHORT).show() }
+                        }
                     }
 
                 }
