@@ -77,8 +77,6 @@ class AdminEditClinicFragment : Fragment() {
         val nameValue = requireArguments().getString("name")
         val phoneValue = requireArguments().getString("phone")
         val descriptionValue = requireArguments().getString("description")
-//        val countryValue = requireArguments().getString("country")
-//        val regionValue = requireArguments().getString("region")
         val districtValue = requireArguments().getString("district")
         val cityValue = requireArguments().getString("city")
         val streetValue = requireArguments().getString("street")
@@ -89,11 +87,6 @@ class AdminEditClinicFragment : Fragment() {
         adminEditClinicPhone.setText(phoneValue)
         adminEditClinicDiscriptoin.setText(descriptionValue)
         adminEditClinicAddress.setText(address)
-//        adminEditClinicRegion.setText(regionValue)
-//        adminEditClinicDistrict.setText(districtValue)
-//        adminEditClinicCity.setText(cityValue)
-//        adminEditClinicStreet.setText(streetValue)
-//        adminEditClinicHouse.setText(houseValue)
 
         getTrearments(idValue)
 

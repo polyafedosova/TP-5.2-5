@@ -73,9 +73,12 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>) : RecyclerView.A
 
             bundle.putInt("id", newClinics[position].id)
             bundle.putString("name", newClinics[position].name)
-            bundle.putString("service", "test")
-            bundle.putString("address", newClinics[position].city + " " + newClinics[position].street + " " + newClinics[position].house)
-
+            bundle.putString("phone", newClinics[position].phone)
+            bundle.putString("description", newClinics[position].description)
+            bundle.putString("district", newClinics[position].district)
+            bundle.putString("city", newClinics[position].city)
+            bundle.putString("street", newClinics[position].street)
+            bundle.putString("house", newClinics[position].house)
 
         holder.itemView.setOnClickListener {
             it.findNavController().navigate(R.id.action_medicalFragment_to_specificFragment, bundle)

@@ -20,8 +20,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dog.DogAdapter
 import dto.DogDtoGet
 import dto.VetclinicDtoGet
-import medical.ClinicsAdapter
-import medical.ClinicsModel
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
