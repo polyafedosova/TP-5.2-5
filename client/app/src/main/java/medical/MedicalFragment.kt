@@ -67,12 +67,12 @@ class MedicalFragment : Fragment() {
                     recyclerView.adapter = clinicsAdapter
 
                 } else {
-                    println("AAAAAAAAAAAAAAAA")
+                    println("response not success" + response.code())
                 }
             }
 
             override fun onFailure(call: Call<List<VetclinicDtoGet>>, t: Throwable) {
-                println("BBBBBBBBBBBBBBBBB")
+                println("No connect")
             }
         })
 
