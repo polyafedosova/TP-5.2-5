@@ -34,6 +34,7 @@ class AddEventFragment : Fragment() {
     private lateinit var eventName: EditText
     private lateinit var eventDate: EditText
     private lateinit var eventComment: EditText
+    private lateinit var eventTime: EditText
 
     private lateinit var sharedPreferencesToken: SharedPreferences
     private lateinit var sharedPreferencesLogin: SharedPreferences
@@ -58,11 +59,12 @@ class AddEventFragment : Fragment() {
 
         eventName = view.findViewById(R.id.eventName)
         eventDate = view.findViewById(R.id.eventDate)
+        eventTime = view.findViewById(R.id.eventTime)
         eventComment = view.findViewById(R.id.eventComment)
 
         completeAddEventButton.setOnClickListener() {
-            if (validate(eventName, eventDate, eventComment)) {
-                addEvent(eventName, eventDate, eventComment)
+            if (validate(eventName, eventDate, eventTime, eventComment)) {
+                addEvent(eventName, eventDate, eventTime, eventComment)
                 it.findNavController().navigate(R.id.eventsFragment)
             }
 
@@ -77,7 +79,7 @@ class AddEventFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun addEvent(name: EditText, date: EditText, comment: EditText) {
+    private fun addEvent(name: EditText, date: EditText, time: EditText, comment: EditText) {
         val token = getTokenFromSharedPreferences()
         val headers = HashMap<String, String>()
         headers["Authorization"] = "Bearer $token"
@@ -87,6 +89,8 @@ class AddEventFragment : Fragment() {
         val format = DateTimeFormatter.ofPattern("dd.MM.yyyy")
 
         try {
+            val modifiedTime = time.text.toString().replace("-", ":")
+
             var dateString = "1212-12-12"
 
             val parseDate = LocalDate.parse(date.text.toString(), format)
@@ -128,7 +132,7 @@ class AddEventFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun validate(name: EditText, date: EditText, comment: EditText): Boolean {
+    private fun validate(name: EditText, date: EditText, time: EditText, comment: EditText): Boolean {
         var isValid = true
 
         if (name.text.toString().isEmpty()) {
@@ -141,10 +145,19 @@ class AddEventFragment : Fragment() {
             isValid = false
         }
 
+        if (time.text.toString().isEmpty()) {
+            time.error = "Введите время"
+            isValid = false
+        }
+
         if (comment.text.toString().isEmpty()) {
             comment.setText("")
         }
 
+        if (!isTimeStringValid(time.text.toString())) {
+            isValid = false
+            time.error = "Ошибка в ведённом времени"
+        }
         var parseDate: LocalDate
         val format = DateTimeFormatter.ofPattern("dd.MM.yyyy")
         try {
@@ -157,6 +170,11 @@ class AddEventFragment : Fragment() {
         }
 
         return isValid
+    }
+
+    private fun isTimeStringValid(timeString: String): Boolean {
+        val regex = Regex("^([01]\\d|2[0-3])-[0-5]\\d$") // Регулярное выражение для формата "HH:mm"
+        return regex.matches(timeString)
     }
 
     private fun getTokenFromSharedPreferences(): String {
