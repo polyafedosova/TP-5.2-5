@@ -13,7 +13,8 @@ class CalculatorFragment : Fragment() {
 
     private lateinit var doneButton: Button
     private lateinit var ansField: TextView
-    private lateinit var textAnswer: TextView
+    private lateinit var belkov: TextView
+    private lateinit var rastitel: TextView
 
     private var chosenAge: Int = 0
     private var chosenMove: Int = 0
@@ -45,16 +46,18 @@ class CalculatorFragment : Fragment() {
             chosenMove = adapterView.getItemIdAtPosition(i).toInt()
         }
 
-        this.doneButton = view.findViewById(R.id.calculate_eat)
-        this.ansField = view.findViewById(R.id.mass2)
-        this.textAnswer = view.findViewById(R.id.info3)
+        doneButton = view.findViewById(R.id.calculate_eat)
+        ansField = view.findViewById(R.id.mass2)
+        belkov = view.findViewById(R.id.mass3)
+        rastitel = view.findViewById(R.id.mass4)
 
         this.doneButton.setOnClickListener {
 
             try {
                 weight = Integer.valueOf(view.findViewById<EditText>(R.id.dogWeight).text.toString())
-                ansField.text = calculateEat(chosenAge, chosenMove, weight).toString()
-                textAnswer.visibility = View.VISIBLE
+                ansField.text = (calculateEat(chosenAge, chosenMove, weight) / 1000).toString()
+                belkov.text = (weight * 0.008 * 1000).toInt().toString()
+                rastitel.text = (ansField.text.toString().toDouble() * 0.07 * 1000).toInt().toString()
             } catch (ex: java.lang.Exception) {
                 Toast.makeText(this.context, "Что-то сломалось, попробуйте ещё раз", Toast.LENGTH_SHORT).show()
             }
