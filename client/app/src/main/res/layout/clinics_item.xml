@@ -77,14 +77,14 @@
                             android:layout_below="@id/clinics_preview_title"
                             android:ellipsize="end"
                             android:maxLines="1"
-                            android:text="УЗИ брюшной полости"
+                            android:text=""
                             android:textColor="@color/new_purple" />
 
                         <TextView
                             android:id="@+id/clinics_preview_price"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="1000$"
+                            android:text=""
                             style="@style/Text"
                             android:textStyle="bold"
                             android:textColor="@color/new_purple"/>

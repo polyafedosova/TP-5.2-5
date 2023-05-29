@@ -76,87 +76,20 @@
                 android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/adminAddClinicCountry"
+                android:id="@+id/adminAddClinicAddress"
                 style="@style/EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edittext_style"
                 android:ems="10"
-                android:maxLength="64"
-                android:hint="Страна"
+                android:maxLength="512"
+                android:hint="Адресс (обл,гор,ул,дом)"
                 android:inputType="textPersonName"
                 android:textAlignment="textStart"
                 android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/adminAddClinicRegion"
-                style="@style/EditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/edittext_style"
-                android:ems="10"
-                android:hint="Регион"
-                android:maxLength="64"
-                android:inputType="textPersonName"
-                android:textAlignment="textStart"
-                android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/adminAddClinicDistrict"
-                style="@style/EditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/edittext_style"
-                android:ems="10"
-                android:maxLength="64"
-                android:hint="Округ"
-                android:inputType="textPersonName"
-                android:textAlignment="textStart"
-                android:textSize="16sp" />
-
-            <EditText
-                android:id="@+id/adminAddClinicCity"
-                style="@style/EditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/edittext_style"
-                android:ems="10"
-                android:hint="Город"
-                android:maxLength="64"
-                android:inputType="textPersonName"
-                android:textAlignment="textStart"
-                android:textSize="16sp" />
-
-            <EditText
-                android:id="@+id/adminAddClinicStreet"
-                style="@style/EditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/edittext_style"
-                android:ems="10"
-                android:hint="Улица"
-                android:maxLength="64"
-                android:inputType="textPersonName"
-                android:textAlignment="textStart"
-                android:textSize="16sp" />
-
-            <EditText
-                android:id="@+id/adminAddClinicHouse"
-                style="@style/EditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/edittext_style"
-                android:ems="10"
-                android:hint="Дом"
-                android:inputType="textPersonName"
-                android:textAlignment="textStart"
-                android:textSize="16sp" />
 
 
             <EditText
@@ -165,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:hint="     Услуги клиники"
                 android:ems="10"
-                android:maxLength="256"
+                android:maxLength="512"
                 android:layout_marginTop="10dp"
                 android:gravity="start|top"
                 android:textSize="16sp"
@@ -199,3 +132,72 @@
     </RelativeLayout>
 
 </FrameLayout>
+
+<!--<EditText-->
+<!--android:id="@+id/adminAddClinicRegion"-->
+<!--style="@style/EditText"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginTop="10dp"-->
+<!--android:background="@drawable/edittext_style"-->
+<!--android:ems="10"-->
+<!--android:hint="Регион"-->
+<!--android:maxLength="64"-->
+<!--android:inputType="textPersonName"-->
+<!--android:textAlignment="textStart"-->
+<!--android:textSize="16sp" />-->
+
+<!--<EditText-->
+<!--android:id="@+id/adminAddClinicDistrict"-->
+<!--style="@style/EditText"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginTop="10dp"-->
+<!--android:background="@drawable/edittext_style"-->
+<!--android:ems="10"-->
+<!--android:maxLength="64"-->
+<!--android:hint="Округ"-->
+<!--android:inputType="textPersonName"-->
+<!--android:textAlignment="textStart"-->
+<!--android:textSize="16sp" />-->
+
+<!--<EditText-->
+<!--android:id="@+id/adminAddClinicCity"-->
+<!--style="@style/EditText"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginTop="10dp"-->
+<!--android:background="@drawable/edittext_style"-->
+<!--android:ems="10"-->
+<!--android:hint="Город"-->
+<!--android:maxLength="64"-->
+<!--android:inputType="textPersonName"-->
+<!--android:textAlignment="textStart"-->
+<!--android:textSize="16sp" />-->
+
+<!--<EditText-->
+<!--android:id="@+id/adminAddClinicStreet"-->
+<!--style="@style/EditText"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginTop="10dp"-->
+<!--android:background="@drawable/edittext_style"-->
+<!--android:ems="10"-->
+<!--android:hint="Улица"-->
+<!--android:maxLength="64"-->
+<!--android:inputType="textPersonName"-->
+<!--android:textAlignment="textStart"-->
+<!--android:textSize="16sp" />-->
+
+<!--<EditText-->
+<!--android:id="@+id/adminAddClinicHouse"-->
+<!--style="@style/EditText"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginTop="10dp"-->
+<!--android:background="@drawable/edittext_style"-->
+<!--android:ems="10"-->
+<!--android:hint="Дом"-->
+<!--android:inputType="textPersonName"-->
+<!--android:textAlignment="textStart"-->
+<!--android:textSize="16sp" />-->

@@ -140,16 +140,4 @@ class AdminClinicsFragment : Fragment() {
         return sharedPreferencesLogin.getString("login", "") ?: ""
     }
 
-
-    private fun getDataClinics(): List<AdminClinicsModel> {
-        val listClinics: MutableList<AdminClinicsModel> = java.util.ArrayList()
-        listClinics.add(
-            AdminClinicsModel( "Лаповое", "adress1",
-                "10", "service1", "phone1"))
-        listClinics.add(
-            AdminClinicsModel( "Крутое название", "adress2",
-                "200", "service2", "phone2"))
-
-        return listClinics
-    }
 }

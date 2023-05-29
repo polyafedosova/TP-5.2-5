@@ -30,7 +30,7 @@ import ru.vsu.cs.tp.paws.R
 class AdminEditClinicFragment : Fragment() {
 
     private lateinit var adminEditClinicName: EditText
-    private lateinit var adminEditClinicCountry: EditText
+    private lateinit var adminEditClinicAddress: EditText
     private lateinit var adminEditClinicPhone: EditText
     private lateinit var adminEditClinicRegion: EditText
     private lateinit var adminEditClinicDistrict: EditText
@@ -61,14 +61,14 @@ class AdminEditClinicFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_admin_edit_clinic, container, false)
 
         adminEditClinicName = view.findViewById(R.id.adminEditClinicName)
-        adminEditClinicCountry = view.findViewById(R.id.adminEditClinicCountry)
+        adminEditClinicAddress = view.findViewById(R.id.adminEditClinicAddress)
         adminEditClinicPhone = view.findViewById(R.id.adminEditClinicPhone)
         adminEditClinicDiscriptoin = view.findViewById(R.id.adminEditClinicDisription)
-        adminEditClinicRegion = view.findViewById(R.id.adminEditClinicRegion)
-        adminEditClinicDistrict = view.findViewById(R.id.adminEditClinicDistrict)
-        adminEditClinicCity = view.findViewById(R.id.adminEditClinicCity)
-        adminEditClinicStreet = view.findViewById(R.id.adminEditClinicStreet)
-        adminEditClinicHouse = view.findViewById(R.id.adminEditClinicHouse)
+//        adminEditClinicRegion = view.findViewById(R.id.adminEditClinicRegion)
+//        adminEditClinicDistrict = view.findViewById(R.id.adminEditClinicDistrict)
+//        adminEditClinicCity = view.findViewById(R.id.adminEditClinicCity)
+//        adminEditClinicStreet = view.findViewById(R.id.adminEditClinicStreet)
+//        adminEditClinicHouse = view.findViewById(R.id.adminEditClinicHouse)
         adminEditClinicServices = view.findViewById(R.id.adminEditClinicServices)
 
 
@@ -77,22 +77,23 @@ class AdminEditClinicFragment : Fragment() {
         val nameValue = requireArguments().getString("name")
         val phoneValue = requireArguments().getString("phone")
         val descriptionValue = requireArguments().getString("description")
-        val countryValue = requireArguments().getString("country")
-        val regionValue = requireArguments().getString("region")
+//        val countryValue = requireArguments().getString("country")
+//        val regionValue = requireArguments().getString("region")
         val districtValue = requireArguments().getString("district")
         val cityValue = requireArguments().getString("city")
         val streetValue = requireArguments().getString("street")
         val houseValue = requireArguments().getString("house")
 
+        val address = "$districtValue,$cityValue,$streetValue,$houseValue"
         adminEditClinicName.setText(nameValue)
         adminEditClinicPhone.setText(phoneValue)
         adminEditClinicDiscriptoin.setText(descriptionValue)
-        adminEditClinicCountry.setText(countryValue)
-        adminEditClinicRegion.setText(regionValue)
-        adminEditClinicDistrict.setText(districtValue)
-        adminEditClinicCity.setText(cityValue)
-        adminEditClinicStreet.setText(streetValue)
-        adminEditClinicHouse.setText(houseValue)
+        adminEditClinicAddress.setText(address)
+//        adminEditClinicRegion.setText(regionValue)
+//        adminEditClinicDistrict.setText(districtValue)
+//        adminEditClinicCity.setText(cityValue)
+//        adminEditClinicStreet.setText(streetValue)
+//        adminEditClinicHouse.setText(houseValue)
 
         getTrearments(idValue)
 
@@ -147,7 +148,19 @@ class AdminEditClinicFragment : Fragment() {
             override fun onResponse(call: Call<List<TreatmentDtoGet>>, response: Response<List<TreatmentDtoGet>>) {
                 if (response.isSuccessful) {
                     val dataResponse = response.body()
-                    println("List treatments - " + dataResponse)
+                    var servicesString = ""
+//                    println("List treatments - " + dataResponse)
+                    if (dataResponse != null) {
+                        for (i in 0..dataResponse.size - 1)  {
+                            if (i != dataResponse.size - 1) {
+                                servicesString += dataResponse[i].name + "," + dataResponse[i].price + ";"
+                            }else{
+                                servicesString += dataResponse[i].name + "," + dataResponse[i].price
+                            }
+
+                        }
+                        adminEditClinicServices.setText(servicesString)
+                    }
                 } else {
                     println(response.code())
                     println(response.message())
@@ -155,7 +168,7 @@ class AdminEditClinicFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<List<TreatmentDtoGet>>, t: Throwable) {
-                println("BBBBBBBBBBBBBBBBB")
+                println("failure")
             }
         })
     }

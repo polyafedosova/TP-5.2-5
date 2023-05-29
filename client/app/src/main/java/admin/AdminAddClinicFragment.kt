@@ -34,7 +34,7 @@ import ru.vsu.cs.tp.paws.R
 class AdminAddClinicFragment : Fragment() {
 
     private lateinit var adminAddClinicName: EditText
-    private lateinit var adminAddClinicCountry: EditText
+    private lateinit var adminAddClinicAddress: EditText
     private lateinit var adminAddClinicPhone: EditText
     private lateinit var adminAddClinicRegion: EditText
     private lateinit var adminAddClinicDistrict: EditText
@@ -66,14 +66,15 @@ class AdminAddClinicFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_admin_add_clinic, container, false)
 
         adminAddClinicName = view.findViewById(R.id.adminAddClinicName)
-        adminAddClinicCountry = view.findViewById(R.id.adminAddClinicCountry)
+        adminAddClinicAddress = view.findViewById(R.id.adminAddClinicAddress)
+
         adminAddClinicPhone = view.findViewById(R.id.adminAddClinicPhone)
         adminAddClinicDiscriptoin = view.findViewById(R.id.adminAddClinicDisription)
-        adminAddClinicRegion = view.findViewById(R.id.adminAddClinicRegion)
-        adminAddClinicDistrict = view.findViewById(R.id.adminAddClinicDistrict)
-        adminAddClinicCity = view.findViewById(R.id.adminAddClinicCity)
-        adminAddClinicStreet = view.findViewById(R.id.adminAddClinicStreet)
-        adminAddClinicHouse = view.findViewById(R.id.adminAddClinicHouse)
+//        adminAddClinicRegion = view.findViewById(R.id.adminAddClinicRegion)
+//        adminAddClinicDistrict = view.findViewById(R.id.adminAddClinicDistrict)
+//        adminAddClinicCity = view.findViewById(R.id.adminAddClinicCity)
+//        adminAddClinicStreet = view.findViewById(R.id.adminAddClinicStreet)
+//        adminAddClinicHouse = view.findViewById(R.id.adminAddClinicHouse)
         adminAddClinicServices = view.findViewById(R.id.adminAddClinicServices)
 
         adminAddClinic = view.findViewById(R.id.adminAddClinic)
@@ -81,9 +82,7 @@ class AdminAddClinicFragment : Fragment() {
 
         adminAddClinic.setOnClickListener() {
 
-            addClinic(adminAddClinicPhone, adminAddClinicName, adminAddClinicCountry,
-                adminAddClinicRegion, adminAddClinicDistrict, adminAddClinicCity,
-                adminAddClinicStreet, adminAddClinicHouse, adminAddClinicDiscriptoin, adminAddClinicServices)
+            addClinic(adminAddClinicPhone, adminAddClinicName, adminAddClinicAddress, adminAddClinicDiscriptoin, adminAddClinicServices)
 
 
             it.findNavController().popBackStack()
@@ -97,32 +96,36 @@ class AdminAddClinicFragment : Fragment() {
     }
 
 
-    private fun addClinic(phone: EditText, name: EditText, country: EditText,
-                          region: EditText, district: EditText, city: EditText, street: EditText,
-                          house: EditText, discription: EditText, services: EditText) {
+    private fun addClinic(phone: EditText, name: EditText, address: EditText, discription: EditText, services: EditText) {
 
         val token = getTokenFromSharedPreferences()
         val headers = HashMap<String, String>()
         headers["Authorization"] = "Bearer $token"
 
+        val resultList: List<String> = address.text.toString().split(",")
         val api = retrofit.create(VetclinicInterface::class.java)
-        val dto = VetclinicDtoPost(name.text.toString(), phone.text.toString(),
-            discription.text.toString(), country.text.toString(), region.text.toString(),
-            district.text.toString(), city.text.toString(), street.text.toString(), house.text.toString())
+        if (resultList.size == 4) {
+            val dto = VetclinicDtoPost(name.text.toString(), phone.text.toString(),
+                discription.text.toString(), "заглушка", "заглушка",
+                resultList[0], resultList[1], resultList[2], resultList[3])
+            println("dto - " + dto)
+            try {
 
-        try {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val response = api.saveNewVetclinic(dto, headers).execute()
 
-            CoroutineScope(Dispatchers.IO).launch {
-                val response = api.saveNewVetclinic(dto, headers).execute()
-
-                if (response.isSuccessful) {
-                    println("clinic was added")
-                    addTreatments(services)
+                    if (response.isSuccessful) {
+                        println("clinic was added")
+                        addTreatments(services)
+                    }
                 }
+            } catch (ex: Exception) {
+                ex.stackTrace
             }
-        } catch (ex: Exception) {
-            ex.stackTrace
+        }else {
+            Toast.makeText(this.requireContext(), "Ошибка в заполнении адреса", Toast.LENGTH_SHORT).show()
         }
+
 
     }
 
@@ -140,7 +143,7 @@ class AdminAddClinicFragment : Fragment() {
             override fun onResponse(call: Call<List<VetclinicDtoGet>>, response: Response<List<VetclinicDtoGet>>) {
                 if (response.isSuccessful) {
                     val dataResponse = response.body()
-                    println("List clinics" + dataResponse)
+//                    println("List clinics" + dataResponse)
                     if (dataResponse != null) {
                         val newClinicId = dataResponse[dataResponse.size - 1].id
 
@@ -165,7 +168,8 @@ class AdminAddClinicFragment : Fragment() {
                         }
                     }
                 } else {
-                    println("AAAAAAAAAAAAAAAA")
+                    println("response not successful")
+                    println(response.code().toString() + " " + response.message())
                 }
             }
 

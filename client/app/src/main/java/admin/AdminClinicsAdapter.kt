@@ -24,9 +24,7 @@ class AdminClinicsAdapter (_newClinics: MutableList<VetclinicDtoGet>) :
 
     override fun onBindViewHolder(holder: AdminClinicsViewHolder, position: Int) {
         holder.clinicsTitle.text = newClinics[position].name
-        holder.clinicsAddress.text = newClinics[position].street + newClinics[position].house
-//        holder.clinicsPrice.text = newClinics[position].getPrice()
-
+        holder.clinicsAddress.text = newClinics[position].street + " " + newClinics[position].house
 
         val bundle = Bundle()
 
