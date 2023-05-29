@@ -1,8 +1,8 @@
 package ru.vsu.dogapp.controller;
 
 import org.springframework.web.bind.annotation.*;
+import ru.vsu.dogapp.dto.VetSimpleDto;
 import ru.vsu.dogapp.dto.VetclinicDto;
-import ru.vsu.dogapp.entity.Vetclinic;
 import ru.vsu.dogapp.service.VetclinicService;
 
 import javax.validation.Valid;
@@ -37,5 +37,13 @@ public class VetclinicController {
     @DeleteMapping("/edit/{id}/delete")
     public void deleteVetclinic(@PathVariable Integer id) {
         service.delete(id);
+    }
+    @PostMapping("/sort")
+    public List<VetSimpleDto> sort(String treatment, String city) {
+        return service.sort(treatment, city);
+    }
+    @PostMapping("/findByCity")
+    public List<VetclinicDto> findByCity(String city) {
+        return service.findByCity(city);
     }
 }

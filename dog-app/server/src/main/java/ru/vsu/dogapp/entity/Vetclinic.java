@@ -1,10 +1,9 @@
 package ru.vsu.dogapp.entity;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-
 import lombok.*;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.HashSet;
 import java.util.Set;
 

@@ -1,6 +1,5 @@
 package ru.vsu.dogapp.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -26,7 +25,6 @@ public class VetclinicDto {
             message = "Description should contain only letters, digits, and basic punctuation.")
     private String description;
 
-    @NotBlank(message = "Country must not be blank.")
     @Size(min = 2, max = 50, message = "Country must be between 2 and 50 characters long.")
     @Pattern(regexp = "^[A-Za-zА-Яа-я0-9()\\[\\]'\"\\s-]+$", message = "Country must be a valid address.")
     private String country;
