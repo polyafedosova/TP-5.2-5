@@ -106,8 +106,8 @@ class AdminAddClinicFragment : Fragment() {
         val api = retrofit.create(VetclinicInterface::class.java)
         if (resultList.size == 4) {
             val dto = VetclinicDtoPost(name.text.toString(), phone.text.toString(),
-                discription.text.toString(), "заглушка", "заглушка",
-                resultList[0], resultList[1], resultList[2], resultList[3])
+                discription.text.toString(), "заглушка", resultList[0],
+                "заглушка", resultList[1], resultList[2], resultList[3])
             println("dto - " + dto)
             try {
 
