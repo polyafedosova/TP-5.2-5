@@ -4,8 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,7 +22,7 @@ public class Event {
     @NotEmpty
     private String name;
     private LocalDate date;
-    private Time time;
+    private LocalTime time;
     private String description;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner")

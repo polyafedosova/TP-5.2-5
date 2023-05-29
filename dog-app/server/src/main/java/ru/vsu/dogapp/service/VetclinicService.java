@@ -63,7 +63,9 @@ public class VetclinicService {
                         }
                     }
                 }
-                sortList.add(new VetSimpleDto(mapper.toDto(v), min));
+                if (min != null) {
+                    sortList.add(new VetSimpleDto(mapper.toDto(v), min));
+                }
             }
         }
         sortList.sort(Comparator.comparing(VetSimpleDto::getMinPrice));
