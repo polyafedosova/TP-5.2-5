@@ -2,14 +2,10 @@ package medical
 
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.AdapterView.OnItemClickListener
-import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -18,15 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import api.ApiVetclinic
 import dto.TreatmentDtoGet
 import dto.VetclinicDtoGet
-
-import interfaces.VetclinicInterface
-import kotlinx.coroutines.*
+import dto.VetclinicSortDto
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-
 import ru.vsu.cs.tp.paws.R
 
 
@@ -45,36 +36,13 @@ class MedicalFragment : Fragment() {
     private var services: List<TreatmentDtoGet>? = null
 
 
-//    private val retrofit = Retrofit.Builder()
-//        .baseUrl("http://10.0.2.2:8080")
-//        .addConverterFactory(GsonConverterFactory.create())
-//        .build()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val call = ApiVetclinic.service.getAllVetclinics()
-        call.enqueue(object : Callback<List<VetclinicDtoGet>> {
-            override fun onResponse(call: Call<List<VetclinicDtoGet>>, response: Response<List<VetclinicDtoGet>>) {
-                if (response.isSuccessful) {
-                    val dataResponse = response.body()
-
-                    clinicsAdapter = ClinicsAdapter(dataResponse as MutableList<VetclinicDtoGet>)
-                    recyclerView.adapter = clinicsAdapter
-
-                } else {
-                    println("response not success" + response.code())
-                }
-            }
-
-            override fun onFailure(call: Call<List<VetclinicDtoGet>>, t: Throwable) {
-                println("No connect")
-            }
-        })
+        getAllClinics()
 
     }
 
@@ -89,10 +57,6 @@ class MedicalFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recycler_events)
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-
-//        var adapterSearch = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, getDataSearch())
-//        var adapterSearchCity = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, getDataCity())
-
         view.setOnClickListener { v ->
             val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(v.windowToken, 0)
@@ -100,66 +64,20 @@ class MedicalFragment : Fragment() {
             searchViewCity.clearFocus()
         }
 
-
-        //--------------------------ПОИСК ПО УСЛУГАМ-----------------------------------------
-        searchView.setOnQueryTextFocusChangeListener { v, hasFocus ->
-            if (hasFocus) {
-                listView.visibility = View.VISIBLE
-//                listView.adapter = adapterSearch
-            } else {
-                listView.visibility = View.GONE
-            }
-        }
-
-        listView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
-                currentQuery = listView.getItemAtPosition(position) as String
-                searchView.setQuery(currentQuery, false)
-                searchView.clearFocus()
-                listView.visibility = View.GONE
-            }
-
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-//                adapterSearch.filter.filter(query)
-                clinicsAdapter?.filter?.filter(query)
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-//                adapterSearch.filter.filter(newText)
-                clinicsAdapter?.filter?.filter(newText)
-//                listView.visibility = View.VISIBLE
+                if (query != "") {
+                    println("text - " + query)
+                    getClinicsByTreatment(query)
+                }
+//                handleSearchQuery(query)
                 return true
             }
-        })
-
-        searchViewCity.setOnQueryTextFocusChangeListener { v, hasFocus ->
-            if (hasFocus) {
-                listViewCity.visibility = View.VISIBLE
-//                listViewCity.adapter = adapterSearchCity
-            } else {
-                listViewCity.visibility = View.GONE
-            }
-        }
-
-        listViewCity.onItemClickListener = OnItemClickListener { parent, view, position, id ->
-                currentQuery = listViewCity.getItemAtPosition(position) as String
-                searchViewCity.setQuery(currentQuery, false)
-                searchViewCity.clearFocus()
-                listViewCity.visibility = View.GONE
-            }
-
-        searchViewCity.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-//                adapterSearchCity.filter.filter(query)
-                clinicsAdapter?.filter?.filter(query)
-                return false
-            }
 
             override fun onQueryTextChange(newText: String): Boolean {
-//                adapterSearchCity.filter.filter(newText)
-                clinicsAdapter?.filter?.filter(newText)
-//                listViewCity.visibility = View.VISIBLE
+                // Вызывается при изменении текста в SearchView
+
+                // Обработайте изменения текста здесь, если необходимо
                 return true
             }
         })
@@ -168,27 +86,46 @@ class MedicalFragment : Fragment() {
         return view
     }
 
+    private fun getClinicsByTreatment(treatment: String) {
+        val call = ApiVetclinic.service.sort(treatment, null)
 
-    private fun getClinicsList(): List<VetclinicDtoGet>? {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:8080") // Замените на URL вашего сервера
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        call.enqueue(object : Callback<List<VetclinicSortDto>> {
+            override fun onResponse(call: Call<List<VetclinicSortDto>>, response: Response<List<VetclinicSortDto>>) {
+                if (response.isSuccessful) {
+                    val dataResponse = response.body()
+                    println(dataResponse)
+//                    clinicsAdapter = ClinicsAdapter(dataResponse as MutableList<VetclinicDtoGet>)
+//                    recyclerView.adapter = clinicsAdapter
 
-        var data: Call<List<VetclinicDtoGet>>? = null
-
-        val service = retrofit.create(VetclinicInterface::class.java)
-
-        GlobalScope.launch(Dispatchers.Main) {
-            try {
-                data = service.getAllVetclinics() // Замените на необходимый ID пользователя
-                // Обработка полученных данных, например:
-                // textView.text = "User ID: ${user.id}, Name: ${user.name}"
-            } catch (e: Exception) {
-                // Обработка ошибок
+                } else {
+                    println("response not success " + response.code())
+                }
             }
-        }
-        return data?.execute()?.body()
+
+            override fun onFailure(call: Call<List<VetclinicSortDto>>, t: Throwable) {
+                println("No connect")
+            }
+        })
+    }
+    private fun getAllClinics() {
+        val call = ApiVetclinic.service.getAllVetclinics()
+        call.enqueue(object : Callback<List<VetclinicDtoGet>> {
+            override fun onResponse(call: Call<List<VetclinicDtoGet>>, response: Response<List<VetclinicDtoGet>>) {
+                if (response.isSuccessful) {
+                    val dataResponse = response.body()
+
+                    clinicsAdapter = ClinicsAdapter(dataResponse as MutableList<VetclinicDtoGet>)
+                    recyclerView.adapter = clinicsAdapter
+
+                } else {
+                    println("response not success " + response.code())
+                }
+            }
+
+            override fun onFailure(call: Call<List<VetclinicDtoGet>>, t: Throwable) {
+                println("No connect")
+            }
+        })
     }
 
 

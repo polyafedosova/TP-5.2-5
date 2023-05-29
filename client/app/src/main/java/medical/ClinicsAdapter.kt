@@ -120,7 +120,7 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>) : RecyclerView.A
 
     private var searchFilter: Filter = object : Filter() {
         override fun performFiltering(constraint: CharSequence): FilterResults {
-            println("treatments - " + allTreatments)
+
             val filteredList: MutableList<VetclinicDtoGet?> = ArrayList()
             if (constraint.isEmpty()) {
                 filteredList.addAll(newClinicsFull)
