@@ -132,6 +132,8 @@ class EditEventFragment : Fragment() {
         val format = DateTimeFormatter.ofPattern("dd.MM.yyyy")
 
         try {
+            val modifiedTime = newTime.text.toString().replace("-", ":")
+
             var dateString = "1212-12-12"
 
             val parseDate = LocalDate.parse(newDate.text.toString(), format)
@@ -153,7 +155,7 @@ class EditEventFragment : Fragment() {
                         "-" + parseDate.dayOfMonth.toString()
             }
 
-            val dto = EventDtoPost(newName.text.toString(), dateString, newComment.text.toString())
+            val dto = EventDtoPost(newName.text.toString(), dateString, modifiedTime, newComment.text.toString())
 
             CoroutineScope(Dispatchers.IO).launch {
                 val response = api.updateEvent(idValue, getLoginFromSharedPreferences(), dto, headers).execute()

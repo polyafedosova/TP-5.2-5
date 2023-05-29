@@ -111,7 +111,7 @@ class AddEventFragment : Fragment() {
                 dateString = parseDate.year.toString() + "-" + parseDate.monthValue.toString() +
                         "-" + parseDate.dayOfMonth.toString()
             }
-            val dto = EventDtoPost(name.text.toString(), dateString, comment.text.toString())
+            val dto = EventDtoPost(name.text.toString(), dateString, modifiedTime, comment.text.toString())
             println(dto)
             CoroutineScope(Dispatchers.IO).launch {
                 val response = api.saveNewEvent(getLoginFromSharedPreferences(), dto, headers).execute()
@@ -154,10 +154,10 @@ class AddEventFragment : Fragment() {
             comment.setText("")
         }
 
-        if (!isTimeStringValid(time.text.toString())) {
-            isValid = false
-            time.error = "Ошибка в ведённом времени"
-        }
+//        if (!isTimeStringValid(time.text.toString())) {
+//            isValid = false
+//            time.error = "Ошибка в ведённом времени"
+//        }
         var parseDate: LocalDate
         val format = DateTimeFormatter.ofPattern("dd.MM.yyyy")
         try {
@@ -172,10 +172,10 @@ class AddEventFragment : Fragment() {
         return isValid
     }
 
-    private fun isTimeStringValid(timeString: String): Boolean {
-        val regex = Regex("^([01]\\d|2[0-3])-[0-5]\\d$") // Регулярное выражение для формата "HH:mm"
-        return regex.matches(timeString)
-    }
+//    private fun isTimeStringValid(timeString: String): Boolean {
+//        val regex = Regex("^([01]\\d|2[0-3])-[0-5]\\d$") // Регулярное выражение для формата "HH:mm"
+//        return regex.matches(timeString)
+//    }
 
     private fun getTokenFromSharedPreferences(): String {
         return sharedPreferencesToken.getString("token", "") ?: ""
