@@ -119,7 +119,7 @@ class MedicalFragment : Fragment() {
                             sortedClinics.add(dataResponse[i])
                         }
                     }
-                    clinicsAdapter = ClinicsAdapter(sortedClinics as MutableList<VetclinicDtoGet>, null)
+                    clinicsAdapter = ClinicsAdapter(sortedClinics as MutableList<VetclinicDtoGet>, null, "")
                     recyclerView.adapter = clinicsAdapter
 
                 } else {
@@ -149,7 +149,7 @@ class MedicalFragment : Fragment() {
                             sortedPrices.add(dataResponse[i].minPrice)
                         }
                     }
-                    clinicsAdapter = ClinicsAdapter(sortedClinics as MutableList<VetclinicDtoGet>, sortedPrices)
+                    clinicsAdapter = ClinicsAdapter(sortedClinics as MutableList<VetclinicDtoGet>, sortedPrices, treatment)
                     recyclerView.adapter = clinicsAdapter
 
                 } else {
@@ -169,7 +169,7 @@ class MedicalFragment : Fragment() {
                 if (response.isSuccessful) {
                     val dataResponse = response.body()
 
-                    clinicsAdapter = ClinicsAdapter(dataResponse as MutableList<VetclinicDtoGet>, null)
+                    clinicsAdapter = ClinicsAdapter(dataResponse as MutableList<VetclinicDtoGet>, null, "")
                     recyclerView.adapter = clinicsAdapter
 
                 } else {

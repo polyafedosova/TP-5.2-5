@@ -25,9 +25,10 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>, _lowerPrice: MutableList<BigDecimal>?) :
+class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>, _lowerPrice: MutableList<BigDecimal>?, _treatment: String) :
     RecyclerView.Adapter<ClinicsAdapter.ClinicsViewHolder>(), Filterable {
 
+    private var treatment = _treatment
     private var lowerPrice: MutableList<BigDecimal>? = _lowerPrice
     private var newClinics: MutableList<VetclinicDtoGet> = _newClinics
     private var newClinicsFull: List<VetclinicDtoGet> = java.util.ArrayList<VetclinicDtoGet>(newClinics)
@@ -49,8 +50,8 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>, _lowerPrice: Mut
                     var treatmentStr = ""
                     var pricesStr = ""
                     for (i in 0..data.size - 1) {
-                        treatmentStr += data[i].name + " "
-                        pricesStr += data[i].price.toString() + " "
+//                        treatmentStr += data[i].name + " "
+//                        pricesStr += data[i].price.toString() + " "
                     }
                     holder.clinicsPrice.text = pricesStr
                     holder.clinicsPreviewTreatment.text = treatmentStr
@@ -59,9 +60,11 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>, _lowerPrice: Mut
                     var pricesStr = ""
                     try {
                         for (i in 0..data.size - 1) {
-                            treatmentStr += data[i].name + " "
+                            if (data[i].name.lowercase().contains(treatment.lowercase())){
+                                treatmentStr += data[i].name + '|'
+                            }
 
-                            pricesStr = lowerPrice!![i].toString() + " "
+                            pricesStr = "От " + lowerPrice!![i].toString() + "₽"
                             lowerPrice!!.remove(lowerPrice!![i])
                         }
                     } catch (ex: Exception) {
