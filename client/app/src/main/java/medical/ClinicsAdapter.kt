@@ -64,7 +64,6 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>, _lowerPrice: Mut
                             pricesStr = lowerPrice!![i].toString() + " "
                             lowerPrice!!.remove(lowerPrice!![i])
                         }
-                        println(pricesStr)
                     } catch (ex: Exception) {
                         println(ex)
                     }

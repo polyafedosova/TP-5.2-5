@@ -22,4 +22,8 @@ interface VetclinicInterface {
     @FormUrlEncoded
     @POST("/vetclinics/sort")
     fun sort(@Field("treatment") treatment: String,@Field("city") city: String?): Call<List<VetclinicSortDto>>
+
+    @FormUrlEncoded
+    @POST("/vetclinics/findByCity")
+    fun sortByCity(@Field("city") city: String): Call<List<VetclinicDtoGet>>
 }

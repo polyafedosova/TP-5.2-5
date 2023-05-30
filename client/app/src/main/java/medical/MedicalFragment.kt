@@ -65,6 +65,23 @@ class MedicalFragment : Fragment() {
             searchViewCity.clearFocus()
         }
 
+        searchViewCity.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                if (newText != "") {
+                    getClinicsByCity(newText)
+                }else{
+                    getAllClinics()
+                }
+
+                return true
+            }
+        })
+
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 if (query != "") {
@@ -86,6 +103,34 @@ class MedicalFragment : Fragment() {
 
 
         return view
+    }
+
+    private fun getClinicsByCity(city: String) {
+        val call = ApiVetclinic.service.sortByCity(city)
+
+        call.enqueue(object : Callback<List<VetclinicDtoGet>> {
+            override fun onResponse(call: Call<List<VetclinicDtoGet>>, response: Response<List<VetclinicDtoGet>>) {
+                if (response.isSuccessful) {
+                    val dataResponse = response.body()
+                    val sortedClinics: ArrayList<VetclinicDtoGet> = ArrayList()
+                    println(dataResponse)
+                    if (dataResponse != null) {
+                        for(i in 0..dataResponse.size - 1) {
+                            sortedClinics.add(dataResponse[i])
+                        }
+                    }
+                    clinicsAdapter = ClinicsAdapter(sortedClinics as MutableList<VetclinicDtoGet>, null)
+                    recyclerView.adapter = clinicsAdapter
+
+                } else {
+                    println("response not success " + response.code())
+                }
+            }
+
+            override fun onFailure(call: Call<List<VetclinicDtoGet>>, t: Throwable) {
+                println("No connect")
+            }
+        })
     }
 
     private fun getClinicsByTreatment(treatment: String) {
