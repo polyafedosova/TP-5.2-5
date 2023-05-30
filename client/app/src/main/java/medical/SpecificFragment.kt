@@ -98,7 +98,7 @@ class SpecificFragment : Fragment(){
 
                     if (dataResponse != null) {
                         for (i in 0..dataResponse.size - 1)  {
-                            servicesString += dataResponse[i].name + " - " + dataResponse[i].price + ";" + '\n'
+                            servicesString += dataResponse[i].name + ": " + dataResponse[i].price + ";" + '\n'
 
                         }
                         clinicServices.text = servicesString

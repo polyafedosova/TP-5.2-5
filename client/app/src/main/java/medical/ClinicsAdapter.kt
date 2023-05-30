@@ -20,16 +20,18 @@ import retrofit2.Response
 
 
 import ru.vsu.cs.tp.paws.R
+import java.math.BigDecimal
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>) : RecyclerView.Adapter<ClinicsAdapter.ClinicsViewHolder>(), Filterable {
+class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>, _lowerPrice: MutableList<BigDecimal>?) :
+    RecyclerView.Adapter<ClinicsAdapter.ClinicsViewHolder>(), Filterable {
 
+    private var lowerPrice: MutableList<BigDecimal>? = _lowerPrice
     private var newClinics: MutableList<VetclinicDtoGet> = _newClinics
     private var newClinicsFull: List<VetclinicDtoGet> = java.util.ArrayList<VetclinicDtoGet>(newClinics)
 
-    private var allTreatments = ""
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClinicsViewHolder {
         val clinicsItems: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.clinics_item, parent, false)
@@ -42,19 +44,34 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>) : RecyclerView.A
 
         getTrearments(newClinics[position].id, object : TreatmentCallback {
             override fun onDataReceived(data: List<TreatmentDtoGet>) {
-                // Доступ к данным в переменной data
+                println(lowerPrice)
+                if (lowerPrice == null) {
+                    var treatmentStr = ""
+                    var pricesStr = ""
+                    for (i in 0..data.size - 1) {
+                        treatmentStr += data[i].name + " "
+                        pricesStr += data[i].price.toString() + " "
+                    }
+                    holder.clinicsPrice.text = pricesStr
+                    holder.clinicsPreviewTreatment.text = treatmentStr
+                }else {
+                    var treatmentStr = ""
+                    var pricesStr = ""
+                    try {
+                        for (i in 0..data.size - 1) {
+                            treatmentStr += data[i].name + " "
 
-//                println("List treatments - $data")
-                var treatmentStr = ""
-                var pricesStr = ""
-                for (i in 0 .. data.size - 1) {
-                    treatmentStr += data[i].name + " "
-                    pricesStr += data[i].price.toString() + " "
-                    allTreatments += data[i].name
+                            pricesStr = lowerPrice!![i].toString() + " "
+                            lowerPrice!!.remove(lowerPrice!![i])
+                        }
+                        println(pricesStr)
+                    } catch (ex: Exception) {
+                        println(ex)
+                    }
+
+                    holder.clinicsPrice.text = pricesStr
+                    holder.clinicsPreviewTreatment.text = treatmentStr
                 }
-                holder.clinicsPrice.text = pricesStr
-                holder.clinicsPreviewTreatment.text = treatmentStr
-
 
             }
 
@@ -87,7 +104,6 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>) : RecyclerView.A
 
     private fun getTrearments(id: Int, callback: TreatmentCallback) {
         val call = ApiTreatment.service.getVetclinicTreatments(id)
-//        var dataResponse: List<TreatmentDtoGet>?
         call.enqueue(object : Callback<List<TreatmentDtoGet>> {
             override fun onResponse(call: Call<List<TreatmentDtoGet>>, response: Response<List<TreatmentDtoGet>>) {
                 if (response.isSuccessful) {
@@ -127,7 +143,7 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>) : RecyclerView.A
             } else {
                 val filterPattern = constraint.toString().lowercase().trim { it <= ' ' }
                 for (item in newClinicsFull) {
-                    if (allTreatments.toLowerCase(Locale.ROOT).contains(filterPattern)) {
+                    if (filterPattern.toLowerCase(Locale.ROOT).contains(filterPattern)) {
                         filteredList.add(item)
                     }
                 }

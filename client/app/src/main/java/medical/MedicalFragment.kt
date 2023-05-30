@@ -19,6 +19,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import ru.vsu.cs.tp.paws.R
+import java.math.BigDecimal
 
 
 class MedicalFragment : Fragment() {
@@ -67,17 +68,18 @@ class MedicalFragment : Fragment() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 if (query != "") {
-                    println("text - " + query)
                     getClinicsByTreatment(query)
                 }
-//                handleSearchQuery(query)
                 return true
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                // Вызывается при изменении текста в SearchView
+                if (newText != "") {
+                    getClinicsByTreatment(newText)
+                }else{
+                    getAllClinics()
+                }
 
-                // Обработайте изменения текста здесь, если необходимо
                 return true
             }
         })
@@ -93,9 +95,17 @@ class MedicalFragment : Fragment() {
             override fun onResponse(call: Call<List<VetclinicSortDto>>, response: Response<List<VetclinicSortDto>>) {
                 if (response.isSuccessful) {
                     val dataResponse = response.body()
+                    val sortedClinics: ArrayList<VetclinicDtoGet> = ArrayList()
+                    val sortedPrices: ArrayList<BigDecimal> = ArrayList()
                     println(dataResponse)
-//                    clinicsAdapter = ClinicsAdapter(dataResponse as MutableList<VetclinicDtoGet>)
-//                    recyclerView.adapter = clinicsAdapter
+                    if (dataResponse != null) {
+                        for(i in 0..dataResponse.size - 1) {
+                            sortedClinics.add(dataResponse[i].vetclinicDto)
+                            sortedPrices.add(dataResponse[i].minPrice)
+                        }
+                    }
+                    clinicsAdapter = ClinicsAdapter(sortedClinics as MutableList<VetclinicDtoGet>, sortedPrices)
+                    recyclerView.adapter = clinicsAdapter
 
                 } else {
                     println("response not success " + response.code())
@@ -114,7 +124,7 @@ class MedicalFragment : Fragment() {
                 if (response.isSuccessful) {
                     val dataResponse = response.body()
 
-                    clinicsAdapter = ClinicsAdapter(dataResponse as MutableList<VetclinicDtoGet>)
+                    clinicsAdapter = ClinicsAdapter(dataResponse as MutableList<VetclinicDtoGet>, null)
                     recyclerView.adapter = clinicsAdapter
 
                 } else {
