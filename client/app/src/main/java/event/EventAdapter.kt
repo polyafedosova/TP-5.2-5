@@ -21,7 +21,7 @@ class EventAdapter (_newEvents: MutableList<EventDtoGet>) : RecyclerView.Adapter
 
     override fun onBindViewHolder(holder: EventsViewHolder, position: Int) {
         holder.eventsTitle.text = newEvents[position].name
-        holder.eventsData.text = newEvents[position].date
+        holder.eventsData.text = newEvents[position].date + "\n" + newEvents[position].time
         holder.eventsComment.text = newEvents[position].description
 
         val bundle = Bundle()
@@ -29,6 +29,7 @@ class EventAdapter (_newEvents: MutableList<EventDtoGet>) : RecyclerView.Adapter
         bundle.putInt("id", newEvents[position].id)
         bundle.putString("name", newEvents[position].name)
         bundle.putString("date", newEvents[position].date)
+        bundle.putString("time", newEvents[position].time)
         bundle.putString("comment", newEvents[position].description)
 
         holder.itemView.setOnClickListener {

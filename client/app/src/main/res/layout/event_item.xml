@@ -58,7 +58,7 @@
                         style="@style/Text"
                         android:textColor="@color/new_purple"
                         android:ellipsize="end"
-                        android:maxLines="1"/>
+                        android:maxLines="2"/>
 
                 </LinearLayout>
 

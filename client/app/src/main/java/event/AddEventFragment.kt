@@ -154,10 +154,6 @@ class AddEventFragment : Fragment() {
             comment.setText("")
         }
 
-//        if (!isTimeStringValid(time.text.toString())) {
-//            isValid = false
-//            time.error = "Ошибка в ведённом времени"
-//        }
         var parseDate: LocalDate
         val format = DateTimeFormatter.ofPattern("dd.MM.yyyy")
         try {

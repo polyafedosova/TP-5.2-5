@@ -229,10 +229,6 @@ class EditEventFragment : Fragment() {
             comment.setText("")
         }
 
-        if (!isTimeStringValid(time.text.toString())) {
-            isValid = false
-            time.error = "Ошибка в ведённом времени"
-        }
 
         var parseDate: LocalDate
         val format = DateTimeFormatter.ofPattern("dd.MM.yyyy")
@@ -247,10 +243,6 @@ class EditEventFragment : Fragment() {
         return isValid
     }
 
-    private fun isTimeStringValid(timeString: String): Boolean {
-        val regex = Regex("^([01]\\d|2[0-3])-[0-5]\\d$") // Регулярное выражение для формата "HH:mm"
-        return regex.matches(timeString)
-    }
 
     private fun getTokenFromSharedPreferences(): String {
         return sharedPreferencesToken.getString("token", "") ?: ""
