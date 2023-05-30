@@ -13,8 +13,8 @@ interface VetclinicInterface {
     @POST("/vetclinics/edit/new")
     fun saveNewVetclinic(@Body vetclinic: VetclinicDtoPost, @HeaderMap headers: Map<String, String>): Call<Void>
 
-    @PUT("/vetclinics/{id}/update")
-    fun updateVetclinic(@Path("id") id: Int, @Body vetclinic: VetclinicDtoPost): Call<Void>
+    @PUT("/vetclinics/edit/{id}/update")
+    fun updateVetclinic(@Path("id") id: Int, @Body vetclinic: VetclinicDtoPost, @HeaderMap headers: Map<String, String>): Call<Void>
 
     @DELETE("/vetclinics/edit/{id}/delete")
     fun deleteVetclinic(@Path("id") id: Int, @HeaderMap headers: Map<String, String>): Call<Void>

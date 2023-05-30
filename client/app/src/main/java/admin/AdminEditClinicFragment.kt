@@ -9,12 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import api.ApiTreatment
 import api.ApiVetclinic
 import dto.TreatmentDtoGet
+import dto.TreatmentDtoPost
 import dto.VetclinicDtoGet
-import interfaces.DogInterface
+import dto.VetclinicDtoPost
+import interfaces.TreatmentInterface
 import interfaces.VetclinicInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -70,10 +74,10 @@ class AdminEditClinicFragment : Fragment() {
 //        adminEditClinicStreet = view.findViewById(R.id.adminEditClinicStreet)
 //        adminEditClinicHouse = view.findViewById(R.id.adminEditClinicHouse)
         adminEditClinicServices = view.findViewById(R.id.adminEditClinicServices)
+        adminEditClinic = view.findViewById(R.id.adminEditClinic)
 
 
         val idValue = requireArguments().getInt("id")
-        println("id - " + idValue)
         val nameValue = requireArguments().getString("name")
         val phoneValue = requireArguments().getString("phone")
         val descriptionValue = requireArguments().getString("description")
@@ -93,6 +97,12 @@ class AdminEditClinicFragment : Fragment() {
         adminDeleteClinic = view.findViewById(R.id.adminDeleteClinic)
         adminBackFromClinic = view.findViewById(R.id.adminBackFromClinic)
 
+        adminEditClinic.setOnClickListener {
+            updateClinic(adminEditClinicPhone, adminEditClinicName, adminEditClinicAddress,
+                adminEditClinicDiscriptoin, adminEditClinicServices)
+
+        }
+
         adminDeleteClinic.setOnClickListener {
             deleteClinic(idValue)
             it.findNavController().navigate(R.id.adminClinicsFragment)
@@ -103,6 +113,99 @@ class AdminEditClinicFragment : Fragment() {
         }
 
         return view
+    }
+
+    private fun updateClinic(phone: EditText, name: EditText, address: EditText, discription: EditText, services: EditText) {
+        val idValue = requireArguments().getInt("id")
+        deleteClinic(idValue)
+        val token = getTokenFromSharedPreferences()
+        val headers = HashMap<String, String>()
+        headers["Authorization"] = "Bearer $token"
+
+        val resultList: List<String> = address.text.toString().split(",")
+        val api = retrofit.create(VetclinicInterface::class.java)
+        if (resultList.size == 4) {
+            val dto = VetclinicDtoPost(name.text.toString(), phone.text.toString(),
+                discription.text.toString(), "заглушка", resultList[0],
+                "заглушка", resultList[1], resultList[2], resultList[3])
+            println("dto - " + dto)
+            try {
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    val response = api.saveNewVetclinic(dto, headers).execute()
+
+                    if (response.isSuccessful) {
+                        println("clinic was added")
+                        addTreatments(services)
+                    }
+                }
+            } catch (ex: Exception) {
+                ex.stackTrace
+            }
+        }else {
+            Toast.makeText(this.requireContext(), "Ошибка в заполнении адреса", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun addTreatments(services: EditText) {
+        val api = retrofit.create(TreatmentInterface::class.java)
+
+        val token = getTokenFromSharedPreferences()
+        val headers = HashMap<String, String>()
+        headers["Authorization"] = "Bearer $token"
+
+        val call = ApiVetclinic.service.getAllVetclinics()
+        call.enqueue(object : Callback<List<VetclinicDtoGet>> {
+            override fun onResponse(call: Call<List<VetclinicDtoGet>>, response: Response<List<VetclinicDtoGet>>) {
+                if (response.isSuccessful) {
+                    val dataResponse = response.body()
+//                    println("List clinics" + dataResponse)
+                    if (dataResponse != null) {
+                        val newClinicId = dataResponse[dataResponse.size - 1].id
+
+                        val prepairList = parseServices(services.text.toString())
+
+                        CoroutineScope(Dispatchers.IO).launch {
+                            try {
+                                for (i in 0 until prepairList.size - 1 step 2) {
+                                    val dto = TreatmentDtoPost(prepairList[i], prepairList[i + 1].toBigDecimal())
+                                    val responseTreatment = api.saveNewTreatment(newClinicId, dto, headers).execute()
+                                    println(responseTreatment.isSuccessful)
+                                    println(responseTreatment.code())
+                                    println(responseTreatment.message())
+                                }
+                                requireActivity().runOnUiThread {
+                                    findNavController().navigate(R.id.adminClinicsFragment)
+                                }
+                            } catch (ex: Exception) {
+                                println("Что-то не так")
+                                println(ex)
+                                ex.stackTrace
+                            }
+                        }
+                    }
+                } else {
+                    println("response not successful")
+                    println(response.code().toString() + " " + response.message())
+                }
+            }
+
+            override fun onFailure(call: Call<List<VetclinicDtoGet>>, t: Throwable) {
+                println("BBBBBBBBBBBBBBBBB")
+            }
+        })
+    }
+
+    private fun parseServices(input: String): List<String> {
+        val result = mutableListOf<String>()
+        val pairs = input.split(";")
+
+        for (pair in pairs) {
+            val values = pair.split(",")
+            result.addAll(values)
+        }
+
+        return result
     }
 
     private fun deleteClinic(idValue: Int) {

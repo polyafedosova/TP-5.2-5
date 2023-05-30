@@ -126,9 +126,7 @@ class AdminAddClinicFragment : Fragment() {
             Toast.makeText(this.requireContext(), "Ошибка в заполнении адреса", Toast.LENGTH_SHORT).show()
         }
 
-
     }
-
 
 
     private fun addTreatments(services: EditText) {
@@ -156,9 +154,9 @@ class AdminAddClinicFragment : Fragment() {
 //                                    println("dto " + i / 2 + " " + dto)
 //                                    println(newClinicId)
                                     val responseTreatment = api.saveNewTreatment(newClinicId, dto, headers).execute()
-//                                    println(responseTreatment.isSuccessful)
-//                                    println(responseTreatment.code())
-//                                    println(responseTreatment.message())
+                                    println(responseTreatment.isSuccessful)
+                                    println(responseTreatment.code())
+                                    println(responseTreatment.message())
                                 }
                             } catch (ex: Exception) {
                                 println("Что-то не так")
