@@ -34,7 +34,7 @@ class AdminClinicsAdapter (_newClinics: MutableList<VetclinicDtoGet>) :
         bundle.putString("description", newClinics[position].description)
         bundle.putString("country", newClinics[position].country)
         bundle.putString("region", newClinics[position].region)
-        bundle.putString("district", newClinics[position].district)
+//        bundle.putString("district", newClinics[position].district)
         bundle.putString("city", newClinics[position].city)
         bundle.putString("street", newClinics[position].street)
         bundle.putString("house", newClinics[position].house)

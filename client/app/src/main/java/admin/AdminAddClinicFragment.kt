@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import api.ApiDog
 import api.ApiVetclinic
 import dog.DogAdapter
@@ -81,11 +82,7 @@ class AdminAddClinicFragment : Fragment() {
         adminCancelAddClinic = view.findViewById(R.id.adminCancelAddClinic)
 
         adminAddClinic.setOnClickListener() {
-
             addClinic(adminAddClinicPhone, adminAddClinicName, adminAddClinicAddress, adminAddClinicDiscriptoin, adminAddClinicServices)
-
-
-            it.findNavController().popBackStack()
         }
 
         adminCancelAddClinic.setOnClickListener() {
@@ -107,7 +104,7 @@ class AdminAddClinicFragment : Fragment() {
         if (resultList.size == 4) {
             val dto = VetclinicDtoPost(name.text.toString(), phone.text.toString(),
                 discription.text.toString(), "заглушка", resultList[0],
-                "заглушка", resultList[1], resultList[2], resultList[3])
+                resultList[1], resultList[2], resultList[3])
             println("dto - " + dto)
             try {
 
@@ -141,7 +138,6 @@ class AdminAddClinicFragment : Fragment() {
             override fun onResponse(call: Call<List<VetclinicDtoGet>>, response: Response<List<VetclinicDtoGet>>) {
                 if (response.isSuccessful) {
                     val dataResponse = response.body()
-//                    println("List clinics" + dataResponse)
                     if (dataResponse != null) {
                         val newClinicId = dataResponse[dataResponse.size - 1].id
 
@@ -154,7 +150,10 @@ class AdminAddClinicFragment : Fragment() {
 //                                    println("dto " + i / 2 + " " + dto)
 //                                    println(newClinicId)
                                     val responseTreatment = api.saveNewTreatment(newClinicId, dto, headers).execute()
-                                    println(responseTreatment.isSuccessful)
+
+                                    requireActivity().runOnUiThread {
+                                        findNavController().navigate(R.id.adminClinicsFragment)
+                                    }
                                     println(responseTreatment.code())
                                     println(responseTreatment.message())
                                 }

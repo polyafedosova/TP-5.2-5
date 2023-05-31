@@ -127,7 +127,7 @@ class AdminEditClinicFragment : Fragment() {
         if (resultList.size == 4) {
             val dto = VetclinicDtoPost(name.text.toString(), phone.text.toString(),
                 discription.text.toString(), "заглушка", resultList[0],
-                "заглушка", resultList[1], resultList[2], resultList[3])
+                 resultList[1], resultList[2], resultList[3])
             println("dto - " + dto)
             try {
 
@@ -159,7 +159,6 @@ class AdminEditClinicFragment : Fragment() {
             override fun onResponse(call: Call<List<VetclinicDtoGet>>, response: Response<List<VetclinicDtoGet>>) {
                 if (response.isSuccessful) {
                     val dataResponse = response.body()
-//                    println("List clinics" + dataResponse)
                     if (dataResponse != null) {
                         val newClinicId = dataResponse[dataResponse.size - 1].id
 
@@ -175,9 +174,13 @@ class AdminEditClinicFragment : Fragment() {
                                     println(responseTreatment.message())
                                 }
                                 requireActivity().runOnUiThread {
+                                    Toast.makeText(requireContext(), "Клиника обновлена", Toast.LENGTH_SHORT).show()
                                     findNavController().navigate(R.id.adminClinicsFragment)
                                 }
                             } catch (ex: Exception) {
+                                requireActivity().runOnUiThread {
+                                    Toast.makeText(requireContext(), "Проверь поля на верность заполнения", Toast.LENGTH_SHORT).show()
+                                }
                                 println("Что-то не так")
                                 println(ex)
                                 ex.stackTrace
@@ -185,6 +188,9 @@ class AdminEditClinicFragment : Fragment() {
                         }
                     }
                 } else {
+                    requireActivity().runOnUiThread {
+                        Toast.makeText(requireContext(), "Проверь поля на верность заполнения", Toast.LENGTH_SHORT).show()
+                    }
                     println("response not successful")
                     println(response.code().toString() + " " + response.message())
                 }
