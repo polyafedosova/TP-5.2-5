@@ -63,8 +63,9 @@ public class OwnerService implements UserDetailsService {
 
     public void updatePassword(String username, String oldPassword, String newPassword) {
         Owner owner = repository.findByUsername(username);
-        if (bCryptPasswordEncoder.encode(oldPassword).equals(owner.getPassword())) {
+        if (bCryptPasswordEncoder.matches(oldPassword, owner.getPassword())) {
             owner.setPassword(bCryptPasswordEncoder.encode(newPassword));
+            repository.save(owner);
         } else {
             throw new IllegalArgumentException("Old password is incorrect");
         }
