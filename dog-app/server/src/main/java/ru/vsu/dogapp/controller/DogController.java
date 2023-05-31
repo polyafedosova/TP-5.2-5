@@ -1,5 +1,6 @@
 package ru.vsu.dogapp.controller;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 import ru.vsu.dogapp.dto.DogDto;
 import ru.vsu.dogapp.service.DogService;
@@ -18,19 +19,26 @@ public class DogController {
     }
 
     @PostMapping("/new")
+    @ApiOperation("Saving information about a new dog")
     public void saveNewDog(@PathVariable String username, @Valid @RequestBody DogDto dog) {
         System.out.println(dog);
         service.save(username, dog);
     }
-    @PutMapping("/{id}/update")
-    public void updateDog(@PathVariable Integer id, @Valid @RequestBody DogDto dog, @PathVariable String username) {
-        service.update(id, dog);
+
+    @PutMapping("/{dog_id}/update")
+    @ApiOperation("Updating information about a dog")
+    public void updateDog(@PathVariable Integer dog_id, @Valid @RequestBody DogDto dog, @PathVariable String username) {
+        service.update(dog_id, dog);
     }
-    @DeleteMapping("/{id}/delete")
-    public void deleteDog(@PathVariable Integer id, @PathVariable String username) {
-        service.delete(id);
+
+    @DeleteMapping("/{dog_id}/delete")
+    @ApiOperation("Deleting information about a dog")
+    public void deleteDog(@PathVariable Integer dog_id, @PathVariable String username) {
+        service.delete(dog_id);
     }
+
     @GetMapping()
+    @ApiOperation("Getting a list of all owner's dogs")
     public List<DogDto> getDogs(@PathVariable String username) {
         return service.getByOwner(username);
     }

@@ -2,11 +2,10 @@ package ru.vsu.dogapp.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.AuthorizationScope;
-import springfox.documentation.service.SecurityReference;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -26,8 +25,18 @@ public class SwaggerConfig {
                 .securitySchemes(Collections.singletonList(apiKey()))
                 .securityContexts(Collections.singletonList(securityContext()))
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("ru.vsu.dogapp.controller"))
                 .paths(PathSelectors.any())
+                .build()
+                .apiInfo(apiInfo());
+    }
+
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("\"Paws\". The server part.")
+                .description("The server part of the application for dog breeders \"Paws\".")
+                .version("1.0.0")
+                .contact(new Contact("TP-5.2-5", "https://github.com/polyafedosova/TP-5.2-5", "artem.polev.02@mail.ru"))
                 .build();
     }
 

@@ -24,7 +24,6 @@ public class Vetclinic {
     private String description;
     private String country;
     private String region;
-    private String district;
     private String city;
     private String street;
     private String house;
