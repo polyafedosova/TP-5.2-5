@@ -60,12 +60,12 @@ class SpecificFragment : Fragment(){
         val nameValue = requireArguments().getString("name")
         val phoneValue = requireArguments().getString("phone")
         val descriptionValue = requireArguments().getString("description")
-        val districtValue = requireArguments().getString("district")
+        val regionValue = requireArguments().getString("region")
         val cityValue = requireArguments().getString("city")
         val streetValue = requireArguments().getString("street")
         val houseValue = requireArguments().getString("house")
 
-        val address = "$districtValue,$cityValue,$streetValue,$houseValue"
+        val address = "$regionValue,$cityValue,$streetValue,$houseValue"
 
         clinicName.text = nameValue
         clinicAddress.text = address
@@ -73,7 +73,6 @@ class SpecificFragment : Fragment(){
         clinicCityDiscription.text = descriptionValue
 
         getTrearments(idValue)
-
 
         specificClinicBackButton = view.findViewById(R.id.specificClinicBackButton)
 

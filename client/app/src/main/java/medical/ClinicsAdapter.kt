@@ -94,7 +94,7 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>, _lowerPrice: Mut
             bundle.putString("name", newClinics[position].name)
             bundle.putString("phone", newClinics[position].phone)
             bundle.putString("description", newClinics[position].description)
-//            bundle.putString("district", newClinics[position].district)
+            bundle.putString("region", newClinics[position].region)
             bundle.putString("city", newClinics[position].city)
             bundle.putString("street", newClinics[position].street)
             bundle.putString("house", newClinics[position].house)
