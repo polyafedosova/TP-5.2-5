@@ -72,10 +72,10 @@ class EditDogFragment : Fragment() {
             chosenSex = adapterView.getItemIdAtPosition(i).toInt()
         }
 
-
         val nameValue = requireArguments().getString("name")
         var dateValue = requireArguments().getString("date")
         val breedValue = requireArguments().getString("breed")
+        val sexValue = requireArguments().getBoolean("sex")
 
         dateValue = dateValue?.replace("-", ".")
 
@@ -102,7 +102,13 @@ class EditDogFragment : Fragment() {
         newDogName.setText(nameValue)
         newDogBurnDate.setText(dateValue)
         newBreed.setText(breedValue)
-        newSex.setSelection(1)
+        println(sexValue)
+        if (!sexValue) {
+            newSex.setText("")
+        } else {
+            newSex.setText("")
+        }
+
 
 
         completeEditButton.setOnClickListener() {
