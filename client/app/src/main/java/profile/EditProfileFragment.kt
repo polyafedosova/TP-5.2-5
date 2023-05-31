@@ -4,21 +4,20 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import dto.OwnerDtoPost
 import interfaces.DogInterface
 import interfaces.OwnerInterface
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExecutorCoroutineDispatcher
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.vsu.cs.tp.paws.R
@@ -61,8 +60,6 @@ class EditProfileFragment : Fragment() {
         newLogin = view.findViewById(R.id.newLogin)
         newName = view.findViewById(R.id.newName)
 
-//        newLogin.setText(getLoginFromSharedPreferences())
-
         completeProfileRenameButton.setOnClickListener {
             validateFieldsAndUpdate(newLogin, newName)
         }
@@ -103,16 +100,19 @@ class EditProfileFragment : Fragment() {
                     val response = api.updateOwner(getLoginFromSharedPreferences(), dto, headers).execute()
                     if (response.isSuccessful) {
                         println("L:D")
-                        requireActivity().runOnUiThread {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(requireContext(), "Успешно", Toast.LENGTH_SHORT).show()
                             clearSharedPreferencesLogin()
                             clearSharedPreferencesToken()
-                            findNavController().navigate(R.id.action_editProfileFragment_to_loginFragment)
+                            requireActivity().runOnUiThread {
+                                findNavController().navigate(R.id.action_editProfileFragment_to_loginFragment)
+                            }
                         }
-                    }else{
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(requireContext(), "Такой логин уже занят", Toast.LENGTH_SHORT).show()
+                        }
                         println(response.code())
-                        println(response.message())
-                        println("D:L")
-
                     }
                 }
             } catch (ex: Exception) {

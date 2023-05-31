@@ -65,9 +65,7 @@ class AddEventFragment : Fragment() {
         completeAddEventButton.setOnClickListener() {
             if (validate(eventName, eventDate, eventTime, eventComment)) {
                 addEvent(eventName, eventDate, eventTime, eventComment)
-                it.findNavController().navigate(R.id.eventsFragment)
             }
-
 
         }
 
@@ -116,9 +114,10 @@ class AddEventFragment : Fragment() {
             CoroutineScope(Dispatchers.IO).launch {
                 val response = api.saveNewEvent(getLoginFromSharedPreferences(), dto, headers).execute()
                 if (response.isSuccessful) {
-
                     println("L:D")
-
+                    requireActivity().runOnUiThread {
+                        findNavController().navigate(R.id.eventsFragment)
+                    }
                 }else{
                     println(response.code())
 
@@ -168,10 +167,6 @@ class AddEventFragment : Fragment() {
         return isValid
     }
 
-//    private fun isTimeStringValid(timeString: String): Boolean {
-//        val regex = Regex("^([01]\\d|2[0-3])-[0-5]\\d$") // Регулярное выражение для формата "HH:mm"
-//        return regex.matches(timeString)
-//    }
 
     private fun getTokenFromSharedPreferences(): String {
         return sharedPreferencesToken.getString("token", "") ?: ""
