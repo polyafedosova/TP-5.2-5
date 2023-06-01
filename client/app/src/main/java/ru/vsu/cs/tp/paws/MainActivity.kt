@@ -1,17 +1,20 @@
 package ru.vsu.cs.tp.paws
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.os.Handler
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import medical.MedicalFragment
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import ru.vsu.cs.tp.paws.databinding.ActivityMainBinding
+import java.sql.Time
+import java.util.Timer
+import java.util.TimerTask
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,24 +22,66 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    private lateinit var sharedPreferencesToken: SharedPreferences
 
+    private lateinit var splashScreenFragment: SplashFragment
+
+    private companion object {
+        private const val SPLASH_SCREEN_DELAY = 5000L
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+
+        sharedPreferencesToken = getSharedPreferences("userToken", Context.MODE_PRIVATE)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.bottomNav.visibility = View.INVISIBLE
+
         navController = Navigation.findNavController(this, R.id.fragment_container)
 
-        setupWithNavController(binding.bottomNav, navController)
+        setSplashScreen()
 
+        setupWithNavController(binding.bottomNav, navController)
     }
 
-//    private fun checkAuth() {
-//        val retrofit = Retrofit.Builder()
-//            .baseUrl("http://")
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
-//    }
+    private fun setSplashScreen() {
+        val timer = Timer()
+        timer.schedule(object : TimerTask() {
+            override fun run() {
+                runOnUiThread {
+                    binding.bottomNav.visibility = View.VISIBLE
+                }
+            }
+        }, SPLASH_SCREEN_DELAY)
 
+        splashScreenFragment = SplashFragment()
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, splashScreenFragment)
+            .commit()
+
+        val globalConfig = GlobalConfig()
+        var greetingMessage = ""
+        if (getTokenFromSharedPreferences() == "") {
+            greetingMessage = globalConfig.getFirstGreetingMessage()
+        }else {
+            greetingMessage = globalConfig.getCommonGreetingMessage()
+        }
+        splashScreenFragment.setWelcomeMessageFromConfig(greetingMessage)
+
+        Handler().postDelayed({
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, MedicalFragment())
+                .commit()
+        }, SPLASH_SCREEN_DELAY)
+    }
+    private fun getTokenFromSharedPreferences(): String {
+        return sharedPreferencesToken.getString("token", "") ?: ""
+    }
 
 }
