@@ -49,19 +49,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/dogWeight"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Вес (кг)"
-            android:maxLength="3"
-            android:layout_marginTop="30dp"
-            android:inputType="number"
-            android:textAlignment="textStart"
-            android:textSize="20sp"
-            android:padding="20dp"
-            style="@style/EditText2"
-            android:background="@drawable/edittext_style2" />
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_marginTop="30dp"
@@ -80,6 +68,20 @@
                 tools:ignore="LabelFor"/>
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <EditText
+            android:id="@+id/dogWeight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Вес (кг)"
+            android:maxLength="3"
+            android:layout_marginTop="30dp"
+            android:inputType="number"
+            android:textAlignment="textStart"
+            android:textSize="20sp"
+            android:padding="20dp"
+            style="@style/EditText2"
+            android:background="@drawable/edittext_style2" />
 
         <Button
             android:id="@+id/calculate_eat"
