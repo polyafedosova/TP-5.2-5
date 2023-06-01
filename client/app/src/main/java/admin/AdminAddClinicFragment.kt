@@ -12,10 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import api.ApiDog
-import api.ApiVetclinic
-import dog.DogAdapter
-import dto.DogDtoGet
+import api.Api
 import dto.TreatmentDtoPost
 import dto.VetclinicDtoGet
 import dto.VetclinicDtoPost
@@ -133,7 +130,7 @@ class AdminAddClinicFragment : Fragment() {
         val headers = HashMap<String, String>()
         headers["Authorization"] = "Bearer $token"
 
-        val call = ApiVetclinic.service.getAllVetclinics()
+        val call = Api.getApiVetclinic().getAllVetclinics()
         call.enqueue(object : Callback<List<VetclinicDtoGet>> {
             override fun onResponse(call: Call<List<VetclinicDtoGet>>, response: Response<List<VetclinicDtoGet>>) {
                 if (response.isSuccessful) {

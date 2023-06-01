@@ -16,13 +16,4 @@ class TokenManager(context: Context) {
         return sharedPreferences.getString("TOKEN", null)
     }
 
-    fun clearToken() {
-        editor.remove("TOKEN")
-        editor.apply()
-    }
-
-    fun isTokenValid(): Boolean {
-        val token = getToken()
-        return token != null && !token.isEmpty()
-    }
 }

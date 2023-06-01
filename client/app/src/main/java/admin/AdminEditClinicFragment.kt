@@ -12,8 +12,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import api.ApiTreatment
-import api.ApiVetclinic
+import api.Api
 import dto.TreatmentDtoGet
 import dto.TreatmentDtoPost
 import dto.VetclinicDtoGet
@@ -154,7 +153,7 @@ class AdminEditClinicFragment : Fragment() {
         val headers = HashMap<String, String>()
         headers["Authorization"] = "Bearer $token"
 
-        val call = ApiVetclinic.service.getAllVetclinics()
+        val call = Api.getApiVetclinic().getAllVetclinics()
         call.enqueue(object : Callback<List<VetclinicDtoGet>> {
             override fun onResponse(call: Call<List<VetclinicDtoGet>>, response: Response<List<VetclinicDtoGet>>) {
                 if (response.isSuccessful) {
@@ -245,7 +244,7 @@ class AdminEditClinicFragment : Fragment() {
         val headers = HashMap<String, String>()
         headers["Authorization"] = "Bearer $token"
 
-        val call = ApiTreatment.service.getVetclinicTreatments(id)
+        val call = Api.getApiTreatment().getVetclinicTreatments(id)
         call.enqueue(object : Callback<List<TreatmentDtoGet>> {
             override fun onResponse(call: Call<List<TreatmentDtoGet>>, response: Response<List<TreatmentDtoGet>>) {
                 if (response.isSuccessful) {

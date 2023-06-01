@@ -9,16 +9,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import api.ApiVetclinic
+import api.Api
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import dog.DogAdapter
-import dto.DogDtoGet
 import dto.VetclinicDtoGet
 
 import retrofit2.Call
@@ -53,7 +50,7 @@ class AdminClinicsFragment : Fragment() {
         val headers = HashMap<String, String>()
         headers["Authorization"] = "Bearer $token"
 
-        val call = ApiVetclinic.service.getAllVetclinics()
+        val call = Api.getApiVetclinic().getAllVetclinics()
 
         call.enqueue(object : Callback<List<VetclinicDtoGet>> {
             override fun onResponse(call: Call<List<VetclinicDtoGet>>, response: Response<List<VetclinicDtoGet>>) {

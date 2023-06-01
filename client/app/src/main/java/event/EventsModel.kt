@@ -1,7 +1,5 @@
 package event
 
-import java.util.Date
-
 class EventsModel(_id: Int, _name: String, _date: String, _comment: String) {
 
     private var id: Int = _id

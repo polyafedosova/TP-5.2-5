@@ -11,9 +11,8 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import api.ApiTreatment
+import api.Api
 import dto.TreatmentDtoGet
-import interfaces.TreatmentInterface
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -88,7 +87,7 @@ class SpecificFragment : Fragment(){
         val headers = HashMap<String, String>()
         headers["Authorization"] = "Bearer $token"
 
-        val call = ApiTreatment.service.getVetclinicTreatments(id)
+        val call = Api.getApiTreatment().getVetclinicTreatments(id)
         call.enqueue(object : Callback<List<TreatmentDtoGet>> {
             override fun onResponse(call: Call<List<TreatmentDtoGet>>, response: Response<List<TreatmentDtoGet>>) {
                 if (response.isSuccessful) {

@@ -11,7 +11,7 @@ import android.widget.Filterable
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import api.ApiTreatment
+import api.Api
 import dto.TreatmentDtoGet
 import dto.VetclinicDtoGet
 import retrofit2.Call
@@ -105,7 +105,7 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>, _lowerPrice: Mut
     }
 
     private fun getTrearments(id: Int, callback: TreatmentCallback) {
-        val call = ApiTreatment.service.getVetclinicTreatments(id)
+        val call = Api.getApiTreatment().getVetclinicTreatments(id)
         call.enqueue(object : Callback<List<TreatmentDtoGet>> {
             override fun onResponse(call: Call<List<TreatmentDtoGet>>, response: Response<List<TreatmentDtoGet>>) {
                 if (response.isSuccessful) {

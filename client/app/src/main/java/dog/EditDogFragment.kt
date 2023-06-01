@@ -109,8 +109,6 @@ class EditDogFragment : Fragment() {
             newSex.setText("")
         }
 
-
-
         completeEditButton.setOnClickListener() {
 
             if (validate(newDogName, newDogBurnDate, newBreed)) {

@@ -1,9 +1,7 @@
 package medical
 
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +11,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import api.ApiVetclinic
+import api.Api
 
 import dto.VetclinicDtoGet
 import dto.VetclinicSortDto
@@ -104,7 +102,7 @@ class MedicalFragment : Fragment() {
 
 
     private fun getClinicsByCity(city: String) {
-        val call = ApiVetclinic.service.sortByCity(city)
+        val call = Api.getApiVetclinic().sortByCity(city)
 
         call.enqueue(object : Callback<List<VetclinicDtoGet>> {
             override fun onResponse(call: Call<List<VetclinicDtoGet>>, response: Response<List<VetclinicDtoGet>>) {
@@ -132,7 +130,7 @@ class MedicalFragment : Fragment() {
     }
 
     private fun getClinicsByTreatment(treatment: String) {
-        val call = ApiVetclinic.service.sort(treatment, null)
+        val call = Api.getApiVetclinic().sort(treatment, null)
 
         call.enqueue(object : Callback<List<VetclinicSortDto>> {
             override fun onResponse(call: Call<List<VetclinicSortDto>>, response: Response<List<VetclinicSortDto>>) {
@@ -161,7 +159,7 @@ class MedicalFragment : Fragment() {
         })
     }
     private fun getAllClinics() {
-        val call = ApiVetclinic.service.getAllVetclinics()
+        val call = Api.getApiVetclinic().getAllVetclinics()
         call.enqueue(object : Callback<List<VetclinicDtoGet>> {
             override fun onResponse(call: Call<List<VetclinicDtoGet>>, response: Response<List<VetclinicDtoGet>>) {
                 if (response.isSuccessful) {

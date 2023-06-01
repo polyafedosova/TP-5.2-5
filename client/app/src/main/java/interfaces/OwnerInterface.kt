@@ -12,7 +12,7 @@ interface OwnerInterface {
 
     @POST("/owner/{owner_id}")
     fun findById(@Path ("owner_id") id: Int): Call<OwnerDtoGet>
-    @POST("registration")
+    @POST("api/auth/registration")
     fun saveNewOwner(@Body owner: OwnerDtoPost): Call<Void>
 
     @PUT("owner/{username}/update")

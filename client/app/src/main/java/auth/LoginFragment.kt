@@ -148,12 +148,6 @@ class LoginFragment : Fragment() {
                     savePassToSharedPreferences(password.text.toString())
                     saveLoginToSharedPreferences(login.text.toString())
 
-
-//                    println("L token - " + data?.accessToken)
-//                    println("L login - " + getLoginFromSharedPreferences())
-//
-//                    saveUserId(getLoginFromSharedPreferences(), data?.accessToken.toString())
-
                     requireActivity().runOnUiThread {
                             startProfileFragment()
                     }

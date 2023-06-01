@@ -19,7 +19,7 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
-import api.ApiDog
+import api.Api
 
 import dog.DogAdapter
 import dto.DogDtoGet
@@ -66,7 +66,6 @@ class ProfileFragment : Fragment() {
         super.onCreate(savedInstanceState)
         sharedPreferencesToken = requireActivity().getSharedPreferences("userToken", Context.MODE_PRIVATE)
         sharedPreferencesLogin = requireActivity().getSharedPreferences("userLogin", Context.MODE_PRIVATE)
-//        sharedPreferencesPass = requireActivity().getSharedPreferences("userPass", Context.MODE_PRIVATE)
 
         getUserData(getLoginFromSharedPreferences(), getTokenFromSharedPreferences())
     }
@@ -78,9 +77,9 @@ class ProfileFragment : Fragment() {
         val headers = HashMap<String, String>()
         headers["Authorization"] = "Bearer $token"
 
-        val call = ApiDog.service.getDogsOwner(getLoginFromSharedPreferences(), headers)
+        val call = Api.getApiDog()?.getDogsOwner(getLoginFromSharedPreferences(), headers)
 
-        call.enqueue(object : Callback<List<DogDtoGet>> {
+        call?.enqueue(object : Callback<List<DogDtoGet>> {
             override fun onResponse(call: Call<List<DogDtoGet>>, response: Response<List<DogDtoGet>>) {
                 if (response.isSuccessful) {
                     val dataResponse = response.body()
@@ -162,7 +161,6 @@ class ProfileFragment : Fragment() {
                 val response = api.findByLogin(login, headers).execute()
 
                 if (response.isSuccessful) {
-//                    userId = response.body()?.id
                     userPassword = response.body()?.password
                     name = response.body()?.name
 

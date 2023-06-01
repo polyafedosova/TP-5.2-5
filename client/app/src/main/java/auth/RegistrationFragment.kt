@@ -64,9 +64,7 @@ class RegistrationFragment : Fragment() {
 
         return view
     }
-//  login2
 
-//    Test1@*!
     private fun registration(login: EditText, name: EditText, password: EditText): Boolean {
         val api = retrofit.create(OwnerInterface::class.java)
         val dto = OwnerDtoPost(login.text.toString(), password.text.toString(), name.text.toString())
@@ -92,7 +90,6 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun startLoginFragment() {
-//        findNavController().navigate(R.id.profileFragment)
         findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
     }
 

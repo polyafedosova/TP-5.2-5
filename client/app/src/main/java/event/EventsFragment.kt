@@ -12,11 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import api.ApiDog
-import api.ApiEvent
+import api.Api
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import dog.DogAdapter
-import dto.DogDtoGet
 import dto.EventDtoGet
 import retrofit2.Call
 import retrofit2.Callback
@@ -46,7 +43,7 @@ class EventsFragment : Fragment() {
         val headers = HashMap<String, String>()
         headers["Authorization"] = "Bearer $token"
 
-        val call = ApiEvent.service.getEventsOwner(getLoginFromSharedPreferences(), headers)
+        val call = Api.getApiEvent().getEventsOwner(getLoginFromSharedPreferences(), headers)
 
         call.enqueue(object : Callback<List<EventDtoGet>> {
             override fun onResponse(call: Call<List<EventDtoGet>>, response: Response<List<EventDtoGet>>) {
