@@ -16,6 +16,10 @@ class SplashFragment : Fragment() {
     private lateinit var imgPlace: ImageView
     private var message = ""
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_splash, container, false)
 
@@ -23,8 +27,7 @@ class SplashFragment : Fragment() {
         imgPlace = view.findViewById(R.id.imgPlace)
 
         imgPlace.setImageResource(R.drawable.iccorgi)
-        val welcomeMessage = getWelcomeMessageFromConfig()
-
+        val welcomeMessage = requireArguments().getString("message")
         splashHello.text = welcomeMessage
 
         return view
@@ -34,8 +37,5 @@ class SplashFragment : Fragment() {
          message = _message
     }
 
-    private fun getWelcomeMessageFromConfig(): String {
-        return message
-    }
 
 }

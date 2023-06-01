@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import medical.MedicalFragment
 import ru.vsu.cs.tp.paws.databinding.ActivityMainBinding
@@ -52,19 +53,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setSplashScreen() {
-        val timer = Timer()
-        timer.schedule(object : TimerTask() {
-            override fun run() {
-                runOnUiThread {
-                    binding.bottomNav.visibility = View.VISIBLE
-                }
-            }
-        }, SPLASH_SCREEN_DELAY)
-
-        splashScreenFragment = SplashFragment()
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, splashScreenFragment)
-            .commit()
-
         val globalConfig = GlobalConfig()
         var greetingMessage = ""
         if (getTokenFromSharedPreferences() == "") {
@@ -72,13 +60,22 @@ class MainActivity : AppCompatActivity() {
         }else {
             greetingMessage = globalConfig.getCommonGreetingMessage()
         }
-        splashScreenFragment.setWelcomeMessageFromConfig(greetingMessage)
+        splashScreenFragment = SplashFragment()
+        val bundle = Bundle()
+        bundle.putString("message", greetingMessage)
+        navController.navigate(R.id.splashFragment, bundle)
 
-        Handler().postDelayed({
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, MedicalFragment())
-                .commit()
+        val timer = Timer()
+        timer.schedule(object : TimerTask() {
+            override fun run() {
+                runOnUiThread {
+                    navController.navigate(R.id.medicalFragment)
+                    binding.bottomNav.visibility = View.VISIBLE
+                }
+            }
         }, SPLASH_SCREEN_DELAY)
+
+
     }
     private fun getTokenFromSharedPreferences(): String {
         return sharedPreferencesToken.getString("token", "") ?: ""
