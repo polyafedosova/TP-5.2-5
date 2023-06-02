@@ -1,0 +1,30 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:alpine
+    container_name: db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=dogapp
+  service:
+    container_name: server
+    build:
+      context: .
+    expose:
+      - 8080
+    depends_on:
+      - db
+    environment:
+      - DB_URL=jdbc:postgresql://db:5432/dogapp
+      - DB_USER=postgres
+      - DB_PASS=admin
+      - SERVER_PORT=8080
+  nginx:
+    build: ./nginx
+    ports:
+      - "4000:80"
+    depends_on:
+      - service
