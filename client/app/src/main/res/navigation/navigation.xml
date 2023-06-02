@@ -177,6 +177,25 @@
         android:name="splash.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" />
+    <fragment
+        android:id="@+id/onboardFragmentFirst"
+        android:name="onboard.OnboardFragmentFirst"
+        android:label="OnboardFragmentFirst" >
+        <action
+            android:id="@+id/action_onboardFragmentFirst_to_onboardFragmentSecond"
+            app:destination="@id/onboardFragmentSecond" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardFragmentSecond"
+        android:name="onboard.OnboardFragmentSecond"
+        android:label="fragment_onboard_second"
+        tools:layout="@layout/fragment_onboard_second" >
+        <action
+            app:popUpTo="@id/onboardFragmentSecond"
+            app:popUpToInclusive="true"
+            android:id="@+id/action_onboardFragmentSecond_to_medicalFragment"
+            app:destination="@id/medicalFragment" />
+    </fragment>
 
 
 </navigation>

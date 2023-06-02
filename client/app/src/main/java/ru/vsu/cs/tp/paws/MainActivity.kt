@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.yandex.metrica.YandexMetrica
 import com.yandex.metrica.YandexMetricaConfig
 import ru.vsu.cs.tp.paws.databinding.ActivityMainBinding
@@ -26,6 +27,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var splashScreenFragment: SplashFragment
 
+    private var flag = true
+
     private companion object {
         private const val SPLASH_SCREEN_DELAY = 5000L
     }
@@ -34,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val config = YandexMetricaConfig.newConfigBuilder("93759b96-971e-411a-b343-c6d055d5e03b").build()
-        YandexMetrica.activate(getApplicationContext(), config)
+        YandexMetrica.activate(applicationContext, config)
         YandexMetrica.enableActivityAutoTracking(application)
 
         if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
@@ -51,6 +54,12 @@ class MainActivity : AppCompatActivity() {
         setSplashScreen()
 
         setupWithNavController(binding.bottomNav, navController)
+
+    }
+
+    private fun firstStart() {
+        binding.bottomNav.visibility = View.INVISIBLE
+        navController.navigate(R.id.onboardFragmentFirst)
     }
 
     private fun setSplashScreen() {
@@ -71,8 +80,15 @@ class MainActivity : AppCompatActivity() {
         timer.schedule(object : TimerTask() {
             override fun run() {
                 runOnUiThread {
-                    navController.navigate(R.id.medicalFragment)
-                    binding.bottomNav.visibility = View.VISIBLE
+                    val prefs = getPreferences(MODE_PRIVATE)
+                    if (prefs.getBoolean("isFirstRun", true) || flag) {
+                        firstStart()
+                    } else {
+                        navController.navigate(R.id.medicalFragment)
+                        binding.bottomNav.visibility = View.VISIBLE
+                    }
+                    prefs.edit().putBoolean("isFirstRun", false).apply()
+
                 }
             }
         }, SPLASH_SCREEN_DELAY)
@@ -81,6 +97,10 @@ class MainActivity : AppCompatActivity() {
     }
     private fun getTokenFromSharedPreferences(): String {
         return sharedPreferencesToken.getString("token", "") ?: ""
+    }
+
+    fun getBottomNav(): BottomNavigationView {
+        return binding.bottomNav
     }
 
 }

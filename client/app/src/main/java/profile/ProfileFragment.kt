@@ -106,10 +106,6 @@ class ProfileFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        println("==================")
-        println(getTokenFromSharedPreferences())
-        println(getLoginFromSharedPreferences())
-
         if (getTokenFromSharedPreferences() == "" || getLoginFromSharedPreferences() == "") {
             startLoginFragment()
         }
@@ -119,8 +115,6 @@ class ProfileFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recyclerDogs)
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-
-//        recyclerView.adapter = eventsAdapter
 
         addDogButton = view.findViewById(R.id.addDogButton)
         editProfileButton = view.findViewById(R.id.editProfileButton)
@@ -214,8 +208,6 @@ class ProfileFragment : Fragment() {
             Toast.makeText(this.context, "Вы вышли из профиля", Toast.LENGTH_SHORT).show()
             clearSharedPreferencesToken()
             clearSharedPreferencesLogin()
-//            clearSharedPreferencesId()
-//            findNavController().navigate(R.id.profileFragment)
             startLoginFragment()
         }
 
