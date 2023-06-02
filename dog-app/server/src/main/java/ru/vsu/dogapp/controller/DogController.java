@@ -1,11 +1,14 @@
 package ru.vsu.dogapp.controller;
 
 import io.swagger.annotations.ApiOperation;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import ru.vsu.dogapp.dto.DogDto;
 import ru.vsu.dogapp.service.DogService;
 
 import javax.validation.Valid;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @RestController
@@ -21,14 +24,21 @@ public class DogController {
     @PostMapping("/new")
     @ApiOperation("Saving information about a new dog")
     public void saveNewDog(@PathVariable String username, @Valid @RequestBody DogDto dog) {
-        System.out.println(dog);
-        service.save(username, dog);
+        try {
+            service.save(username, dog);
+        } catch (DateTimeParseException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid date format", e);
+        }
     }
 
     @PutMapping("/{dog_id}/update")
     @ApiOperation("Updating information about a dog")
     public void updateDog(@PathVariable Integer dog_id, @Valid @RequestBody DogDto dog, @PathVariable String username) {
-        service.update(dog_id, dog);
+        try {
+            service.update(dog_id, dog);
+        } catch (DateTimeParseException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid date format", e);
+        }
     }
 
     @DeleteMapping("/{dog_id}/delete")
