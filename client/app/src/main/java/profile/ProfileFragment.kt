@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.widget.TextView
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
 import api.Api
 import com.yandex.metrica.YandexMetrica
@@ -166,26 +167,14 @@ class ProfileFragment : Fragment() {
                 if (response.isSuccessful) {
                     userPassword = response.body()?.password
                     name = response.body()?.name
-
-
                     println(response.body())
-
                     if (response.body()?.roles?.contains("ADMIN") == true) {
                         requireActivity().runOnUiThread {
                            startAdminFragment()
                         }
                     }
-//                    if (response.body()?.roles?.contains("USER") == true &&
-//                        response.body()?.roles?.contains("ADMIN") == false) {
-//                        requireActivity().runOnUiThread {
-//
-//                        }
-//                    }
                 } else {
-                    requireActivity().runOnUiThread {
-                        startLoginFragment()
-                    }
-                    println("D:")
+                    println(response.code())
                 }
 
 

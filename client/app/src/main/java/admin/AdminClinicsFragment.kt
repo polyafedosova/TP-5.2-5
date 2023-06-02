@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,11 +38,11 @@ class AdminClinicsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         sharedPreferencesToken = requireActivity().getSharedPreferences("userToken", Context.MODE_PRIVATE)
         sharedPreferencesLogin = requireActivity().getSharedPreferences("userLogin", Context.MODE_PRIVATE)
 
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -77,9 +78,6 @@ class AdminClinicsFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.recyclerClinics)
         recyclerView.layoutManager = LinearLayoutManager(activity)
-
-//        adminClinicsAdapter = AdminClinicsAdapter(getDataClinics() as MutableList<AdminClinicsModel>)
-//        recyclerView.adapter = adminClinicsAdapter
 
         adminAddClinicButton = view.findViewById(R.id.adminAddClinicButton)
         adminLogoutButton = view.findViewById(R.id.adminLogoutButton)

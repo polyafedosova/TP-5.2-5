@@ -21,13 +21,9 @@ import interfaces.OwnerInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.vsu.cs.tp.paws.R
-import java.util.concurrent.atomic.AtomicReference
 
 class LoginFragment : Fragment() {
 
@@ -66,8 +62,6 @@ class LoginFragment : Fragment() {
         loginButton.setOnClickListener() {
             if (checkInput(userLogin, userPassword)){
                 authorization(userLogin, userPassword)
-
-
             }
 
         }
@@ -148,7 +142,7 @@ class LoginFragment : Fragment() {
 
                     requireActivity().runOnUiThread {
                         YandexMetrica.reportEvent("Пользователь вошёл в аккаунт")
-                        startProfileFragment()
+                        findNavController().navigate(R.id.profileFragment)
                     }
 
                 } else {

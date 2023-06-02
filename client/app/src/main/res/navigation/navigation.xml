@@ -50,6 +50,8 @@
             app:destination="@id/loginFragment" />
         <action
             android:id="@+id/action_profileFragment_to_adminClinicsFragment"
+            app:popUpTo="@id/profileFragment"
+            app:popUpToInclusive="true"
             app:destination="@id/adminClinicsFragment" />
     </fragment>
 
