@@ -31,19 +31,22 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo())
-                .useDefaultResponseMessages(false) // Disable default response messages
-                .globalResponses(HttpMethod.GET, getDefaultResponses()) // Add default responses for GET requests
-                .globalResponses(HttpMethod.POST, getDefaultResponses()) // Add default responses for POST requests
-                .globalResponses(HttpMethod.PUT, getDefaultResponses()) // Add default responses for PUT requests
-                .globalResponses(HttpMethod.DELETE, getDefaultResponses()); // Add default responses for DELETE requests
+                .useDefaultResponseMessages(false)
+                .globalResponses(HttpMethod.GET, getDefaultResponses())
+                .globalResponses(HttpMethod.POST, getDefaultResponses())
+                .globalResponses(HttpMethod.PUT, getDefaultResponses())
+                .globalResponses(HttpMethod.DELETE, getDefaultResponses());
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("\"Paws\". The server part.")
-                .description("The server part of the application for dog breeders \"Paws\".")
+                .description("The server part of the application for dog owners \"Paws\". \n" +
+                        "For authorization use the default username and password, then copy the \"accessToken\" " +
+                        "and paste it into the Authorization field, adding \"Bearer \" before that")
                 .version("1.0.0")
-                .contact(new Contact("TP-5.2-5", "https://github.com/polyafedosova/TP-5.2-5", "artem.polev.02@mail.ru"))
+                .contact(new Contact("TP-5.2-5", "https://github.com/polyafedosova/TP-5.2-5",
+                        "artem.polev.02@mail.ru"))
                 .build();
     }
 

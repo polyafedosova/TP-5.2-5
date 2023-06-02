@@ -37,26 +37,16 @@ public class DogDto {
     @ApiModelProperty(value = "Breed of a dog.", example = "Немецкая овчарка")
     private String breed;
 
-    public DogDto(Integer id, String name, String birthday, Boolean sex, String breed) {
+    public DogDto(Integer id, String name, String birthday, Boolean sex, String breed) throws DateTimeParseException {
         this.id = id;
         this.name = name;
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             this.birthday = LocalDate.parse(birthday, formatter);
         } catch (DateTimeParseException e) {
-            System.out.println("Error of parsing date: " + e.getMessage());
+            throw new DateTimeParseException("Error parsing date", birthday, 0);
         }
         this.sex = sex;
         this.breed = breed;
     }
-
-    public void setBirthday(String birthday) {
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            this.birthday = LocalDate.parse(birthday, formatter);
-        } catch (DateTimeParseException e) {
-            System.out.println("Error of parsing date: " + e.getMessage());
-        }
-    }
-
 }

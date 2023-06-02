@@ -37,39 +37,21 @@ public class EventDto {
     @ApiModelProperty(value = "Description of an event.", example = "Взять ветпаспорт")
     private String description;
 
-    public EventDto(Integer id, String name, String date, String time, String description) {
+    public EventDto(Integer id, String name, String date, String time, String description) throws DateTimeParseException {
         this.id = id;
         this.name = name;
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             this.date = LocalDate.parse(date, formatter);
         } catch (DateTimeParseException e) {
-            System.out.println("Error of parsing date: " + e.getMessage());
+            throw new DateTimeParseException("Error parsing date", date, 0);
         }
         try {
             DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH:mm:ss");
             this.time = LocalTime.parse(time, formatterTime);
         } catch (DateTimeParseException e) {
-            System.out.println("Error of parsing time: " + e.getMessage());
+            throw new DateTimeParseException("Error parsing time", time, 0);
         }
         this.description = description;
-    }
-
-    public void setDate(String date) {
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            this.date = LocalDate.parse(date, formatter);
-        } catch (DateTimeParseException e) {
-            System.out.println("Error of parsing date: " + e.getMessage());
-        }
-    }
-
-    public void setTime(String time) {
-        try {
-            DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH:mm:ss");
-            this.time = LocalTime.parse(time, formatterTime);
-        } catch (DateTimeParseException e) {
-            System.out.println("Error of parsing time: " + e.getMessage());
-        }
     }
 }
