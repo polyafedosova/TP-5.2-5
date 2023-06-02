@@ -119,7 +119,7 @@ class AddEventFragment : Fragment() {
                     requireActivity().runOnUiThread {
                         Toast.makeText(requireContext(), "Успешно", Toast.LENGTH_SHORT).show()
                         YandexMetrica.reportEvent("Событие добавлено")
-                        findNavController().navigate(R.id.eventsFragment)
+                        findNavController().navigate(R.id.profileFragment)
                     }
                 }else{
                     requireActivity().runOnUiThread {
