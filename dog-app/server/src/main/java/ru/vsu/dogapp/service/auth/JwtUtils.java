@@ -11,13 +11,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-
 public final class JwtUtils {
 
     public static JwtAuthentication generate(Claims claims) {
         final JwtAuthentication jwtInfoToken = new JwtAuthentication();
         jwtInfoToken.setRoles(getRoles(claims));
-        jwtInfoToken.setFirstName(claims.get("firstName", String.class));
+        jwtInfoToken.setName(claims.get("firstName", String.class));
         jwtInfoToken.setUsername(claims.getSubject());
         return jwtInfoToken;
     }
@@ -28,5 +27,4 @@ public final class JwtUtils {
                 .map(Role::valueOf)
                 .collect(Collectors.toSet());
     }
-
 }

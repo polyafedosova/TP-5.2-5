@@ -16,6 +16,4 @@ public interface OwnerRepository extends JpaRepository<Owner, Integer> {
     List<Owner> findAll();
     @Query("SELECT o FROM Owner o WHERE o.username = :username")
     Owner findByUsername(@Param("username") String username);
-    @Query("SELECT o FROM Owner o WHERE o.id = :id")
-    Owner findOwnerById(@Param("id") Integer id);
 }

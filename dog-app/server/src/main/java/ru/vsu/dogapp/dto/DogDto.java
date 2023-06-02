@@ -1,31 +1,52 @@
 package ru.vsu.dogapp.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
-import java.util.Date;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 @Data
+@ApiModel(description = "Entity of a dog.")
 public class DogDto {
 
-    @JsonIgnore
+    @ApiModelProperty(hidden = true)
     private Integer id;
-    @NotEmpty
-    @Size(min = 5, max = 30)
+
+    @NotBlank(message = "Name of a dog must not be blank.")
+    @Size(min = 2, max = 30)
     @Pattern(regexp = "^[a-zA-Zа-яА-Я\\s]+$",
-            message = "Name should be between 5 and 30 characters and contain only letters.")
+            message = "Name should be between 2 and 30 characters and contain only letters.")
+    @ApiModelProperty(value = "Name of a dog.", required = true, example = "Рекс")
     private String name;
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
-    private Date birthday;
-    @NotNull
+
+    @ApiModelProperty(value = "Dog`s birthday.", example = "2020-07-23")
+    private LocalDate birthday;
+
+    @ApiModelProperty(value = "Sex of a dog (true - male, false - female).", example = "true")
     private Boolean sex;
-    @NotBlank
-    @Size(min = 5, max = 60)
+
+    @Size(min = 2, max = 60)
     @Pattern(regexp = "^[а-яА-Я\\-\\s]+$",
-            message = "Breed should be between 5 and 60 characters and contain only russian letters.")
+            message = "Breed should be between 2 and 60 characters and contain only russian letters.")
+    @ApiModelProperty(value = "Breed of a dog.", example = "Немецкая овчарка")
     private String breed;
+
+    public DogDto(Integer id, String name, String birthday, Boolean sex, String breed) throws DateTimeParseException {
+        this.id = id;
+        this.name = name;
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            this.birthday = LocalDate.parse(birthday, formatter);
+        } catch (DateTimeParseException e) {
+            throw new DateTimeParseException("Error parsing date", birthday, 0);
+        }
+        this.sex = sex;
+        this.breed = breed;
+    }
 }

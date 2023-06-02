@@ -14,8 +14,8 @@ public interface DogRepository extends JpaRepository<Dog, Integer> {
 
     @NonNull
     List<Dog> findAll();
-    @Query("SELECT d FROM Dog d WHERE d.owner.id = :ownerID")
-    List<Dog> findAllByOwner_Id(@Param("ownerID") Integer ownerID);
+    @Query("SELECT d FROM Dog d WHERE d.owner.username = :username")
+    List<Dog> findAllByOwner_Username(@Param("username") String username);
 
     @Query("SELECT d FROM Dog d WHERE d.id = :id")
     Dog findDogById(@Param("id") Integer id);

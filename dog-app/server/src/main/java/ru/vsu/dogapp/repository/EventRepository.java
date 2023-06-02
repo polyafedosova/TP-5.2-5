@@ -14,8 +14,8 @@ public interface EventRepository extends JpaRepository<Event, Integer>  {
 
     @NonNull
     List<Event> findAll();
-    @Query("SELECT e FROM Event e WHERE e.owner.id = :ownerID")
-    List<Event> findAllByOwner_Id(@Param("ownerID") Integer ownerID);
+    @Query("SELECT e FROM Event e WHERE e.owner.username = :username")
+    List<Event> findAllByOwner_Username(@Param("username") String username);
 
     @Query("SELECT e FROM Event e WHERE e.id = :id")
     Event findEventById(@Param("id") Integer id);

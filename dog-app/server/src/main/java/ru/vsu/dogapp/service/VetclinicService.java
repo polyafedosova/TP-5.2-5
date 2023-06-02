@@ -1,12 +1,15 @@
 package ru.vsu.dogapp.service;
 
 import org.springframework.stereotype.Service;
+import ru.vsu.dogapp.dto.VetSimpleDto;
 import ru.vsu.dogapp.dto.VetclinicDto;
+import ru.vsu.dogapp.entity.Treatment;
 import ru.vsu.dogapp.entity.Vetclinic;
 import ru.vsu.dogapp.mapper.VetclinicMapper;
 import ru.vsu.dogapp.repository.VetclinicRepository;
 
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,5 +47,34 @@ public class VetclinicService {
 
     public VetclinicDto find(Integer id) {
         return mapper.toDto(repository.findVetclinicById(id));
+    }
+
+    public List<VetSimpleDto> sort(String treatment, String city) {
+        List<VetSimpleDto> sortList = new ArrayList<>();
+
+        for (Vetclinic v: repository.findAll()) {
+            if (city == null || city.isEmpty() || v.getCity().toLowerCase().contains(city.toLowerCase())) {
+                BigDecimal min = null;
+                for (Treatment t : v.getTreatments()) {
+                    if (treatment == null || treatment.isEmpty() || t.getName().toLowerCase().contains(treatment.toLowerCase())) {
+                        BigDecimal price = t.getPrice();
+                        if (min == null || price.compareTo(min) < 0) {
+                            min = price;
+                        }
+                    }
+                }
+                if (min != null) {
+                    sortList.add(new VetSimpleDto(mapper.toDto(v), min));
+                }
+            }
+        }
+        sortList.sort(Comparator.comparing(VetSimpleDto::getMinPrice));
+        return sortList;
+    }
+
+    public List<VetclinicDto> findByCity(String city) {
+        return repository.findAllByCity(city)
+                .stream().map(mapper::toDto)
+                .collect(Collectors.toList());
     }
 }

@@ -1,10 +1,8 @@
 package ru.vsu.dogapp.controller;
 
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 import ru.vsu.dogapp.dto.TreatmentDto;
-import ru.vsu.dogapp.entity.Treatment;
 import ru.vsu.dogapp.service.TreatmentService;
 
 import javax.validation.Valid;
@@ -20,21 +18,24 @@ public class TreatmentController {
         this.service = service;
     }
 
-    @PostMapping("/new")
+    @PostMapping("/edit/new")
+    @ApiOperation("Saving information about a new treatment")
     public void saveNewTreatment(@PathVariable Integer vetclinic_id, @Valid @RequestBody TreatmentDto treatment) {
         service.save(vetclinic_id, treatment);
     }
-    @PutMapping("/{id}/update")
-    public void updateTreatment(@PathVariable Integer id, @Valid @RequestBody TreatmentDto treatment) {
-        service.update(id, treatment);
+    @PutMapping("/edit/{treatment_id}/update")
+    @ApiOperation("Updating information about a new treatment")
+    public void updateTreatment(@PathVariable Integer treatment_id, @Valid @RequestBody TreatmentDto treatment) {
+        service.update(treatment_id, treatment);
     }
-    @DeleteMapping("/{id}/delete")
-    public void deleteTreatment(@PathVariable Integer id) {
-        service.delete(id);
+    @DeleteMapping("/edit/{treatment_id}/delete")
+    @ApiOperation("Deleting information about a new treatment")
+    public void deleteTreatment(@PathVariable Integer treatment_id) {
+        service.delete(treatment_id);
     }
     @GetMapping()
-    public List<TreatmentDto> getVetclinicTreatments(@PathVariable Integer vetclinic_id) {
-        return service.find(vetclinic_id);
+    @ApiOperation("Getting a list of all vet clinic's treatments")
+    public List<TreatmentDto> getTreatments(@PathVariable Integer vetclinic_id) {
+        return service.getByVentclinic(vetclinic_id);
     }
-
 }

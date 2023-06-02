@@ -1,10 +1,9 @@
 package ru.vsu.dogapp.entity;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-
 import lombok.*;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,7 +24,6 @@ public class Vetclinic {
     private String description;
     private String country;
     private String region;
-    private String district;
     private String city;
     private String street;
     private String house;
