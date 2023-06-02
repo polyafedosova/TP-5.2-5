@@ -14,6 +14,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.yandex.metrica.YandexMetrica
 import dto.OwnerDtoPost
 import interfaces.DogInterface
 import interfaces.OwnerInterface
@@ -37,7 +38,7 @@ class EditProfileFragment : Fragment() {
     private lateinit var sharedPreferencesPass: SharedPreferences
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2.2:8080")
+        .baseUrl("http://2.56.242.93:4000")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
@@ -99,18 +100,26 @@ class EditProfileFragment : Fragment() {
                 CoroutineScope(Dispatchers.IO).launch {
                     val response = api.updateOwner(getLoginFromSharedPreferences(), dto, headers).execute()
                     if (response.isSuccessful) {
-                        println("L:D")
                         withContext(Dispatchers.Main) {
                             Toast.makeText(requireContext(), "Успешно", Toast.LENGTH_SHORT).show()
                             clearSharedPreferencesLogin()
                             clearSharedPreferencesToken()
                             requireActivity().runOnUiThread {
+                                YandexMetrica.reportEvent("Пользователь отредактировал профиль")
                                 findNavController().navigate(R.id.action_editProfileFragment_to_loginFragment)
                             }
                         }
                     } else {
                         withContext(Dispatchers.Main) {
-                            Toast.makeText(requireContext(), "Такой логин уже занят", Toast.LENGTH_SHORT).show()
+                            when (response.code()) {
+                                409 -> {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Такой логин уже используется", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+//                            Toast.makeText(requireContext(), "Такой логин уже занят",
+//                                Toast.LENGTH_SHORT).show()
                         }
                         println(response.code())
                     }

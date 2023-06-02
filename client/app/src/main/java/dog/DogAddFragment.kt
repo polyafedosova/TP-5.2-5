@@ -13,6 +13,7 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.yandex.metrica.YandexMetrica
 import dto.DogDtoPost
 import dto.OwnerDtoGet
 import interfaces.DogInterface
@@ -47,7 +48,7 @@ class DogAddFragment : Fragment() {
     private lateinit var sharedPreferencesLogin: SharedPreferences
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2.2:8080")
+        .baseUrl("http://2.56.242.93:4000")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
@@ -155,13 +156,15 @@ class DogAddFragment : Fragment() {
 
                     println("L:D")
                     requireActivity().runOnUiThread {
+                        Toast.makeText(requireContext(), "Успешно", Toast.LENGTH_SHORT).show()
+                        YandexMetrica.reportEvent("Добавлена новая собака")
                         findNavController().popBackStack()
                     }
                 }else{
-                    println(response.code())
-
-                    println("D:L")
-                    println(response.message())
+                    requireActivity().runOnUiThread() {
+                        Toast.makeText(requireContext(),
+                            "В полях ввода используйте русский язык", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         } catch (e: java.lang.Exception) {

@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.yandex.metrica.YandexMetrica
 import dto.JwtGet
 import dto.JwtPost
 import dto.OwnerDtoGet
@@ -40,10 +41,8 @@ class LoginFragment : Fragment() {
     private lateinit var toRegisterButton: Button
     private var userInfo: OwnerDtoGet? = null
 
-    var isSuccess = 0
-
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2.2:8080")
+        .baseUrl("http://2.56.242.93:4000")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
@@ -74,7 +73,6 @@ class LoginFragment : Fragment() {
         }
 
         toRegisterButton.setOnClickListener() {
-//            it.findNavController().navigate(R.id.loginFragment)
             it.findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
         }
 
@@ -149,7 +147,8 @@ class LoginFragment : Fragment() {
                     saveLoginToSharedPreferences(login.text.toString())
 
                     requireActivity().runOnUiThread {
-                            startProfileFragment()
+                        YandexMetrica.reportEvent("Пользователь вошёл в аккаунт")
+                        startProfileFragment()
                     }
 
                 } else {

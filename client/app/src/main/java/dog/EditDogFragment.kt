@@ -13,6 +13,7 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.yandex.metrica.YandexMetrica
 import dto.DogDtoPost
 import interfaces.DogInterface
 import kotlinx.coroutines.CoroutineScope
@@ -41,7 +42,7 @@ class EditDogFragment : Fragment() {
     lateinit var backFromEditDogButton: Button
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2.2:8080")
+        .baseUrl("http://2.56.242.93:4000")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
@@ -120,7 +121,6 @@ class EditDogFragment : Fragment() {
 
         deleteDogButton.setOnClickListener() {
             deleteDog()
-//            it.findNavController().popBackStack()
         }
 
         backFromEditDogButton.setOnClickListener {
@@ -145,13 +145,16 @@ class EditDogFragment : Fragment() {
                 if (response.isSuccessful) {
                     println("L:D")
                     requireActivity().runOnUiThread {
+                        Toast.makeText(requireContext(), "Успешно", Toast.LENGTH_SHORT).show()
                         findNavController().popBackStack()
+                        YandexMetrica.reportEvent("Собака удалена")
                     }
                 } else {
-                    println(response.code())
+                    requireActivity().runOnUiThread {
+                        Toast.makeText(requireContext(),
+                            "Ошибка сервера, повторите попытку позже", Toast.LENGTH_SHORT).show()
+                    }
 
-                    println("D:L")
-                    println(response.message())
                 }
             }
         } catch (ex: Exception) {
@@ -205,13 +208,16 @@ class EditDogFragment : Fragment() {
                 val response = api.updateDog(idValue, dto, getLoginFromSharedPreferences(), headers).execute()
                 if (response.isSuccessful) {
                     requireActivity().runOnUiThread {
+                        Toast.makeText(requireContext(), "Успешно", Toast.LENGTH_SHORT).show()
                         findNavController().popBackStack()
                     }
-                    println("L:D")
 
                 }else{
+                    requireActivity().runOnUiThread {
+                        Toast.makeText(requireContext(),
+                            "В полях ввода используйте русский язык", Toast.LENGTH_SHORT).show()
+                    }
                     println(response.code())
-
                     println("D:L")
                     println(response.message())
                 }

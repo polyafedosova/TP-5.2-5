@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import com.yandex.metrica.YandexMetrica
 import ru.vsu.cs.tp.paws.R
 
 
@@ -26,6 +27,8 @@ class CalculatorFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val view = inflater.inflate(R.layout.fragment_calculator, container, false)
+
+        YandexMetrica.reportEvent("Пользователь перешёл на экран калькулятора")
 
         val autoCompleteAge: AutoCompleteTextView = view.findViewById(R.id.age)
         val autoCompleteMove: AutoCompleteTextView = view.findViewById(R.id.movement)
@@ -59,7 +62,7 @@ class CalculatorFragment : Fragment() {
                 belkov.text = (weight * 0.008 * 1000).toInt().toString()
                 rastitel.text = (ansField.text.toString().toDouble() * 0.07 * 1000).toInt().toString()
             } catch (ex: java.lang.Exception) {
-                Toast.makeText(this.context, "Что-то сломалось, попробуйте ещё раз", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.context, "Неверно задана масса", Toast.LENGTH_SHORT).show()
             }
 
         }

@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import api.Api
+import com.yandex.metrica.YandexMetrica
 import dto.TreatmentDtoPost
 import dto.VetclinicDtoGet
 import dto.VetclinicDtoPost
@@ -46,7 +47,7 @@ class AdminAddClinicFragment : Fragment() {
     private lateinit var sharedPreferencesLogin: SharedPreferences
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2.2:8080")
+        .baseUrl("http://2.56.242.93:4000")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
@@ -68,11 +69,6 @@ class AdminAddClinicFragment : Fragment() {
 
         adminAddClinicPhone = view.findViewById(R.id.adminAddClinicPhone)
         adminAddClinicDiscriptoin = view.findViewById(R.id.adminAddClinicDisription)
-//        adminAddClinicRegion = view.findViewById(R.id.adminAddClinicRegion)
-//        adminAddClinicDistrict = view.findViewById(R.id.adminAddClinicDistrict)
-//        adminAddClinicCity = view.findViewById(R.id.adminAddClinicCity)
-//        adminAddClinicStreet = view.findViewById(R.id.adminAddClinicStreet)
-//        adminAddClinicHouse = view.findViewById(R.id.adminAddClinicHouse)
         adminAddClinicServices = view.findViewById(R.id.adminAddClinicServices)
 
         adminAddClinic = view.findViewById(R.id.adminAddClinic)

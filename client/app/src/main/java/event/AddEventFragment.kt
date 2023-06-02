@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.yandex.metrica.YandexMetrica
 import dto.EventDtoPost
 import interfaces.DogInterface
 import interfaces.EventInterface
@@ -40,7 +41,7 @@ class AddEventFragment : Fragment() {
     private lateinit var sharedPreferencesLogin: SharedPreferences
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2.2:8080")
+        .baseUrl("http://2.56.242.93:4000")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
@@ -116,12 +117,20 @@ class AddEventFragment : Fragment() {
                 if (response.isSuccessful) {
                     println("L:D")
                     requireActivity().runOnUiThread {
+                        Toast.makeText(requireContext(), "Успешно", Toast.LENGTH_SHORT).show()
+                        YandexMetrica.reportEvent("Событие добавлено")
                         findNavController().navigate(R.id.eventsFragment)
                     }
                 }else{
+                    requireActivity().runOnUiThread {
+                        when (response.code()) {
+                            400 -> {
+                                Toast.makeText(requireContext(), "Неверный логин",
+                                    Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
                     println(response.code())
-
-                    println("D:L")
                     println(response.message())
                 }
             }

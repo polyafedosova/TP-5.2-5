@@ -51,7 +51,7 @@ class AdminEditClinicFragment : Fragment() {
     private lateinit var adminBackFromClinic: Button
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2.2:8080")
+        .baseUrl("http://2.56.242.93:4000")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
@@ -67,11 +67,7 @@ class AdminEditClinicFragment : Fragment() {
         adminEditClinicAddress = view.findViewById(R.id.adminEditClinicAddress)
         adminEditClinicPhone = view.findViewById(R.id.adminEditClinicPhone)
         adminEditClinicDiscriptoin = view.findViewById(R.id.adminEditClinicDisription)
-//        adminEditClinicRegion = view.findViewById(R.id.adminEditClinicRegion)
-//        adminEditClinicDistrict = view.findViewById(R.id.adminEditClinicDistrict)
-//        adminEditClinicCity = view.findViewById(R.id.adminEditClinicCity)
-//        adminEditClinicStreet = view.findViewById(R.id.adminEditClinicStreet)
-//        adminEditClinicHouse = view.findViewById(R.id.adminEditClinicHouse)
+
         adminEditClinicServices = view.findViewById(R.id.adminEditClinicServices)
         adminEditClinic = view.findViewById(R.id.adminEditClinic)
 

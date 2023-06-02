@@ -3,19 +3,16 @@ package ru.vsu.cs.tp.paws
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
-import medical.MedicalFragment
+import com.yandex.metrica.YandexMetrica
+import com.yandex.metrica.YandexMetricaConfig
 import ru.vsu.cs.tp.paws.databinding.ActivityMainBinding
-import java.sql.Time
-import java.util.Timer
-import java.util.TimerTask
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,11 +31,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val config = YandexMetricaConfig.newConfigBuilder("93759b96-971e-411a-b343-c6d055d5e03b").build()
+        YandexMetrica.activate(getApplicationContext(), config)
+        YandexMetrica.enableActivityAutoTracking(application)
+
         if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
-
-        sharedPreferencesToken = getSharedPreferences("userToken", Context.MODE_PRIVATE)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -53,6 +52,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setSplashScreen() {
+        sharedPreferencesToken = getSharedPreferences("userToken", Context.MODE_PRIVATE)
         val globalConfig = GlobalConfig()
         var greetingMessage = ""
         if (getTokenFromSharedPreferences() == "") {

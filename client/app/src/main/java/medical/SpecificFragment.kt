@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import api.Api
+import com.yandex.metrica.YandexMetrica
 import dto.TreatmentDtoGet
 import retrofit2.Call
 import retrofit2.Callback
@@ -34,15 +35,11 @@ class SpecificFragment : Fragment(){
 
     private var serviceList: List<TreatmentDtoGet>? = null
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2.2:8080")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedPreferencesToken = requireActivity().getSharedPreferences("userToken", Context.MODE_PRIVATE)
+        YandexMetrica.reportEvent("Пользователь перешёл на экран клиники")
     }
 
     @SuppressLint("MissingInflatedId")

@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.yandex.metrica.YandexMetrica
 import dto.OwnerDtoPost
 import interfaces.OwnerInterface
 import kotlinx.coroutines.CoroutineScope
@@ -32,7 +33,7 @@ class RegistrationFragment : Fragment() {
     private lateinit var userRepeatPassword: EditText
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2.2:8080")
+        .baseUrl("http://2.56.242.93:4000")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
@@ -53,7 +54,7 @@ class RegistrationFragment : Fragment() {
                 try {
                     registration(userLogin, userName, userPassword)
 
-                } catch (e: Exception) { e.stackTrace }
+                } catch (e: Exception) { println(e) }
 
             }
         }
@@ -75,11 +76,20 @@ class RegistrationFragment : Fragment() {
                 if (response.isSuccessful) {
                     println(":D")
                     requireActivity().runOnUiThread {
+                        YandexMetrica.reportEvent("Зарегестрирован новый пользователь")
                         findNavController().popBackStack()
                     }
                 }else{
+                    requireActivity().runOnUiThread() {
+                        when (response.code()) {
+                            409 -> { Toast.makeText(requireContext(),
+                                "Такой логин уже используется", Toast.LENGTH_SHORT).show() }
+                            400 -> { Toast.makeText(requireContext(),
+                                "Используйте в пароле спец символы и цифры", Toast.LENGTH_LONG).show() }
+                        }
+                    }
                     println("D:")
-                    println(response.message())
+                    println(response.code())
                 }
             }
         } catch (ex: Exception) {

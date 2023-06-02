@@ -20,6 +20,7 @@ import android.content.DialogInterface
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import api.Api
+import com.yandex.metrica.YandexMetrica
 
 import dog.DogAdapter
 import dto.DogDtoGet
@@ -57,15 +58,17 @@ class ProfileFragment : Fragment() {
 
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2.2:8080")
+        .baseUrl("http://2.56.242.93:4000")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-
+//"Abcd123*@_
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedPreferencesToken = requireActivity().getSharedPreferences("userToken", Context.MODE_PRIVATE)
         sharedPreferencesLogin = requireActivity().getSharedPreferences("userLogin", Context.MODE_PRIVATE)
+
+        YandexMetrica.reportEvent("Пользователь перешёл в профиль")
 
         getUserData(getLoginFromSharedPreferences(), getTokenFromSharedPreferences())
     }

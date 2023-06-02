@@ -13,6 +13,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.yandex.metrica.YandexMetrica
 import interfaces.OwnerInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,7 +36,7 @@ class ChangePasswordFragment : Fragment() {
     private lateinit var sharedPreferencesLogin: SharedPreferences
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2.2:8080")
+        .baseUrl("http://2.56.242.93:4000")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
@@ -109,18 +110,21 @@ class ChangePasswordFragment : Fragment() {
                         clearSharedPreferencesLogin()
                         clearSharedPreferencesToken()
                         requireActivity().runOnUiThread {
+                            YandexMetrica.reportEvent("Пользователь сменил пароль")
                             findNavController().navigate(R.id.loginFragment)
                         }
                     }
                 } else {
                     withContext(Dispatchers.Main) {
-                        Toast.makeText(requireContext(), "Что-то пошло не так, попробуйте ещё раз", Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireContext(),
+                            "Используйте в пароле спец символы и цифры", Toast.LENGTH_LONG).show()
                     }
                     println(response.code())
                 }
             }
         } catch (ex: Exception) {
-            Toast.makeText(requireContext(), "Что-то пошло не так, попробуйте ещё раз", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "Что-то пошло не так, попробуйте ещё раз позже",
+                Toast.LENGTH_LONG).show()
             println(ex)
         }
     }

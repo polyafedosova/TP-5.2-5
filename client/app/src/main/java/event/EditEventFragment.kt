@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.yandex.metrica.YandexMetrica
 import dto.DogDtoPost
 import dto.EventDtoPost
 import interfaces.DogInterface
@@ -44,7 +45,7 @@ class EditEventFragment : Fragment() {
     private lateinit var sharedPreferencesLogin: SharedPreferences
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2.2:8080")
+        .baseUrl("http://2.56.242.93:4000")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
@@ -109,7 +110,6 @@ class EditEventFragment : Fragment() {
 
         deleteEventButton.setOnClickListener() {
             deleteEvent()
-//            it.findNavController().navigate(R.id.eventsFragment)
         }
 
         backFromEditEventButton.setOnClickListener {
@@ -163,12 +163,19 @@ class EditEventFragment : Fragment() {
 
                     println("L:D")
                     requireActivity().runOnUiThread {
+                        Toast.makeText(requireContext(), "Успешно", Toast.LENGTH_SHORT).show()
                         findNavController().popBackStack()
                     }
                 }else{
+                    requireActivity().runOnUiThread {
+                        when (response.code()) {
+                            400 -> {
+                                Toast.makeText(requireContext(), "Неверный логин",
+                                    Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
                     println(response.code())
-
-                    println("D:L")
                     println(response.message())
                 }
             }
@@ -193,11 +200,16 @@ class EditEventFragment : Fragment() {
                 if (response.isSuccessful) {
                     println("L:D")
                     requireActivity().runOnUiThread {
+                        Toast.makeText(requireContext(), "Успешно", Toast.LENGTH_SHORT).show()
+                        YandexMetrica.reportEvent("Событие удалено")
                         findNavController().popBackStack()
                     }
                 } else {
                     println(response.code())
-
+                    requireActivity().runOnUiThread {
+                        Toast.makeText(requireContext(),
+                            "Ошибка сервера, повторите попытку позже", Toast.LENGTH_SHORT).show()
+                    }
                     println("D:L")
                     println(response.message())
                 }

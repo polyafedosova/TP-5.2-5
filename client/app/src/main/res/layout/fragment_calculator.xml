@@ -73,7 +73,7 @@
             android:id="@+id/dogWeight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Вес (кг)"
+            android:hint="Масса (кг)"
             android:maxLength="3"
             android:layout_marginTop="30dp"
             android:inputType="number"
