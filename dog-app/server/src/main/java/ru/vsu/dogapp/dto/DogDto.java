@@ -9,6 +9,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 @Data
 @ApiModel(description = "Entity of a dog.")
@@ -36,17 +37,26 @@ public class DogDto {
     @ApiModelProperty(value = "Breed of a dog.", example = "Немецкая овчарка")
     private String breed;
 
-    public void setBirthday(String birthday) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        this.birthday = LocalDate.parse(birthday, formatter);
-    }
-
     public DogDto(Integer id, String name, String birthday, Boolean sex, String breed) {
         this.id = id;
         this.name = name;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        this.birthday = LocalDate.parse(birthday, formatter);
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            this.birthday = LocalDate.parse(birthday, formatter);
+        } catch (DateTimeParseException e) {
+            System.out.println("Error of parsing date: " + e.getMessage());
+        }
         this.sex = sex;
         this.breed = breed;
     }
+
+    public void setBirthday(String birthday) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            this.birthday = LocalDate.parse(birthday, formatter);
+        } catch (DateTimeParseException e) {
+            System.out.println("Error of parsing date: " + e.getMessage());
+        }
+    }
+
 }
