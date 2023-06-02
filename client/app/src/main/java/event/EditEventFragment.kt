@@ -71,6 +71,8 @@ class EditEventFragment : Fragment() {
 
         val nameValue = requireArguments().getString("name")
         var dateValue = requireArguments().getString("date")
+        val timeValue = requireArguments().getString("time")
+        val replasedTime = timeValue?.replace(":", "-")
         val commentValue = requireArguments().getString("comment")
 
         dateValue = dateValue?.replace("-", ".")
@@ -99,6 +101,7 @@ class EditEventFragment : Fragment() {
         newEventName.setText(nameValue)
         newEventDate.setText(dateValue)
         newEventComment.setText(commentValue)
+        newEventTime.setText(replasedTime)
 
         completeEditEventButton.setOnClickListener() {
             if (validate(newEventName, newEventDate, newEventTime, newEventComment)) {
@@ -164,7 +167,7 @@ class EditEventFragment : Fragment() {
                     println("L:D")
                     requireActivity().runOnUiThread {
                         Toast.makeText(requireContext(), "Успешно", Toast.LENGTH_SHORT).show()
-                        findNavController().popBackStack()
+                        findNavController().navigate(R.id.profileFragment)
                     }
                 }else{
                     requireActivity().runOnUiThread {
@@ -198,11 +201,10 @@ class EditEventFragment : Fragment() {
             CoroutineScope(Dispatchers.IO).launch {
                 val response = api.deleteEvent(idValue, getLoginFromSharedPreferences(), headers).execute()
                 if (response.isSuccessful) {
-                    println("L:D")
                     requireActivity().runOnUiThread {
                         Toast.makeText(requireContext(), "Успешно", Toast.LENGTH_SHORT).show()
                         YandexMetrica.reportEvent("Событие удалено")
-                        findNavController().popBackStack()
+                        findNavController().navigate(R.id.profileFragment)
                     }
                 } else {
                     println(response.code())
