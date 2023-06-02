@@ -8,7 +8,7 @@
     android:layout_marginEnd="0dp"
     android:layout_marginBottom="0dp"
     android:background="@drawable/rounded_relative_layout"
-    tools:context=".SplashFragment">
+    tools:context="splash.SplashFragment">
 
     <ImageView
         android:id="@+id/imgPlace"

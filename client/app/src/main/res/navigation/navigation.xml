@@ -174,7 +174,7 @@
         tools:layout="@layout/fragment_admin_add_clinic" />
     <fragment
         android:id="@+id/splashFragment"
-        android:name="ru.vsu.cs.tp.paws.SplashFragment"
+        android:name="splash.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" />
 

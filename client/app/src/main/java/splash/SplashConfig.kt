@@ -1,6 +1,6 @@
-package ru.vsu.cs.tp.paws
+package splash
 
-class GlobalConfig {
+class SplashConfig {
 
     private val noLogin = "Рады знакомству!"
     private val alreadyLogin = "С возвращением!"

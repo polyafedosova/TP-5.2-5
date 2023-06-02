@@ -12,6 +12,8 @@ import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.yandex.metrica.YandexMetrica
 import com.yandex.metrica.YandexMetricaConfig
 import ru.vsu.cs.tp.paws.databinding.ActivityMainBinding
+import splash.SplashConfig
+import splash.SplashFragment
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -53,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setSplashScreen() {
         sharedPreferencesToken = getSharedPreferences("userToken", Context.MODE_PRIVATE)
-        val globalConfig = GlobalConfig()
+        val globalConfig = SplashConfig()
         var greetingMessage = ""
         if (getTokenFromSharedPreferences() == "") {
             greetingMessage = globalConfig.getFirstGreetingMessage()
