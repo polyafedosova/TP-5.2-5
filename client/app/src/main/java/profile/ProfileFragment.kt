@@ -41,7 +41,6 @@ class ProfileFragment : Fragment() {
 
     private lateinit var sharedPreferencesToken: SharedPreferences
     private lateinit var sharedPreferencesLogin: SharedPreferences
-//    private lateinit var sharedPreferencesPass: SharedPreferences
 
     private lateinit var addDogButton: Button
     private lateinit var editProfileButton: Button

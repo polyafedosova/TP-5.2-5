@@ -11,6 +11,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import interfaces.GlobalConfigInterface
+import interfaces.OwnerInterface
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import ru.vsu.cs.tp.paws.R
 
 
@@ -19,6 +26,11 @@ class OnboardFragmentFirst : Fragment() {
     private lateinit var onboartTextPlace: TextView
     private lateinit var onboardNextButton: FloatingActionButton
     private lateinit var imgOnboardPlace: ImageView
+
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("http://2.56.242.93:4000")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
 
     private var bitStr = ""
 
@@ -52,12 +64,30 @@ class OnboardFragmentFirst : Fragment() {
     }
 
     private fun getGlobalConfig() {
+        val api = retrofit.create(GlobalConfigInterface::class.java)
 
+        try {
+            CoroutineScope(Dispatchers.IO).launch {
+                val response = api.getAll().execute()
+                if (response.isSuccessful) {
+                    println(response.code())
+                    println("res = " + response.body())
+//                    bitStr = response.body()
+                    requireActivity().runOnUiThread {
+                        onboartTextPlace.text = response.body()?.get(0)?.text
+                    }
+
+                }
+
+            }
+        } catch (ex: Exception) {
+            ex.stackTrace
+        }
     }
 
-    fun convertBitStringToImage(bitString: String, imageView: ImageView) {
-        val width = 200 // Ширина изображения (в пикселях)
-        val height = bitString.length / width // Высота изображения (в пикселях)
+    private fun convertBitStringToImage(bitString: String, imageView: ImageView) {
+        val width = 200
+        val height = bitString.length / width
 
         val pixels = IntArray(width * height)
         var pixelIndex = 0

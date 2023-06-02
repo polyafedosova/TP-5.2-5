@@ -9,9 +9,20 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI.setupWithNavController
+import api.Api
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.yandex.metrica.YandexMetrica
 import com.yandex.metrica.YandexMetricaConfig
+import dto.OwnerDtoGet
+import interfaces.OwnerInterface
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import ru.vsu.cs.tp.paws.databinding.ActivityMainBinding
 import splash.SplashConfig
 import splash.SplashFragment
@@ -24,10 +35,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
     private lateinit var sharedPreferencesToken: SharedPreferences
+    private lateinit var sharedPreferencesLogin: SharedPreferences
 
     private lateinit var splashScreenFragment: SplashFragment
 
-    private var flag = true
+    private var flag = false
 
     private companion object {
         private const val SPLASH_SCREEN_DELAY = 5000L
@@ -35,6 +47,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        sharedPreferencesToken = getSharedPreferences("userToken", Context.MODE_PRIVATE)
+        sharedPreferencesLogin = getSharedPreferences("userLogin", Context.MODE_PRIVATE)
+
+        getOnboardStatus()
 
         val config = YandexMetricaConfig.newConfigBuilder("93759b96-971e-411a-b343-c6d055d5e03b").build()
         YandexMetrica.activate(applicationContext, config)
@@ -93,14 +110,50 @@ class MainActivity : AppCompatActivity() {
             }
         }, SPLASH_SCREEN_DELAY)
 
-
     }
     private fun getTokenFromSharedPreferences(): String {
         return sharedPreferencesToken.getString("token", "") ?: ""
     }
 
+    private fun getLoginFromSharedPreferences(): String {
+        return sharedPreferencesLogin.getString("login", "") ?: ""
+    }
+
     fun getBottomNav(): BottomNavigationView {
         return binding.bottomNav
+    }
+
+    private fun getOnboardStatus() {
+        val token = getTokenFromSharedPreferences()
+        val headers = HashMap<String, String>()
+        headers["Authorization"] = "Bearer $token"
+
+        val call = Api.getApiOwner().findByLogin(getLoginFromSharedPreferences(), headers)
+
+        call.enqueue(object : Callback<OwnerDtoGet> {
+            override fun onResponse(call: Call<OwnerDtoGet>, response: Response<OwnerDtoGet>) {
+                if (response.isSuccessful) {
+                    val dataResponse = response.body()
+                    println(dataResponse)
+                    runOnUiThread {
+                        if (dataResponse != null) {
+                            flag = dataResponse.show
+                        }else{
+                            flag = false
+                        }
+                    }
+                } else {
+                    flag = false
+                    println("Не успешно")
+                    println(response.code())
+                }
+            }
+
+            override fun onFailure(call: Call<OwnerDtoGet>, t: Throwable) {
+                println("Ошибка")
+                println(t)
+            }
+        })
     }
 
 }
