@@ -27,6 +27,7 @@ public class Owner implements UserDetails {
     private String password;
     @NotEmpty
     private String name;
+    private boolean show;
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)

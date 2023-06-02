@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import ru.vsu.dogapp.dto.OwnerDto;
 import ru.vsu.dogapp.dto.jwt.JwtRequest;
 import ru.vsu.dogapp.dto.jwt.JwtResponse;
@@ -30,7 +31,7 @@ public class OwnerController {
     }
 
     @PostMapping("api/auth/registration")
-    @ApiOperation("Registration")
+    @ApiOperation("Registration new owner")
     public ResponseEntity<String> saveNewOwner(@Valid @RequestBody OwnerDto owner) {
         try {
             boolean saved = service.save(owner);
@@ -51,11 +52,20 @@ public class OwnerController {
         final JwtResponse token = authService.login(authRequest);
         return ResponseEntity.ok(token);
     }
+
     @PutMapping("/owner/{username}/update")
     @ApiOperation("Updating information about an owner")
-    public void updateOwner(@PathVariable String username, @Valid @RequestBody OwnerDto owner) {
-        service.update(username, owner);
+    public ResponseEntity<String> updateOwner(@PathVariable String username, @Valid @RequestBody OwnerDto owner) {
+        try {
+            service.update(username, owner);
+            return ResponseEntity.ok("Owner updated successfully");
+        } catch (ResponseStatusException e) {
+            HttpStatus status = e.getStatus();
+            String message = e.getReason();
+            return ResponseEntity.status(status).body(message);
+        }
     }
+
     @PutMapping("/owner/{username}/update/password")
     @ApiOperation("Updating an owner`s password")
     public void updatePassword(@PathVariable String username, String newPassword) {

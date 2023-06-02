@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.vsu.dogapp.entity.SplashScreen;
+import ru.vsu.dogapp.service.OwnerService;
 import ru.vsu.dogapp.service.SplashScreenService;
 
 import javax.validation.Valid;
@@ -15,6 +16,7 @@ import java.util.List;
 public class SplashScreenController {
 
     private SplashScreenService service;
+    private OwnerService ownerService;
 
     @GetMapping()
     @ApiOperation("Getting a list of all splash screen")
@@ -44,5 +46,10 @@ public class SplashScreenController {
     @ApiOperation("Deleting all splash screens")
     public void deleteAll() {
         service.deleteAll();
+    }
+
+    @PostMapping("/toShow")
+    public void toShow() {
+        ownerService.makeShowTrue();
     }
 }

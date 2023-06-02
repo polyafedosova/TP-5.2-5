@@ -16,12 +16,10 @@ public class SplashScreen {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty(hidden = true)
     private Integer id;
-
-    @ApiModelProperty(example = "")
     private String title;
     private String text;
     private byte[] image;
-
     private String button;
 }

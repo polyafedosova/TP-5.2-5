@@ -12,6 +12,7 @@ import java.util.List;
 public class SplashScreenService {
 
     private final SplashScreenRepository repository;
+    private final OwnerService ownerService;
 
     public void save(SplashScreen splashScreen) {
         repository.save(splashScreen);
@@ -32,6 +33,5 @@ public class SplashScreenService {
 
     public void deleteAll() {
         repository.deleteAll();
-        repository.resetIdCounter();
     }
 }

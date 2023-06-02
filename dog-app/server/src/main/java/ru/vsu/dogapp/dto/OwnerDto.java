@@ -38,7 +38,8 @@ public class OwnerDto {
             message = "Name should be between 3 and 30 characters and contain only letters and digits.")
     @ApiModelProperty(value = "Name of an owner.", required = true, example = "Артем")
     private String name;
-
+    @ApiModelProperty(value = "Should to show splash screens", hidden = true)
+    private boolean show;
     @ApiModelProperty(hidden = true, value = "Roles of an user (admin or user).")
     private Set<Role> roles;
 }
