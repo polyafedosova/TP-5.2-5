@@ -61,14 +61,10 @@ public class OwnerService implements UserDetailsService {
         repository.save(newOwner);
     }
 
-    public void updatePassword(String username, String oldPassword, String newPassword) {
+    public void updatePassword(String username, String newPassword) {
         Owner owner = repository.findByUsername(username);
-        if (bCryptPasswordEncoder.matches(oldPassword, owner.getPassword())) {
-            owner.setPassword(bCryptPasswordEncoder.encode(newPassword));
-            repository.save(owner);
-        } else {
-            throw new IllegalArgumentException("Old password is incorrect");
-        }
+        owner.setPassword(bCryptPasswordEncoder.encode(newPassword));
+        repository.save(owner);
     }
 
     public void delete(String username) {

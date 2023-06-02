@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -31,14 +30,12 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
                 .authorizeHttpRequests()
-                .antMatchers("/swagger-ui.html", "/swagger-ui/**", "/v2/api-docs", "/swagger-resources/**", "/webjars/**").permitAll()
+                .antMatchers("/swagger-ui.html", "/swagger-ui/**", "/v2/api-docs", "/swagger-resources/**", "/webjars/**", "/splashscreen").permitAll()
                 .antMatchers("/owner/{username}/**", "/owner/{username}").hasAnyAuthority("ADMIN", "USER")
-                .antMatchers("/vetclinics/edit/**", "/vetclinic/{vetclinic_id}/treatments/edit/**").hasAnyAuthority("ADMIN")
+                .antMatchers("/vetclinics/edit/**", "/vetclinic/{vetclinic_id}/treatments/edit/**", "/splashscreen/**").hasAnyAuthority("ADMIN")
                 .antMatchers( "/vetclinics", "/vetclinics/{id}", "/vetclinic/{vetclinic_id}/treatments",
-                        "/registration", "/api/auth/login", "/api/auth/token").permitAll()
+                        "/api/auth/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
@@ -46,7 +43,6 @@ public class WebSecurityConfig {
                         .logoutSuccessUrl("/")
                         .permitAll()
                 );
-
         return http.build();
     }
 }

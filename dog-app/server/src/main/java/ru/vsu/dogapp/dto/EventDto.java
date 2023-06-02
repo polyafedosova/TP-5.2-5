@@ -37,37 +37,39 @@ public class EventDto {
     @ApiModelProperty(value = "Description of an event.", example = "Взять ветпаспорт")
     private String description;
 
+    public EventDto(Integer id, String name, String date, String time, String description) {
+        this.id = id;
+        this.name = name;
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            this.date = LocalDate.parse(date, formatter);
+        } catch (DateTimeParseException e) {
+            System.out.println("Error of parsing date: " + e.getMessage());
+        }
+        try {
+            DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH:mm:ss");
+            this.time = LocalTime.parse(time, formatterTime);
+        } catch (DateTimeParseException e) {
+            System.out.println("Error of parsing time: " + e.getMessage());
+        }
+        this.description = description;
+    }
+
     public void setDate(String date) {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             this.date = LocalDate.parse(date, formatter);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+        } catch (DateTimeParseException e) {
+            System.out.println("Error of parsing date: " + e.getMessage());
         }
     }
 
     public void setTime(String time) {
-        String format = "HH:mm:ss";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         try {
-            this.time = LocalTime.parse(time, formatter);
-        } catch (DateTimeParseException e) {
-            System.out.println("Ошибка парсинга времени: " + e.getMessage());
-        }
-    }
-
-    public EventDto(Integer id, String name, String date, String time, String description) {
-        this.id = id;
-        this.name = name;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        this.date = LocalDate.parse(date, formatter);
-        String format = "HH:mm:ss";
-        DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern(format);
-        try {
+            DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH:mm:ss");
             this.time = LocalTime.parse(time, formatterTime);
         } catch (DateTimeParseException e) {
-            System.out.println("Ошибка парсинга: " + e.getMessage());
+            System.out.println("Error of parsing time: " + e.getMessage());
         }
-        this.description = description;
     }
 }

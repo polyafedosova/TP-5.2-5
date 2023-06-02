@@ -18,16 +18,16 @@ public class OwnerDto {
     private Integer id;
 
     @NotBlank(message = "Username must not be blank.")
-    @Size(min = 5, max = 30)
+    @Size(min = 4, max = 30)
     @Pattern(regexp = "^[a-zA-Zа-яА-Я0-9*_@.-]+$",
-            message = "Username should be between 5 and 30 characters and contain only letters and digits.")
+            message = "Username should be between 4 and 30 characters and contain only letters and digits.")
     @ApiModelProperty(value = "Username (login) of an owner.", required = true, example = "Artem17")
     private String username;
 
     @NotBlank(message = "Password must not be blank.")
     @Size(min = 8, max = 40)
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@*_]).{8,40}$",
-            message = "Password should be between 8 and 40 characters and contain at least one lowercase and uppercase " +
+            message = "Password should be between 8 and 40 characters and contain lowercase and uppercase " +
                     "english letters, digit and one of the symbols '@*_'.")
     @ApiModelProperty(value = "Password of an owner.", required = true, example = "Abcd123*@_")
     private String password;
