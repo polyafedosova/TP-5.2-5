@@ -127,6 +127,8 @@
             android:id="@+id/action_loginFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
         <action
+            app:popUpTo="@id/profileFragment"
+            app:popUpToInclusive="true"
             android:id="@+id/action_loginFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
         <action

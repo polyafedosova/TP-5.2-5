@@ -140,7 +140,7 @@ class LoginFragment : Fragment() {
 
                     requireActivity().runOnUiThread {
                         YandexMetrica.reportEvent("Пользователь вошёл в аккаунт")
-                        findNavController().navigate(R.id.profileFragment)
+                        findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
                     }
 
                 } else {
