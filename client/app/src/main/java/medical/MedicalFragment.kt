@@ -25,19 +25,13 @@ import java.math.BigDecimal
 
 class MedicalFragment : Fragment() {
 
-    private lateinit var searchView: SearchView
+    lateinit var searchView: SearchView
     private lateinit var searchViewCity: SearchView
-    private lateinit var recyclerView: RecyclerView
-    private var clinicsAdapter: ClinicsAdapter? = null
+    lateinit var recyclerView: RecyclerView
+    var clinicsAdapter: ClinicsAdapter? = null
     private lateinit var listView: ListView
     private lateinit var listViewCity: ListView
     private lateinit var alert: TextView
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -167,7 +161,7 @@ class MedicalFragment : Fragment() {
             }
         })
     }
-    private fun getAllClinics() {
+    fun getAllClinics() {
         val call = Api.getApiVetclinic().getAllVetclinics()
         call.enqueue(object : Callback<List<VetclinicDtoGet>> {
             override fun onResponse(call: Call<List<VetclinicDtoGet>>, response: Response<List<VetclinicDtoGet>>) {
@@ -189,7 +183,5 @@ class MedicalFragment : Fragment() {
             }
         })
     }
-
-
 
 }
