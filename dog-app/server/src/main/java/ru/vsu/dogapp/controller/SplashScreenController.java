@@ -48,8 +48,15 @@ public class SplashScreenController {
         service.deleteAll();
     }
 
-    @PostMapping("/toShow")
-    public void toShow() {
-        ownerService.makeShowTrue();
+    @PostMapping("/changeShowAll")
+    @ApiOperation("Changing splash screens visible mode to everyone users")
+    public void toShow(boolean isShow) {
+        ownerService.changeShowAll(isShow);
+    }
+
+    @PostMapping("/changeShow")
+    @ApiOperation("Changing splash screens visible mode to the user")
+    public void changeShow(String username, boolean isShow) {
+        ownerService.changeShow(username, isShow);
     }
 }

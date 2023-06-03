@@ -32,7 +32,7 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests()
                 .antMatchers("/swagger-ui.html", "/swagger-ui/**", "/v2/api-docs", "/swagger-resources/**", "/webjars/**", "/splashscreen").permitAll()
-                .antMatchers("/owner/{username}/**", "/owner/{username}").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers("/owner/{username}/**", "/owner/{username}", "/splashscreen/changeShow").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers("/vetclinics/edit/**", "/vetclinic/{vetclinic_id}/treatments/edit/**", "/splashscreen/**").hasAnyAuthority("ADMIN")
                 .antMatchers( "/vetclinics", "/vetclinics/{id}", "/vetclinic/{vetclinic_id}/treatments",
                         "/api/auth/**").permitAll()
