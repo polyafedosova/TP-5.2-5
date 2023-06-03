@@ -77,6 +77,11 @@ class ChangePasswordFragment : Fragment() {
             isValid = false
         }
 
+        if (new.text.toString() == "Abcd123*@_") {
+            new.error = "Не используйте пароль из примера!"
+            isValid = false
+        }
+
         if (repeat.text.toString().isEmpty()) {
             repeat.error = "Повторите новый пароль"
             isValid = false
@@ -116,7 +121,7 @@ class ChangePasswordFragment : Fragment() {
                 } else {
                     withContext(Dispatchers.Main) {
                         Toast.makeText(requireContext(),
-                            "Используйте в пароле спец символы и цифры", Toast.LENGTH_LONG).show()
+                            "Придумайте пароль вида: Abcd123*@_", Toast.LENGTH_LONG).show()
                     }
                     println(response.code())
                 }
