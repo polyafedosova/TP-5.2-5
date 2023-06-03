@@ -20,6 +20,7 @@
         android:visibility="visible" />
 
     <LinearLayout
+        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
@@ -48,13 +49,15 @@
 
                 <TextView
                     android:id="@+id/onboartTextPlace"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="TEXT"
                     android:textColor="@color/new_purple"
                     android:textSize="25sp"
-                    android:textStyle="bold" />
+                    />
 
 
 

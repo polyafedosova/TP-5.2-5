@@ -70,17 +70,17 @@
 
         <EditText
             android:id="@+id/dogWeight"
+            style="@style/EditText2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Масса (кг)"
-            android:maxLength="3"
             android:layout_marginTop="30dp"
-            android:inputType="number"
-            android:textAlignment="textStart"
-            android:textSize="20sp"
+            android:background="@drawable/edittext_style2"
+            android:hint="Масса (кг)"
+            android:inputType="number|numberDecimal"
+            android:maxLength="3"
             android:padding="20dp"
-            style="@style/EditText2"
-            android:background="@drawable/edittext_style2" />
+            android:textAlignment="textStart"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/calculate_eat"

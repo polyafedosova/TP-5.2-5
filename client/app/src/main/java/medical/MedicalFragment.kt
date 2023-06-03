@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +18,7 @@ import dto.VetclinicSortDto
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import ru.vsu.cs.tp.paws.MainActivity
 import ru.vsu.cs.tp.paws.R
 import java.math.BigDecimal
 
@@ -28,6 +31,7 @@ class MedicalFragment : Fragment() {
     private var clinicsAdapter: ClinicsAdapter? = null
     private lateinit var listView: ListView
     private lateinit var listViewCity: ListView
+    private lateinit var alert: TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +41,7 @@ class MedicalFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         getAllClinics()
     }
 
@@ -51,8 +56,8 @@ class MedicalFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.recycler_events)
         recyclerView.layoutManager = LinearLayoutManager(activity)
-
-
+        alert = view.findViewById(R.id.alert)
+        alert.text = ""
         searchViewCity.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 if (query != "") {
@@ -103,8 +108,13 @@ class MedicalFragment : Fragment() {
                 if (response.isSuccessful) {
                     val dataResponse = response.body()
                     val sortedClinics: ArrayList<VetclinicDtoGet> = ArrayList()
-                    println(dataResponse)
+
                     if (dataResponse != null) {
+                        if (dataResponse.size == 0) {
+                            requireActivity().runOnUiThread {
+                                Toast.makeText(requireContext(), "Клиники не найдены", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                         for(i in 0..dataResponse.size - 1) {
                             sortedClinics.add(dataResponse[i])
                         }
@@ -139,6 +149,11 @@ class MedicalFragment : Fragment() {
                             sortedPrices.add(dataResponse[i].minPrice)
                         }
                     }
+                    if (dataResponse?.size == 0) {
+                        requireActivity().runOnUiThread {
+                            Toast.makeText(requireContext(), "Клиники не найдены", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                     clinicsAdapter = ClinicsAdapter(sortedClinics as MutableList<VetclinicDtoGet>, sortedPrices, treatment)
                     recyclerView.adapter = clinicsAdapter
 
@@ -158,7 +173,9 @@ class MedicalFragment : Fragment() {
             override fun onResponse(call: Call<List<VetclinicDtoGet>>, response: Response<List<VetclinicDtoGet>>) {
                 if (response.isSuccessful) {
                     val dataResponse = response.body()
-
+                    if (dataResponse?.size == 0) {
+                        alert.text = "Клиник пока нет"
+                    }
                     clinicsAdapter = ClinicsAdapter(dataResponse as MutableList<VetclinicDtoGet>, null, "")
                     recyclerView.adapter = clinicsAdapter
 

@@ -103,6 +103,9 @@ class DogAddFragment : Fragment() {
         if (sex == 0) {
                 ansSex = false
         }
+        if (breed.text.toString() == "") {
+            breed.setText("    ")
+        }
 
         val token = getTokenFromSharedPreferences()
         val headers = HashMap<String, String>()
@@ -168,11 +171,6 @@ class DogAddFragment : Fragment() {
 
         if (date.text.toString().isEmpty()) {
             date.error = "Введите дату"
-            isValid = false
-        }
-
-        if (breed.text.toString().isEmpty()) {
-            breed.error = "Введите породу"
             isValid = false
         }
 

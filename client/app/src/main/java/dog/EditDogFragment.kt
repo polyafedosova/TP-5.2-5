@@ -168,7 +168,9 @@ class EditDogFragment : Fragment() {
         if (sex == 0) {
             ansSex = false
         }
-
+        if (newBreed.text.toString() == "") {
+            newBreed.setText("    ")
+        }
         val idValue = requireArguments().getInt("id")
 
         val token = getTokenFromSharedPreferences()

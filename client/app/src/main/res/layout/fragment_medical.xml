@@ -89,11 +89,17 @@
                 android:visibility="visible"
                 android:backgroundTint="@color/item_white"/>
 
-
-
-
+            <TextView
+                android:id="@+id/alert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="26dp"
+                android:text="" />
 
         </LinearLayout>
+
+
 
     </RelativeLayout>
 

@@ -21,7 +21,7 @@ class CalculatorFragment : Fragment() {
 
     private var chosenAge: Int = 0
     private var chosenMove: Int = 0
-    private var weight = -1
+    private var weight = -1.0
 
 
 
@@ -67,10 +67,15 @@ class CalculatorFragment : Fragment() {
 
         doneButton.setOnClickListener {
             try {
-                weight = Integer.valueOf(view.findViewById<EditText>(R.id.dogWeight).text.toString())
-                ansField.text = (calculateEat(chosenAge, chosenMove, weight) / 1000).toString()
-                belkov.text = (weight * 0.008 * 1000).toInt().toString()
-                rastitel.text = (ansField.text.toString().toDouble() * 0.07 * 1000).toInt().toString()
+                weight = view.findViewById<EditText>(R.id.dogWeight).text.toString().toDouble()
+                if (weight != 0.0) {
+                    ansField.text = (calculateEat(chosenAge, chosenMove, weight) / 1000).toString()
+                    belkov.text = (weight * 0.008 * 1000).toInt().toString()
+                    rastitel.text = (ansField.text.toString().toDouble() * 0.07 * 1000).toInt().toString()
+                }else {
+                    Toast.makeText(this.context, "Неверно задана масса", Toast.LENGTH_SHORT).show()
+                }
+
             } catch (ex: java.lang.Exception) {
                 Toast.makeText(this.context, "Неверно задана масса", Toast.LENGTH_SHORT).show()
             }
@@ -80,7 +85,7 @@ class CalculatorFragment : Fragment() {
         return view
     }
 
-    private fun calculateEat(age: Int, move: Int, mass: Int): Double {
+    private fun calculateEat(age: Int, move: Int, mass: Double): Double {
 
         var ageCoef: Double = 1.0
         var moveCoef: Double = 1.0

@@ -92,7 +92,7 @@ class OnboardFragmentSecond : Fragment() {
                 val response = api.getAll().execute()
                 if (response.isSuccessful) {
                     requireActivity().runOnUiThread {
-                        onboartTextPlace2.text = response.body()?.get(1)?.text
+                        onboartTextPlace2.text = response.body()?.get(0)?.text
                     }
 
                 }

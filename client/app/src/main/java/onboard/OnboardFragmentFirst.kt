@@ -73,8 +73,8 @@ class OnboardFragmentFirst : Fragment() {
                 val response = api.getAll().execute()
                 if (response.isSuccessful) {
                     requireActivity().runOnUiThread {
-                        title.text = response.body()?.get(0)?.title
-                        onboartTextPlace.text = response.body()?.get(0)?.text
+                        title.text = response.body()?.get(1)?.title
+                        onboartTextPlace.text = response.body()?.get(1)?.text
                     }
 
                 }

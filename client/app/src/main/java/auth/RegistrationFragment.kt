@@ -85,7 +85,7 @@ class RegistrationFragment : Fragment() {
                             409 -> { Toast.makeText(requireContext(),
                                 "Такой логин уже используется", Toast.LENGTH_SHORT).show() }
                             400 -> { Toast.makeText(requireContext(),
-                                "Используйте в пароле спец символы и цифры", Toast.LENGTH_LONG).show() }
+                                "Придумайте пароль вида: Abcd123*@_", Toast.LENGTH_LONG).show() }
                         }
                     }
                     println("D:")
@@ -108,6 +108,11 @@ class RegistrationFragment : Fragment() {
 
         if (login.text.toString().isEmpty()) {
             login.error = "Введите логин"
+            isValid = false
+        }
+
+        if (password.text.toString() == "Abcd123*@_") {
+            password.error = "Не используйте пароль из примера!"
             isValid = false
         }
 
