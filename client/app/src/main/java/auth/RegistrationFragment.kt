@@ -68,7 +68,7 @@ class RegistrationFragment : Fragment() {
 
     private fun registration(login: EditText, name: EditText, password: EditText): Boolean {
         val api = retrofit.create(OwnerInterface::class.java)
-        val dto = OwnerDtoPost(login.text.toString(), password.text.toString(), name.text.toString())
+        val dto = OwnerDtoPost(login.text.toString(), password.text.toString(), name.text.toString(), false)
         var isSuccess = false
         try {
             CoroutineScope(Dispatchers.IO).launch {

@@ -26,6 +26,7 @@ class OnboardFragmentFirst : Fragment() {
     private lateinit var onboartTextPlace: TextView
     private lateinit var onboardNextButton: FloatingActionButton
     private lateinit var imgOnboardPlace: ImageView
+    private lateinit var title: TextView
 
     private val retrofit = Retrofit.Builder()
         .baseUrl("http://2.56.242.93:4000")
@@ -43,6 +44,7 @@ class OnboardFragmentFirst : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_onboard_first, container, false)
 
+        title = view.findViewById(R.id.title)
         onboartTextPlace = view.findViewById(R.id.onboartTextPlace)
         onboardNextButton = view.findViewById(R.id.onboardNextButton)
         imgOnboardPlace = view.findViewById(R.id.imgOnboardPlace)
@@ -65,15 +67,12 @@ class OnboardFragmentFirst : Fragment() {
 
     private fun getGlobalConfig() {
         val api = retrofit.create(GlobalConfigInterface::class.java)
-
         try {
             CoroutineScope(Dispatchers.IO).launch {
                 val response = api.getAll().execute()
                 if (response.isSuccessful) {
-                    println(response.code())
-                    println("res = " + response.body())
-//                    bitStr = response.body()
                     requireActivity().runOnUiThread {
+                        title.text = response.body()?.get(0)?.title
                         onboartTextPlace.text = response.body()?.get(0)?.text
                     }
 

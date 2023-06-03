@@ -1,9 +1,12 @@
 package ru.vsu.cs.tp.paws
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.NavController
@@ -134,7 +137,6 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<OwnerDtoGet>, response: Response<OwnerDtoGet>) {
                 if (response.isSuccessful) {
                     val dataResponse = response.body()
-                    println(dataResponse)
                     runOnUiThread {
                         if (dataResponse != null) {
                             flag = dataResponse.show
@@ -144,13 +146,23 @@ class MainActivity : AppCompatActivity() {
                     }
                 } else {
                     flag = false
-                    println("Не успешно")
-                    println(response.code())
                 }
             }
 
             override fun onFailure(call: Call<OwnerDtoGet>, t: Throwable) {
-                println("Ошибка")
+                runOnUiThread {
+                    val alertDialogBuilder = AlertDialog.Builder(this@MainActivity)
+
+                    alertDialogBuilder.setTitle("Внимание")
+                    alertDialogBuilder.setMessage(
+                        "Нет подключения к интернету, либо сервера недоступны. Повторите попытку позже.")
+
+                    alertDialogBuilder.setNegativeButton("Ок") { dialogInterface: DialogInterface, i: Int ->
+//                        val a: Int = "a".toInt()
+                    }
+
+                    alertDialogBuilder.create().show()
+                }
                 println(t)
             }
         })

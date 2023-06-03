@@ -94,7 +94,7 @@ class EditProfileFragment : Fragment() {
 
             val api = retrofit.create(OwnerInterface::class.java)
 
-            val dto = OwnerDtoPost(login.text.toString(), getPassFromSharedPreferences(), name.text.toString())
+            val dto = OwnerDtoPost(login.text.toString(), getPassFromSharedPreferences(), name.text.toString(), false)
 
             try {
                 CoroutineScope(Dispatchers.IO).launch {

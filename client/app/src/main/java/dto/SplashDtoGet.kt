@@ -6,3 +6,5 @@ data class SplashDtoGet(
     val image: String,
     val button: String
 )
+
+
