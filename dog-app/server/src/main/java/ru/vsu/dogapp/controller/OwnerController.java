@@ -15,6 +15,8 @@ import ru.vsu.dogapp.service.auth.AuthService;
 
 import javax.security.auth.message.AuthException;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -67,10 +69,36 @@ public class OwnerController {
     }
 
     @PutMapping("/owner/{username}/update/password")
-    @ApiOperation("Updating an owner`s password")
-    public void updatePassword(@PathVariable String username, String newPassword) {
+    @ApiOperation("Updating an owner's password")
+    public ResponseEntity<?> updatePassword(
+            @PathVariable String username, String newPassword) {
+        List<String> errors = new ArrayList<>();
+        if (newPassword.isEmpty()) {
+            errors.add("Password must not be blank");
+        }
+        if (!newPassword.matches(".*[A-Z].*")) {
+            errors.add("Password should contain uppercase English letters");
+        }
+        if (!newPassword.matches(".*[a-z].*")) {
+            errors.add("Password should contain lowercase English letters");
+        }
+        if (!newPassword.matches(".*[0-9].*")) {
+            errors.add("Password should contain digits");
+        }
+        if (!newPassword.matches(".*[@*_].*")) {
+            errors.add("Password should contain symbols @ and *_");
+        }
+        if (newPassword.length() < 8 || newPassword.length() > 40) {
+            errors.add("Password should be between 8 and 40 characters");
+        }
+        if (!errors.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        }
         service.updatePassword(username, newPassword);
+        return ResponseEntity.ok().build();
     }
+
+
     @DeleteMapping("/owner/{username}/delete")
     @ApiOperation("Deleting information about an owner")
     public void deleteOwner(@PathVariable String username) {
