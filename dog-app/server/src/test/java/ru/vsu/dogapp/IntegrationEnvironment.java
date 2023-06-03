@@ -14,9 +14,9 @@ public abstract class IntegrationEnvironment {
 
     static {
         DB_CONTAINER = new PostgreSQLContainer<>("postgres:15-alpine")
-                .withDatabaseName("renty")
-                .withUsername("user")
-                .withPassword("password");
+                .withDatabaseName("dogapp")
+                .withUsername("postgres")
+                .withPassword("admin");
         DB_CONTAINER.start();
     }
 
