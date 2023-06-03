@@ -92,4 +92,10 @@ public class OwnerService implements UserDetailsService {
             repository.save(new Owner(o.getId(), o.getUsername(), o.getPassword(), o.getName(), true, o.getRoles()));
         }
     }
+
+    public void makeShowFalse(String username) {
+        Owner owner = repository.findByUsername(username);
+        owner.setShow(false);
+        repository.save(owner);
+    }
 }

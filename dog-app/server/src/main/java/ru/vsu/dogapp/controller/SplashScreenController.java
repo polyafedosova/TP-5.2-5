@@ -49,7 +49,14 @@ public class SplashScreenController {
     }
 
     @PostMapping("/toShow")
+    @ApiOperation("Making splash screens visible to everyone users")
     public void toShow() {
         ownerService.makeShowTrue();
+    }
+
+    @PostMapping("/stopShow")
+    @ApiOperation("Stopping showing splash screens to the user")
+    public void dontShow(String username) {
+        ownerService.makeShowFalse(username);
     }
 }
