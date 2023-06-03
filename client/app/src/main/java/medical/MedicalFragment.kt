@@ -39,7 +39,6 @@ class MedicalFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         getAllClinics()
     }
 
@@ -47,6 +46,7 @@ class MedicalFragment : Fragment() {
         val view: View = inflater.inflate(R.layout.fragment_medical, container, false)
 
         searchView = view.findViewById(R.id.search_treatment)
+
         searchViewCity = view.findViewById(R.id.search_widget_city)
         listView = view.findViewById<ListView>(R.id.list_item)
         listViewCity = view.findViewById<ListView>(R.id.list_item_city)
@@ -54,25 +54,21 @@ class MedicalFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recycler_events)
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        view.setOnClickListener { v ->
-            val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(v.windowToken, 0)
-            searchView.clearFocus()
-            searchViewCity.clearFocus()
-        }
 
         searchViewCity.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
+                if (query != "") {
+                    val noSpaces = query.replace(" ", "")
+                    getClinicsByCity(noSpaces)
+                    searchView.setQuery("", false)
+                }else{
+                    getAllClinics()
+                }
 
                 return true
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                if (newText != "") {
-                    getClinicsByCity(newText)
-                }else{
-                    getAllClinics()
-                }
 
                 return true
             }
