@@ -21,7 +21,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="520dp"
+        android:layout_height="match_parent"
         android:layout_gravity="bottom"
         android:orientation="vertical">
         
@@ -38,7 +38,7 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="20dp"
             android:layout_height="400dp">
 
             <LinearLayout
@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="205dp"
             android:src="@drawable/baseline_arrow_forward_ios_24"
             app:tint="@color/white" />
 
