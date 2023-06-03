@@ -98,9 +98,8 @@ class AdminAddClinicFragment : Fragment() {
             val dto = VetclinicDtoPost(name.text.toString(), phone.text.toString(),
                 discription.text.toString(), "заглушка", resultList[0],
                 resultList[1], resultList[2], resultList[3])
-            println("dto - " + dto)
-            try {
 
+            try {
                 CoroutineScope(Dispatchers.IO).launch {
                     val response = api.saveNewVetclinic(dto, headers).execute()
 
@@ -140,20 +139,20 @@ class AdminAddClinicFragment : Fragment() {
                             try {
                                 for (i in 0 until prepairList.size - 1 step 2) {
                                     val dto = TreatmentDtoPost(prepairList[i], prepairList[i + 1].toBigDecimal())
-//                                    println("dto " + i / 2 + " " + dto)
-//                                    println(newClinicId)
                                     val responseTreatment = api.saveNewTreatment(newClinicId, dto, headers).execute()
 
                                     requireActivity().runOnUiThread {
+                                        Toast.makeText(requireContext(), "Успешно", Toast.LENGTH_SHORT).show()
+                                        YandexMetrica.reportEvent("Добавлена новая клиника")
                                         findNavController().navigate(R.id.adminClinicsFragment)
                                     }
-                                    println(responseTreatment.code())
-                                    println(responseTreatment.message())
+
                                 }
                             } catch (ex: Exception) {
-                                println("Что-то не так")
-                                println(ex)
-                                ex.stackTrace
+                                requireActivity().runOnUiThread() {
+                                    Toast.makeText(requireContext(),
+                                        "Проверьте поля ввода на верность заполнения", Toast.LENGTH_SHORT).show()
+                                }
                             }
                         }
                     }

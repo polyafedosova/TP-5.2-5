@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import api.Api
+import com.yandex.metrica.YandexMetrica
 import dto.TreatmentDtoGet
 import dto.TreatmentDtoPost
 import dto.VetclinicDtoGet
@@ -123,14 +124,12 @@ class AdminEditClinicFragment : Fragment() {
             val dto = VetclinicDtoPost(name.text.toString(), phone.text.toString(),
                 discription.text.toString(), "заглушка", resultList[0],
                  resultList[1], resultList[2], resultList[3])
-            println("dto - " + dto)
             try {
 
                 CoroutineScope(Dispatchers.IO).launch {
                     val response = api.saveNewVetclinic(dto, headers).execute()
 
                     if (response.isSuccessful) {
-                        println("clinic was added")
                         addTreatments(services)
                     }
                 }
@@ -221,13 +220,12 @@ class AdminEditClinicFragment : Fragment() {
             CoroutineScope(Dispatchers.IO).launch {
                 val response = api.deleteVetclinic(idValue, headers).execute()
                 if (response.isSuccessful) {
-                    println("L:D")
-
+                    requireActivity().runOnUiThread {
+                        Toast.makeText(requireContext(), "Успешно", Toast.LENGTH_SHORT).show()
+                        YandexMetrica.reportEvent("Клиника удалена")
+                    }
                 } else {
-                    println(response.code())
-
-                    println("D:L")
-                    println(response.message())
+                    Toast.makeText(requireContext(), "Что-то не так, попробуйте ещё раз", Toast.LENGTH_SHORT).show()
                 }
             }
         } catch (ex: Exception) {
