@@ -15,16 +15,13 @@ import androidx.annotation.RequiresApi
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.yandex.metrica.YandexMetrica
-import dto.DogDtoPost
 import dto.EventDtoPost
-import interfaces.DogInterface
 import interfaces.EventInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import ru.vsu.cs.tp.paws.R
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

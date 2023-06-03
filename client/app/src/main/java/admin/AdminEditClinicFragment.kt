@@ -36,11 +36,6 @@ class AdminEditClinicFragment : Fragment() {
     private lateinit var adminEditClinicName: EditText
     private lateinit var adminEditClinicAddress: EditText
     private lateinit var adminEditClinicPhone: EditText
-    private lateinit var adminEditClinicRegion: EditText
-    private lateinit var adminEditClinicDistrict: EditText
-    private lateinit var adminEditClinicCity: EditText
-    private lateinit var adminEditClinicStreet: EditText
-    private lateinit var adminEditClinicHouse: EditText
     private lateinit var adminEditClinicDiscriptoin: EditText
     private lateinit var adminEditClinicServices: EditText
 
@@ -163,9 +158,7 @@ class AdminEditClinicFragment : Fragment() {
                                 for (i in 0 until prepairList.size - 1 step 2) {
                                     val dto = TreatmentDtoPost(prepairList[i], prepairList[i + 1].toBigDecimal())
                                     val responseTreatment = api.saveNewTreatment(newClinicId, dto, headers).execute()
-                                    println(responseTreatment.isSuccessful)
-                                    println(responseTreatment.code())
-                                    println(responseTreatment.message())
+
                                 }
                                 requireActivity().runOnUiThread {
                                     Toast.makeText(requireContext(), "Клиника обновлена", Toast.LENGTH_SHORT).show()
@@ -191,7 +184,7 @@ class AdminEditClinicFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<List<VetclinicDtoGet>>, t: Throwable) {
-                println("BBBBBBBBBBBBBBBBB")
+
             }
         })
     }
@@ -209,7 +202,6 @@ class AdminEditClinicFragment : Fragment() {
     }
 
     private fun deleteClinic(idValue: Int) {
-
         val token = getTokenFromSharedPreferences()
         val headers = HashMap<String, String>()
         headers["Authorization"] = "Bearer $token"
@@ -244,7 +236,6 @@ class AdminEditClinicFragment : Fragment() {
                 if (response.isSuccessful) {
                     val dataResponse = response.body()
                     var servicesString = ""
-//                    println("List treatments - " + dataResponse)
                     if (dataResponse != null) {
                         for (i in 0..dataResponse.size - 1)  {
                             if (i != dataResponse.size - 1) {

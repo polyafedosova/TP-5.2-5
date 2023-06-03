@@ -118,8 +118,7 @@ class EditProfileFragment : Fragment() {
                                         "Такой логин уже используется", Toast.LENGTH_SHORT).show()
                                 }
                             }
-//                            Toast.makeText(requireContext(), "Такой логин уже занят",
-//                                Toast.LENGTH_SHORT).show()
+
                         }
                         println(response.code())
                     }

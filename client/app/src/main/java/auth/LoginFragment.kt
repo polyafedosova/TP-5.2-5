@@ -17,7 +17,6 @@ import dto.JwtGet
 import dto.JwtPost
 import dto.OwnerDtoGet
 import interfaces.AuthInterface
-import interfaces.OwnerInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,7 +34,6 @@ class LoginFragment : Fragment() {
     private lateinit var userPassword: EditText
     private lateinit var loginButton: Button
     private lateinit var toRegisterButton: Button
-    private var userInfo: OwnerDtoGet? = null
 
     private val retrofit = Retrofit.Builder()
         .baseUrl("http://2.56.242.93:4000")

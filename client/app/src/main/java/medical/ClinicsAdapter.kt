@@ -47,8 +47,8 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>, _lowerPrice: Mut
             override fun onDataReceived(data: List<TreatmentDtoGet>) {
                 println(lowerPrice)
                 if (lowerPrice == null) {
-                    var treatmentStr = ""
-                    var pricesStr = ""
+                    val treatmentStr = ""
+                    val pricesStr = ""
                     for (i in 0..data.size - 1) {
 //                        treatmentStr += data[i].name + " "
 //                        pricesStr += data[i].price.toString() + " "
@@ -95,6 +95,7 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>, _lowerPrice: Mut
             bundle.putString("phone", newClinics[position].phone)
             bundle.putString("description", newClinics[position].description)
             bundle.putString("region", newClinics[position].region)
+            println(newClinics[position].region)
             bundle.putString("city", newClinics[position].city)
             bundle.putString("street", newClinics[position].street)
             bundle.putString("house", newClinics[position].house)
@@ -175,7 +176,6 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>, _lowerPrice: Mut
             clinicsTitle = itemView.findViewById(R.id.clinics_preview_title)
             clinicsAddress = itemView.findViewById(R.id.clinics_preview_address)
             clinicsPreviewTreatment = itemView.findViewById(R.id.clinics_preview_treatment)
-//            clinicsName = itemView.findViewById(R.id.clinics_preview_price)
             clinicsPrice = itemView.findViewById(R.id.clinics_preview_price)
 
         }

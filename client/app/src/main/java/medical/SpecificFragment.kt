@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import api.Api
@@ -32,8 +33,6 @@ class SpecificFragment : Fragment(){
     private lateinit var clinicPhone: TextView
 
     private lateinit var sharedPreferencesToken: SharedPreferences
-
-    private var serviceList: List<TreatmentDtoGet>? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,8 +98,9 @@ class SpecificFragment : Fragment(){
                         clinicServices.text = servicesString
                     }
                 } else {
-                    println(response.code())
-                    println(response.message())
+                    requireActivity().runOnUiThread {
+                        Toast.makeText(requireContext(), "Ошибка загрузки клиники, попробуйте позже", Toast.LENGTH_LONG).show()
+                    }
                 }
             }
 

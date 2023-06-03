@@ -16,7 +16,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.yandex.metrica.YandexMetrica
 import dto.EventDtoPost
-import interfaces.DogInterface
 import interfaces.EventInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -130,8 +129,7 @@ class AddEventFragment : Fragment() {
                             }
                         }
                     }
-                    println(response.code())
-                    println(response.message())
+
                 }
             }
         } catch (e: java.lang.Exception) {

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filterable
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -34,14 +33,9 @@ class AdminClinicsAdapter (_newClinics: MutableList<VetclinicDtoGet>) :
         bundle.putString("description", newClinics[position].description)
         bundle.putString("country", newClinics[position].country)
         bundle.putString("region", newClinics[position].region)
-//        bundle.putString("district", newClinics[position].district)
         bundle.putString("city", newClinics[position].city)
         bundle.putString("street", newClinics[position].street)
         bundle.putString("house", newClinics[position].house)
-
-        //        bundle.putString("services", newClinics[position].getServices())
-
-
 
         holder.itemView.setOnClickListener {
             it.findNavController().navigate(R.id.action_adminClinicsFragment_to_adminEditClinicFragment, bundle)
@@ -54,9 +48,6 @@ class AdminClinicsAdapter (_newClinics: MutableList<VetclinicDtoGet>) :
 
 
     class AdminClinicsViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        lateinit var clinicsServices: String
-        lateinit var clinicsPhone: String
         var clinicsTitle: TextView
         var clinicsAddress: TextView
         var clinicsPrice: TextView
@@ -66,7 +57,6 @@ class AdminClinicsAdapter (_newClinics: MutableList<VetclinicDtoGet>) :
             super.itemView
             clinicsTitle = itemView.findViewById(R.id.clinics_preview_title)
             clinicsAddress = itemView.findViewById(R.id.clinics_preview_address)
-//            clinicsName = itemView.findViewById(R.id.clinics_preview_price)
             clinicsPrice = itemView.findViewById(R.id.clinics_preview_price)
 
         }

@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.widget.TextView
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
 import api.Api
 import com.yandex.metrica.YandexMetrica
@@ -62,7 +61,6 @@ class ProfileFragment : Fragment() {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-//"Abcd123*@_
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedPreferencesToken = requireActivity().getSharedPreferences("userToken", Context.MODE_PRIVATE)
@@ -170,13 +168,11 @@ class ProfileFragment : Fragment() {
                     println(response.code())
                 }
 
-
             }
         } catch (ex: Exception) {
             ex.stackTrace
         }
     }
-
 
 
     private fun getUserName(login: String, token: String) {
@@ -211,12 +207,9 @@ class ProfileFragment : Fragment() {
         }
 
         alertDialogBuilder.setNegativeButton("Нет") { dialogInterface: DialogInterface, i: Int ->
-
         }
-
         alertDialogBuilder.create().show()
     }
-
 
     private fun clearSharedPreferencesToken() {
         val editor = sharedPreferencesToken.edit()
@@ -240,7 +233,6 @@ class ProfileFragment : Fragment() {
 
     private fun startLoginFragment() {
         findNavController().navigate(R.id.loginFragment)
-//        findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
     }
 
 }

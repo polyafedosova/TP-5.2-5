@@ -1,7 +1,5 @@
 package dto
 
-import java.time.LocalDate
-import java.util.*
 
 data class DogDtoGet (
     var id: Int,

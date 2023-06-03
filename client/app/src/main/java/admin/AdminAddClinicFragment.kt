@@ -87,7 +87,6 @@ class AdminAddClinicFragment : Fragment() {
 
 
     private fun addClinic(phone: EditText, name: EditText, address: EditText, discription: EditText, services: EditText) {
-
         val token = getTokenFromSharedPreferences()
         val headers = HashMap<String, String>()
         headers["Authorization"] = "Bearer $token"
@@ -95,6 +94,7 @@ class AdminAddClinicFragment : Fragment() {
         val resultList: List<String> = address.text.toString().split(",")
         val api = retrofit.create(VetclinicInterface::class.java)
         if (resultList.size == 4) {
+            println(resultList)
             val dto = VetclinicDtoPost(name.text.toString(), phone.text.toString(),
                 discription.text.toString(), "заглушка", resultList[0],
                 resultList[1], resultList[2], resultList[3])
@@ -146,7 +146,6 @@ class AdminAddClinicFragment : Fragment() {
                                         YandexMetrica.reportEvent("Добавлена новая клиника")
                                         findNavController().navigate(R.id.adminClinicsFragment)
                                     }
-
                                 }
                             } catch (ex: Exception) {
                                 requireActivity().runOnUiThread() {
@@ -163,12 +162,12 @@ class AdminAddClinicFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<List<VetclinicDtoGet>>, t: Throwable) {
-                println("BBBBBBBBBBBBBBBBB")
+                requireActivity().runOnUiThread() {
+                    Toast.makeText(requireContext(), "Ошибка", Toast.LENGTH_SHORT).show()
+                }
             }
         })
     }
-//name1,price1;name2,price2
-
 
     private fun getTokenFromSharedPreferences(): String {
         return sharedPreferencesToken.getString("token", "") ?: ""

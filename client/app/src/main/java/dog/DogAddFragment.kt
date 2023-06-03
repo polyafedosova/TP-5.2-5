@@ -5,32 +5,25 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.yandex.metrica.YandexMetrica
 import dto.DogDtoPost
-import dto.OwnerDtoGet
 import interfaces.DogInterface
-import interfaces.OwnerInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.vsu.cs.tp.paws.R
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.Date
 
 
 class DogAddFragment : Fragment() {
@@ -61,12 +54,7 @@ class DogAddFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
         val view = inflater.inflate(R.layout.fragment_dog_add, container, false)
-
-        println("==========================")
-        println(getLoginFromSharedPreferences())
-        println(getTokenFromSharedPreferences())
 
         cancelButton = view.findViewById(R.id.cancelButton)
         completeButton = view.findViewById(R.id.completeButton)
@@ -86,9 +74,7 @@ class DogAddFragment : Fragment() {
         }
 
         completeButton.setOnClickListener {
-            println("chose - " + chosenSex)
             if (validate(dogName, dogBurnDate, breed)) {
-
                 addDog(dogName, dogBurnDate, breed, chosenSex)
 
             }
@@ -153,8 +139,6 @@ class DogAddFragment : Fragment() {
             CoroutineScope(Dispatchers.IO).launch {
                 val response = api.saveNewDog(getLoginFromSharedPreferences(), dto, headers).execute()
                 if (response.isSuccessful) {
-
-                    println("L:D")
                     requireActivity().runOnUiThread {
                         Toast.makeText(requireContext(), "Успешно", Toast.LENGTH_SHORT).show()
                         YandexMetrica.reportEvent("Добавлена новая собака")
@@ -196,9 +180,6 @@ class DogAddFragment : Fragment() {
         val format = DateTimeFormatter.ofPattern("dd.MM.yyyy")
         try {
             parseDate = LocalDate.parse(date.text.toString(), format)
-
-//            val dateString = parseDate.year.toString()+ " " + parseDate.month.value.toString() +
-//                    " " + parseDate.dayOfMonth.toString()
         } catch (ex: java.lang.Exception) {
             date.error = "Ошибка в ведённой дате"
             isValid = false

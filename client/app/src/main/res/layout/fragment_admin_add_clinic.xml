@@ -96,7 +96,7 @@
                 android:id="@+id/adminAddClinicServices"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="     Услуги клиники"
+                android:hint="     Услуги клиники (услуга,цена;...)"
                 android:ems="10"
                 android:maxLength="512"
                 android:layout_marginTop="10dp"

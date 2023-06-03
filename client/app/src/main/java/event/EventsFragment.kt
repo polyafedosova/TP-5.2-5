@@ -75,9 +75,6 @@ class EventsFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recycler_event_events)
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-//        eventsAdapter = EventAdapter(getDataEvents() as MutableList<EventsModel>)
-//        recyclerView.adapter = eventsAdapter
-
         addEventButton.setOnClickListener() {
             it.findNavController().navigate(R.id.action_eventsFragment_to_addEventFragment)
         }
@@ -91,18 +88,6 @@ class EventsFragment : Fragment() {
 
     private fun getLoginFromSharedPreferences(): String {
         return sharedPreferencesLogin.getString("login", "") ?: ""
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun getDataEvents(): List<EventsModel> {
-        val listEvents: MutableList<EventsModel> = java.util.ArrayList()
-        val date: LocalDate = LocalDate.of(2023, 7,24)
-        val dateString = date.dayOfMonth.toString()+ "." + date.month.value.toString() + "." + date.year.toString()
-
-        listEvents.add(EventsModel(1,"УЗИ", dateString, "Взять паспорт"))
-        listEvents.add(EventsModel(2,"Прививка", dateString, ""))
-
-        return listEvents
     }
 
 }

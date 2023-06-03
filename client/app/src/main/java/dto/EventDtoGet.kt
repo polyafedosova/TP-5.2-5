@@ -1,7 +1,5 @@
 package dto
 
-import java.util.*
-
 data class EventDtoGet (
     var id: Int,
     var name: String,
