@@ -1,9 +1,11 @@
 package calculator
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.yandex.metrica.YandexMetrica
@@ -39,6 +41,15 @@ class CalculatorFragment : Fragment() {
 
         autoCompleteAge.setOnItemClickListener { adapterView, view, i, l ->
             chosenAge = adapterView.getItemIdAtPosition(i).toInt()
+            hideKeyboard()
+        }
+
+        autoCompleteAge.setOnClickListener {
+            hideKeyboard()
+        }
+
+        autoCompleteMove.setOnClickListener {
+            hideKeyboard()
         }
 
         val move = resources.getStringArray(R.array.move_array)
@@ -54,8 +65,7 @@ class CalculatorFragment : Fragment() {
         belkov = view.findViewById(R.id.mass3)
         rastitel = view.findViewById(R.id.mass4)
 
-        this.doneButton.setOnClickListener {
-
+        doneButton.setOnClickListener {
             try {
                 weight = Integer.valueOf(view.findViewById<EditText>(R.id.dogWeight).text.toString())
                 ansField.text = (calculateEat(chosenAge, chosenMove, weight) / 1000).toString()
@@ -86,6 +96,12 @@ class CalculatorFragment : Fragment() {
             2 -> moveCoef = 3.2
         }
         return mass * 30 + ageCoef * 5 + moveCoef * 10
+    }
+
+    private fun hideKeyboard() {
+        val inputMethodManager =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
 }

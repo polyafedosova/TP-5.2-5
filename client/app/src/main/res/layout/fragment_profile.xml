@@ -59,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="События"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 android:background="@drawable/button_style"
                 style="@style/ButtonRadius"
                 android:textColor="@color/white"
@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:text="Выйти"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/button_style"
+                android:background="@drawable/button_style_logout"
                 style="@style/ButtonRadius"
                 android:textColor="@color/white"
                 android:padding="10dp"/>

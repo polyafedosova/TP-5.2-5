@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/toolbar_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:padding="15dp"
         tools:ignore="UselessParent">
 
@@ -51,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="30dp"
         android:layout_marginBottom="30dp"
         android:clickable="true"
         app:tint="@color/white"
