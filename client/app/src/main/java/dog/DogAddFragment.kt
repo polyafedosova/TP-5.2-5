@@ -150,7 +150,7 @@ class DogAddFragment : Fragment() {
                 }else{
                     requireActivity().runOnUiThread() {
                         Toast.makeText(requireContext(),
-                            "В полях ввода используйте русский язык", Toast.LENGTH_SHORT).show()
+                            "В полях ввода используйте русские буквы (минимум 2 символа)", Toast.LENGTH_SHORT).show()
                     }
                 }
             }

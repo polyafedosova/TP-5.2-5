@@ -76,6 +76,7 @@ class RegistrationFragment : Fragment() {
                 if (response.isSuccessful) {
                     println(":D")
                     requireActivity().runOnUiThread {
+                        Toast.makeText(requireContext(), "Успешно", Toast.LENGTH_SHORT).show()
                         YandexMetrica.reportEvent("Зарегестрирован новый пользователь")
                         findNavController().popBackStack()
                     }

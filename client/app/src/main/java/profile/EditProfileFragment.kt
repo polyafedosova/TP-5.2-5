@@ -111,18 +111,14 @@ class EditProfileFragment : Fragment() {
                         }
                     } else {
                         withContext(Dispatchers.Main) {
-                            when (response.code()) {
-                                409 -> {
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "Такой логин уже используется", Toast.LENGTH_SHORT).show()
-                                }
+                            Toast.makeText(requireContext(),
+                                "Логин не соответствует формату или уже занят", Toast.LENGTH_LONG).show()
                             }
 
                         }
                         println(response.code())
                     }
-                }
+
             } catch (ex: Exception) {
                 println(ex)
             }

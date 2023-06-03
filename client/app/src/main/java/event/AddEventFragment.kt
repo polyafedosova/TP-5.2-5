@@ -114,17 +114,17 @@ class AddEventFragment : Fragment() {
             CoroutineScope(Dispatchers.IO).launch {
                 val response = api.saveNewEvent(getLoginFromSharedPreferences(), dto, headers).execute()
                 if (response.isSuccessful) {
-                    println("L:D")
+
                     requireActivity().runOnUiThread {
                         Toast.makeText(requireContext(), "Успешно", Toast.LENGTH_SHORT).show()
                         YandexMetrica.reportEvent("Событие добавлено")
                         findNavController().navigate(R.id.profileFragment)
                     }
-                }else{
+                } else{
                     requireActivity().runOnUiThread {
                         when (response.code()) {
                             400 -> {
-                                Toast.makeText(requireContext(), "Неверный логин",
+                                Toast.makeText(requireContext(), "Ошибка в дате/времени",
                                     Toast.LENGTH_SHORT).show()
                             }
                         }
