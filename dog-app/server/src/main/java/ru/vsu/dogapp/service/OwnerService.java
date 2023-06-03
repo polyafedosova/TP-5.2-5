@@ -52,7 +52,7 @@ public class OwnerService implements UserDetailsService {
         Owner user = mapper.toEntity(owner);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoles(Collections.singleton(Role.USER));
-        user.setShow(true);
+        user.setShow(false);
         repository.save(user);
         return true;
     }
@@ -86,16 +86,16 @@ public class OwnerService implements UserDetailsService {
         return mapper.toDto(repository.findByUsername(username));
     }
 
-    public void makeShowTrue() {
+    public void changeShowAll(boolean isShow) {
         List<Owner> owners = repository.findAll();
         for (Owner o: owners) {
-            repository.save(new Owner(o.getId(), o.getUsername(), o.getPassword(), o.getName(), true, o.getRoles()));
+            repository.save(new Owner(o.getId(), o.getUsername(), o.getPassword(), o.getName(), isShow, o.getRoles()));
         }
     }
 
-    public void makeShowFalse(String username) {
+    public void changeShow(String username, boolean isShow) {
         Owner owner = repository.findByUsername(username);
-        owner.setShow(false);
+        owner.setShow(isShow);
         repository.save(owner);
     }
 }
