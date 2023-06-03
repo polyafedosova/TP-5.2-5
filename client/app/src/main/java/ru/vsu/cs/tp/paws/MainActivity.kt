@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
                     if (prefs.getBoolean("isFirstRun", true) || flag) {
                         firstStart()
                     } else {
-                        navController.navigate(R.id.medicalFragment)
+                        navController.navigate(R.id.action_splashFragment_to_medicalFragment)
                         binding.bottomNav.visibility = View.VISIBLE
                     }
                     prefs.edit().putBoolean("isFirstRun", false).apply()

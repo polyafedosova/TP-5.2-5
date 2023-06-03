@@ -176,7 +176,13 @@
         android:id="@+id/splashFragment"
         android:name="splash.SplashFragment"
         android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" />
+        tools:layout="@layout/fragment_splash" >
+        <action
+            app:popUpTo="@id/medicalFragment"
+            app:popUpToInclusive="true"
+            android:id="@+id/action_splashFragment_to_medicalFragment"
+            app:destination="@id/medicalFragment" />
+    </fragment>
     <fragment
         android:id="@+id/onboardFragmentFirst"
         android:name="onboard.OnboardFragmentFirst"
@@ -191,7 +197,7 @@
         android:label="fragment_onboard_second"
         tools:layout="@layout/fragment_onboard_second" >
         <action
-            app:popUpTo="@id/onboardFragmentSecond"
+            app:popUpTo="@id/medicalFragment"
             app:popUpToInclusive="true"
             android:id="@+id/action_onboardFragmentSecond_to_medicalFragment"
             app:destination="@id/medicalFragment" />
