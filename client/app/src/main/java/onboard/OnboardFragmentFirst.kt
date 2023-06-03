@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
@@ -24,7 +25,7 @@ import ru.vsu.cs.tp.paws.R
 class OnboardFragmentFirst : Fragment() {
 
     private lateinit var onboartTextPlace: TextView
-    private lateinit var onboardNextButton: FloatingActionButton
+    private lateinit var onboardNextButton: Button
     private lateinit var imgOnboardPlace: ImageView
     private lateinit var title: TextView
 

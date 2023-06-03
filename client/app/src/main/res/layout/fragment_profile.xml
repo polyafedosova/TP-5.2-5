@@ -17,77 +17,83 @@
         android:layout_margin="10dp"
         android:background="@color/white">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/userName"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/inter"
-                android:text="Имя"
-                android:textAlignment="center"
-                android:textColor="@color/new_purple"
-                android:textSize="30sp"
-                android:textStyle="bold" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <Button
-                android:id="@+id/addDogButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Добавить питомца"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/button_style"
-                style="@style/ButtonRadius"
-                android:textColor="@color/white"
-                android:padding="10dp"/>
+                <TextView
+                    android:id="@+id/userName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter"
+                    android:text="Имя"
+                    android:textAlignment="center"
+                    android:textColor="@color/new_purple"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerDogs"
-                android:layout_width="match_parent"
-                android:layout_height="290dp"
-                android:background="@color/white"
-                android:visibility="visible" >
+                <Button
+                    android:id="@+id/addDogButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Добавить питомца"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/button_style"
+                    style="@style/ButtonRadius"
+                    android:textColor="@color/white"
+                    android:padding="10dp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerDogs"
+                    android:layout_width="match_parent"
+                    android:layout_height="290dp"
+                    android:background="@color/white"
+                    android:visibility="visible" >
 
 
-            </androidx.recyclerview.widget.RecyclerView>
+                </androidx.recyclerview.widget.RecyclerView>
 
-            <Button
-                android:id="@+id/eventsButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="События"
-                android:layout_marginTop="40dp"
-                android:background="@drawable/button_style"
-                style="@style/ButtonRadius"
-                android:textColor="@color/white"
-                android:padding="10dp"/>
+                <Button
+                    android:id="@+id/eventsButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="События"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/button_style"
+                    style="@style/ButtonRadius"
+                    android:textColor="@color/white"
+                    android:padding="10dp"/>
 
-            <Button
-                android:id="@+id/editProfileButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Редактировать профиль"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/button_style"
-                style="@style/ButtonRadius"
-                android:textColor="@color/white"
-                android:padding="10dp"/>
+                <Button
+                    android:id="@+id/editProfileButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Редактировать профиль"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/button_style"
+                    style="@style/ButtonRadius"
+                    android:textColor="@color/white"
+                    android:padding="10dp"/>
 
-            <Button
-                android:id="@+id/exitButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Выйти"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/button_style_logout"
-                style="@style/ButtonRadius"
-                android:textColor="@color/white"
-                android:padding="10dp"/>
+                <Button
+                    android:id="@+id/exitButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Выйти"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/button_style_logout"
+                    style="@style/ButtonRadius"
+                    android:textColor="@color/white"
+                    android:padding="10dp"/>
+            </LinearLayout>
+        </ScrollView>
 
-        </LinearLayout>
+
 
     </RelativeLayout>
 
