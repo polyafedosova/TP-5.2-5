@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="8dp">
+
+    <TextView
+        android:id="@+id/serviceNameTextView"
+        android:layout_width="221dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter"
+        android:paddingHorizontal="10dp"
+        android:text="Телефон:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/new_purple"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/servicePriceTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:fontFamily="@font/inter"
+        android:hint="text"
+        android:padding="5dp"
+        android:textColor="@color/new_purple"
+        android:textSize="18sp"/>
+</LinearLayout>

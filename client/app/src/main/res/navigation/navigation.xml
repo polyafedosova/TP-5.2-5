@@ -86,6 +86,9 @@
         <action
             android:id="@+id/action_eventsFragment_to_addEventFragment"
             app:destination="@id/addEventFragment" />
+        <action
+            android:id="@+id/action_eventsFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -117,7 +120,11 @@
         android:id="@+id/addEventFragment"
         android:name="event.AddEventFragment"
         android:label="fragment_add_event"
-        tools:layout="@layout/fragment_add_event" />
+        tools:layout="@layout/fragment_add_event" >
+        <action
+            android:id="@+id/action_addEventFragment_to_eventsFragment"
+            app:destination="@id/eventsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="auth.LoginFragment"

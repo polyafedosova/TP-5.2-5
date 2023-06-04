@@ -26,6 +26,7 @@ class EventsFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var eventsAdapter: EventAdapter
     private lateinit var addEventButton: FloatingActionButton
+    private lateinit var addEventButtonBack: FloatingActionButton
 
     private lateinit var sharedPreferencesToken: SharedPreferences
     private lateinit var sharedPreferencesLogin: SharedPreferences
@@ -71,12 +72,16 @@ class EventsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_events, container, false)
         addEventButton = view.findViewById(R.id.addEventButton)
+        addEventButtonBack = view.findViewById(R.id.addEventButtonBack)
 
         recyclerView = view.findViewById(R.id.recycler_event_events)
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
         addEventButton.setOnClickListener() {
             it.findNavController().navigate(R.id.action_eventsFragment_to_addEventFragment)
+        }
+        addEventButtonBack.setOnClickListener() {
+            it.findNavController().navigate(R.id.action_eventsFragment_to_profileFragment)
         }
 
         return view

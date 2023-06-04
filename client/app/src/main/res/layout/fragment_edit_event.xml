@@ -8,15 +8,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="15dp"
-        android:paddingRight="30dp"
-        android:paddingLeft="30dp"
-        android:layout_margin="10dp"
         android:background="@color/white">
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="15dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -28,8 +25,11 @@
                     android:layout_height="wrap_content"
                     android:text="Редактирование события"
                     android:fontFamily="@font/inter"
-                    android:textColor="@color/new_purple"
                     android:textAlignment="center"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/new_purple"
+                    android:paddingRight="30dp"
+                    android:paddingLeft="30dp"
                     android:textSize="30sp"
                     android:textStyle="bold"/>
 
@@ -41,7 +41,7 @@
                     android:ems="10"
                     android:hint="Название события"
                     android:inputType="text"
-                    android:layout_marginTop="45dp"
+                    android:layout_marginTop="20dp"
                     android:textAlignment="textStart"
                     android:textSize="20sp"
                     style="@style/EditText"
@@ -52,8 +52,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:maxLength="12"
-                    android:hint="Дата dd.mm.yyyy"
+                    android:maxLength="10"
+                    android:hint="Дата (дд.мм.гггг)"
                     android:inputType="date"
                     android:layout_marginTop="20dp"
                     android:textAlignment="textStart"
@@ -66,8 +66,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:maxLength="12"
-                    android:hint="Время HH-mm-ss"
+                    android:maxLength="8"
+                    android:hint="Время (чч:мм:сс)"
                     android:inputType="date"
                     android:layout_marginTop="20dp"
                     android:textAlignment="textStart"
@@ -97,7 +97,7 @@
                     android:background="@drawable/button_style"
                     style="@style/ButtonRadius"
                     android:textColor="@color/white"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="20dp"
                     android:padding="10dp"/>
 
                 <Button
@@ -109,7 +109,9 @@
                     style="@style/ButtonRadius"
                     android:textColor="@color/white"
                     android:layout_marginTop="20dp"
-                    android:padding="10dp"/>
+                    android:padding="10dp"
+                    android:theme="@style/logout.Paws"
+                    />
 
                 <Button
                     android:id="@+id/backFromEditEventButton"

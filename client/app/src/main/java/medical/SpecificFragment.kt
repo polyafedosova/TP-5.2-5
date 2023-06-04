@@ -12,6 +12,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import api.Api
 import com.yandex.metrica.YandexMetrica
 import dto.TreatmentDtoGet
@@ -33,6 +35,7 @@ class SpecificFragment : Fragment(){
     private lateinit var clinicPhone: TextView
 
     private lateinit var sharedPreferencesToken: SharedPreferences
+    private lateinit var servicesRecyclerView: RecyclerView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +54,9 @@ class SpecificFragment : Fragment(){
         clinicPhone = view.findViewById(R.id.clinicPhone)
         clinicCityDiscription = view.findViewById(R.id.clinicCityDiscription)
 
+        servicesRecyclerView = view.findViewById(R.id.servicesRecyclerView)
+        servicesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+
         val idValue = requireArguments().getInt("id")
         val nameValue = requireArguments().getString("name")
         val phoneValue = requireArguments().getString("phone")
@@ -60,7 +66,7 @@ class SpecificFragment : Fragment(){
         val streetValue = requireArguments().getString("street")
         val houseValue = requireArguments().getString("house")
 
-        val address = "$regionValue,$cityValue,$streetValue,$houseValue"
+        val address = "$regionValue\n$cityValue\n$streetValue $houseValue"
 
         clinicName.text = nameValue
         clinicAddress.text = address
@@ -91,11 +97,13 @@ class SpecificFragment : Fragment(){
                     var servicesString = ""
 
                     if (dataResponse != null) {
-                        for (i in 0..dataResponse.size - 1)  {
-                            servicesString += dataResponse[i].name + ": " + dataResponse[i].price + ";" + '\n'
+                        servicesRecyclerView.adapter = ServiceAdapter(dataResponse)
 
-                        }
-                        clinicServices.text = servicesString
+//                        for (i in 0..dataResponse.size - 1)  {
+//                            servicesString += dataResponse[i].name + ": " + dataResponse[i].price + ";" + '\n'
+//
+//                        }
+//                        clinicServices.text = servicesString
                     }
                 } else {
                     requireActivity().runOnUiThread {

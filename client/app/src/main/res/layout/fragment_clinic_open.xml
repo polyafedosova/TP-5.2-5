@@ -3,14 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".medical.SpecificFragment">
+    tools:context="medical.SpecificFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="15dp"
         android:background="@color/white"
-        android:padding="15dp"
         android:visibility="visible">
 
         <ScrollView
@@ -21,6 +19,7 @@
                 android:id="@+id/linearScrollClinic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="15dp"
                 android:orientation="vertical">
 
                 <ImageView
@@ -148,11 +147,17 @@
                     android:fontFamily="@font/inter"
                     android:padding="5dp"
                     android:layout_marginTop="10dp"
-                    android:text="Услуги:"
+                    android:text="УСЛУГИ"
                     android:layout_gravity="center"
+                    android:gravity="center"
                     android:textColor="@color/new_purple"
                     android:textSize="18sp"
                     android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/servicesRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/servicesTextView"

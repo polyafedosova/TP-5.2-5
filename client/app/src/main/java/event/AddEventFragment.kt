@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -62,6 +64,56 @@ class AddEventFragment : Fragment() {
         eventTime = view.findViewById(R.id.eventTime)
         eventComment = view.findViewById(R.id.eventComment)
 
+        eventDate.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Ничего не делаем перед изменением текста
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Ничего не делаем при изменении текста
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val input = s.toString()
+                val length = input.length
+
+                if (length == 3 || length == 6) {
+                    if (input[length - 1] != '.') {
+                        val newText = StringBuilder(input)
+                        newText.insert(length - 1, '.')
+                        eventDate.setText(newText)
+                        eventDate.setSelection(newText.length)
+                    }
+                }
+            }
+        })
+
+        eventTime.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Ничего не делаем перед изменением текста
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Ничего не делаем при изменении текста
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val input = s.toString()
+                val length = input.length
+
+                if (length == 3 || length == 6) {
+                    if (input[length - 1] != ':') {
+                        val newText = StringBuilder(input)
+                        newText.insert(length - 1, ':')
+                        eventTime.setText(newText)
+                        eventTime.setSelection(newText.length)
+                    }
+                }
+            }
+        })
+
+
+
         completeAddEventButton.setOnClickListener() {
             if (validate(eventName, eventDate, eventTime, eventComment)) {
                 addEvent(eventName, eventDate, eventTime, eventComment)
@@ -118,7 +170,7 @@ class AddEventFragment : Fragment() {
                     requireActivity().runOnUiThread {
                         Toast.makeText(requireContext(), "Успешно", Toast.LENGTH_SHORT).show()
                         YandexMetrica.reportEvent("Событие добавлено")
-                        findNavController().navigate(R.id.profileFragment)
+                        findNavController().navigate(R.id.action_addEventFragment_to_eventsFragment)
                     }
                 } else{
                     requireActivity().runOnUiThread {

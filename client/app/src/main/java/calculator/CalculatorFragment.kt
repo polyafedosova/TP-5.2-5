@@ -1,5 +1,6 @@
 package calculator
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,6 +19,8 @@ class CalculatorFragment : Fragment() {
     private lateinit var ansField: TextView
     private lateinit var belkov: TextView
     private lateinit var rastitel: TextView
+    private lateinit var weightEditText: EditText
+
 
     private var chosenAge: Int = 0
     private var chosenMove: Int = 0
@@ -25,6 +28,7 @@ class CalculatorFragment : Fragment() {
 
 
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -34,6 +38,7 @@ class CalculatorFragment : Fragment() {
 
         val autoCompleteAge: AutoCompleteTextView = view.findViewById(R.id.age)
         val autoCompleteMove: AutoCompleteTextView = view.findViewById(R.id.movement)
+        val answer: LinearLayout = view.findViewById(R.id.answer)
 
         val age = resources.getStringArray(R.array.ages_array)
         val arrayAdapterAge = ArrayAdapter(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, age)
@@ -58,16 +63,20 @@ class CalculatorFragment : Fragment() {
 
         autoCompleteMove.setOnItemClickListener { adapterView, view, i, l ->
             chosenMove = adapterView.getItemIdAtPosition(i).toInt()
+            hideKeyboard()
         }
 
         doneButton = view.findViewById(R.id.calculate_eat)
         ansField = view.findViewById(R.id.mass2)
         belkov = view.findViewById(R.id.mass3)
         rastitel = view.findViewById(R.id.mass4)
+        weightEditText = view.findViewById(R.id.dogWeight)
 
         doneButton.setOnClickListener {
             try {
-                weight = view.findViewById<EditText>(R.id.dogWeight).text.toString().toDouble()
+                answer.visibility = View.VISIBLE
+                hideKeyboard()
+                weight = weightEditText.text.toString().toDouble()
                 if (weight != 0.0) {
                     ansField.text = (calculateEat(chosenAge, chosenMove, weight) / 1000).toString()
                     belkov.text = (weight * 0.008 * 1000).toInt().toString()
@@ -79,7 +88,7 @@ class CalculatorFragment : Fragment() {
             } catch (ex: java.lang.Exception) {
                 Toast.makeText(this.context, "Неверно задана масса", Toast.LENGTH_SHORT).show()
             }
-
+            weightEditText.clearFocus()
         }
 
         return view

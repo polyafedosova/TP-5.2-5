@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -67,6 +69,30 @@ class DogAddFragment : Fragment() {
         val sex = resources.getStringArray(R.array.sex_array)
         val arrayAdapterSex = ArrayAdapter(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, sex)
         autoCompleteSex.setAdapter(arrayAdapterSex)
+
+        dogBurnDate.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Ничего не делаем перед изменением текста
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Ничего не делаем при изменении текста
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val input = s.toString()
+                val length = input.length
+
+                if (length == 3 || length == 6) {
+                    if (input[length - 1] != '.') {
+                        val newText = StringBuilder(input)
+                        newText.insert(length - 1, '.')
+                        dogBurnDate.setText(newText)
+                        dogBurnDate.setSelection(newText.length)
+                    }
+                }
+            }
+        })
 
         autoCompleteSex.setOnItemClickListener { adapterView, view, i, l ->
             chosenSex = adapterView.getItemIdAtPosition(i).toInt()

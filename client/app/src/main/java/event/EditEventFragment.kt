@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -68,8 +70,8 @@ class EditEventFragment : Fragment() {
 
         val nameValue = requireArguments().getString("name")
         var dateValue = requireArguments().getString("date")
-        val timeValue = requireArguments().getString("time")
-        val replasedTime = timeValue?.replace(":", "-")
+        val replasedTime = requireArguments().getString("time")
+//        val replasedTime = timeValue?.replace(":", "-")
         val commentValue = requireArguments().getString("comment")
 
         dateValue = dateValue?.replace("-", ".")
@@ -99,6 +101,54 @@ class EditEventFragment : Fragment() {
         newEventDate.setText(dateValue)
         newEventComment.setText(commentValue)
         newEventTime.setText(replasedTime)
+
+        newEventDate.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Ничего не делаем перед изменением текста
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Ничего не делаем при изменении текста
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val input = s.toString()
+                val length = input.length
+
+                if (length == 3 || length == 6) {
+                    if (input[length - 1] != '.') {
+                        val newText = StringBuilder(input)
+                        newText.insert(length - 1, '.')
+                        newEventDate.setText(newText)
+                        newEventDate.setSelection(newText.length)
+                    }
+                }
+            }
+        })
+
+        newEventTime.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Ничего не делаем перед изменением текста
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Ничего не делаем при изменении текста
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val input = s.toString()
+                val length = input.length
+
+                if (length == 3 || length == 6) {
+                    if (input[length - 1] != ':') {
+                        val newText = StringBuilder(input)
+                        newText.insert(length - 1, ':')
+                        newEventTime.setText(newText)
+                        newEventTime.setSelection(newText.length)
+                    }
+                }
+            }
+        })
 
         completeEditEventButton.setOnClickListener() {
             if (validate(newEventName, newEventDate, newEventTime, newEventComment)) {

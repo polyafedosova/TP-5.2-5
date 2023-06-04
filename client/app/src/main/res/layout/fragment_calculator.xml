@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
-    android:layout_margin="10dp"
     android:background="@color/white">
 
     <LinearLayout
@@ -28,7 +24,7 @@
             android:fontFamily="@font/inter"
             android:textColor="@color/new_purple"
             android:textSize="30sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_marginTop="30dp"
@@ -48,8 +44,6 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-
-
         <com.google.android.material.textfield.TextInputLayout
             android:layout_marginTop="30dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -63,24 +57,24 @@
                 android:layout_height="wrap_content"
                 android:inputType="none"
                 android:text="Низкая"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 tools:ignore="LabelFor"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <EditText
             android:id="@+id/dogWeight"
-            style="@style/EditText2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/edittext_style2"
             android:hint="Масса (кг)"
-            android:inputType="number|numberDecimal"
             android:maxLength="3"
-            android:padding="20dp"
+            android:layout_marginTop="30dp"
+            android:inputType="number|numberDecimal"
             android:textAlignment="textStart"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:padding="20dp"
+            style="@style/EditText2"
+            android:background="@drawable/edittext_style2" />
 
         <Button
             android:id="@+id/calculate_eat"
@@ -90,19 +84,22 @@
             android:text="Рассчитать"
             android:background="@drawable/button_style"
             style="@style/ButtonRadius"
+            android:padding="10dp"
             android:textColor="@color/white"/>
 
         <LinearLayout
-            android:layout_width="334dp"
+            android:id="@+id/answer"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/info3"
@@ -117,26 +114,6 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/mass2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/inter"
-                    android:inputType="number"
-                    android:text=""
-                    android:textAlignment="textStart"
-                    android:textColor="@color/new_purple"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:orientation="horizontal">
-
-                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -146,25 +123,6 @@
                     android:textColor="@color/new_purple"
                     android:textSize="20sp"
                     android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/mass3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/inter"
-                    android:text=""
-                    android:textAlignment="textStart"
-                    android:textColor="@color/new_purple"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -177,9 +135,44 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:orientation="vertical"
+                android:layout_marginStart="20dp">
+
+                <TextView
+                    android:id="@+id/mass2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/inter"
+                    android:inputType="number"
+                    android:text=""
+                    android:textAlignment="textStart"
+                    android:textColor="@color/new_purple"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/mass3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/inter"
+                    android:text=""
+                    android:textAlignment="textStart"
+                    android:textColor="@color/new_purple"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/mass4"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/inter"
@@ -189,6 +182,7 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
             </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>

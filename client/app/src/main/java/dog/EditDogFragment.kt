@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -77,6 +80,10 @@ class EditDogFragment : Fragment() {
         val breedValue = requireArguments().getString("breed")
         val sexValue = requireArguments().getBoolean("sex")
 
+        if (sexValue){
+            newSex.setText("Самец", false)
+        } else newSex.setText("Самка", false)
+
         dateValue = dateValue?.replace("-", ".")
 
         val format = DateTimeFormatter.ofPattern("yyyy.MM.dd")
@@ -102,12 +109,31 @@ class EditDogFragment : Fragment() {
         newDogName.setText(nameValue)
         newDogBurnDate.setText(dateValue)
         newBreed.setText(breedValue)
-        println(sexValue)
-        if (!sexValue) {
-            newSex.setText("")
-        } else {
-            newSex.setText("")
-        }
+
+        newDogBurnDate.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Ничего не делаем перед изменением текста
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Ничего не делаем при изменении текста
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val input = s.toString()
+                val length = input.length
+
+                if (length == 3 || length == 6) {
+                    if (input[length - 1] != '.') {
+                        val newText = StringBuilder(input)
+                        newText.insert(length - 1, '.')
+                        newDogBurnDate.setText(newText)
+                        newDogBurnDate.setSelection(newText.length)
+                    }
+                }
+            }
+        })
+
 
         completeEditButton.setOnClickListener() {
 

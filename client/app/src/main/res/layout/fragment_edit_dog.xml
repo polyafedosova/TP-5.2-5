@@ -7,10 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="15dp"
-        android:paddingRight="30dp"
-        android:paddingLeft="30dp"
-        android:layout_margin="10dp"
+        android:padding="15dp"
         android:background="@color/white">
 
         <LinearLayout
@@ -24,9 +21,12 @@
                 android:text="Редактирование питомца"
                 android:fontFamily="@font/inter"
                 android:textAlignment="center"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/new_purple"
+                android:paddingRight="30dp"
+                android:paddingLeft="30dp"
                 android:textSize="30sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/newDogName"
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:maxLength="12"
-                android:hint="Дата рождения(dd.MM.yyyy)"
+                android:hint="Дата рождения (dd.MM.yyyy)"
                 android:inputType="date"
                 android:layout_marginTop="20dp"
                 android:textAlignment="textStart"
@@ -93,7 +93,7 @@
                 android:id="@+id/completeDogEditButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="50dp"
                 android:text="Редактировать"
                 android:background="@drawable/button_style"
                 style="@style/ButtonRadius"
@@ -105,10 +105,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Удалить"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/button_style"
                 style="@style/ButtonRadius"
                 android:textColor="@color/white"
+                android:theme="@style/logout.Paws"
                 android:padding="10dp"/>
 
             <Button
@@ -116,7 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Назад"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/button_style"
                 style="@style/ButtonRadius"
                 android:textColor="@color/white"
