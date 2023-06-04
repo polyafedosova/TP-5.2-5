@@ -9,7 +9,9 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.vsu.dogapp.IntegrationEnvironment;
+import ru.vsu.dogapp.dto.DogDto;
 import ru.vsu.dogapp.dto.EventDto;
+import ru.vsu.dogapp.dto.TreatmentDto;
 import ru.vsu.dogapp.dto.VetclinicDto;
 import ru.vsu.dogapp.entity.Owner;
 import ru.vsu.dogapp.entity.Treatment;
@@ -45,24 +47,65 @@ class TreatmentServiceTest extends IntegrationEnvironment {
     @Rollback
     @Test
     void save() {
+        //given
         Vetclinic vetclinic = new Vetclinic("Vet", "89087803328","vet","Russia","Воронежская область", "Voronezh", "kor", "1");
         Treatment treatment = new Treatment(0,"name", new BigDecimal(10000),vetclinic);
-        
+        vetclinicRepository.save(vetclinic);
+        repository.findAllByVetclinic_Id(1);
+        service.save(1, mapper.toDto(treatment));
 
-
-
-        System.out.println(vetclinicRepository.findAll());
-
+        // when
+        var response = repository.findAll();
+        // then
+        assertThat(response.get(0), is(notNullValue()));
+        assertThat(response.get(0).getName(), is(equalTo(treatment.getName())));
+        assertThat(response.get(0).getPrice(), is(equalTo(treatment.getPrice())));
     }
     @Transactional
     @Rollback
     @Test
     void update() {
+        //given
+        Vetclinic vetclinic = new Vetclinic("Vet", "89087803328","vet","Russia","Воронежская область", "Voronezh", "kor", "1");
+        Treatment treatment = new Treatment(2,"name", new BigDecimal(10000),vetclinic);
+        Treatment treatment1 = new Treatment(3,"name1", new BigDecimal(1010),vetclinic);
+        vetclinicRepository.save(vetclinic);
+        service.save(1,mapper.toDto(treatment));
+        service.update(1,mapper.toDto(treatment1));
+
+        //when
+        var response = repository.findTreatmentById(1);
+
+        //then
+        assertThat(response, is(notNullValue()));
+        assertThat(response.getName(), is(equalTo(treatment1.getName())));
+        assertThat(response.getPrice(), is(equalTo(treatment1.getPrice())));
+        assertThat(response.getVetclinic().getName(), is(equalTo(treatment1.getVetclinic().getName())));
+
     }
     @Transactional
     @Rollback
     @Test
     void delete() {
+        //given
+        Vetclinic vetclinic = new Vetclinic("Vet", "89087803328","vet","Russia","Воронежская область", "Voronezh", "kor", "1");
+        Treatment treatment = new Treatment(2,"name", new BigDecimal(10000),vetclinic);
+        Treatment treatment1 = new Treatment(3,"name1", new BigDecimal(1010),vetclinic);
+        vetclinicRepository.save(vetclinic);
+
+        service.save(1,mapper.toDto(treatment));
+        service.save(1,mapper.toDto(treatment1));
+
+
+        //when
+        var response = repository.findTreatmentById(2);
+
+        //then
+        assertThat(response, is(notNullValue()));
+        assertThat(response.getName(), is(equalTo(treatment1.getName())));
+        assertThat(response.getPrice(), is(equalTo(treatment1.getPrice())));
+        assertThat(response.getVetclinic().getName(), is(equalTo(treatment1.getVetclinic().getName())));
+
     }
     @Transactional
     @Rollback
