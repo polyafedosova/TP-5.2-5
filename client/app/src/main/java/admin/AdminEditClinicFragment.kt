@@ -77,6 +77,7 @@ class AdminEditClinicFragment : Fragment() {
         val streetValue = requireArguments().getString("street")
         val houseValue = requireArguments().getString("house")
 
+
         val address = "$regionValue,$cityValue,$streetValue,$houseValue"
         adminEditClinicName.setText(nameValue)
         adminEditClinicPhone.setText(phoneValue)

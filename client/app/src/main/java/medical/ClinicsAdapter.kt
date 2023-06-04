@@ -85,7 +85,7 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>, _lowerPrice: Mut
         })
 
         holder.clinicsTitle.text = newClinics[position].name
-        holder.clinicsAddress.text = newClinics[position].city + " " + newClinics[position].street + " " +newClinics[position].house
+        holder.clinicsAddress.text = newClinics[position].region + " " + newClinics[position].city + " " + newClinics[position].street + " " +newClinics[position].house
 
 
         val bundle = Bundle()
