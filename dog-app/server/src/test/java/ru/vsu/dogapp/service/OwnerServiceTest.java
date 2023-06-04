@@ -19,6 +19,7 @@ import ru.vsu.dogapp.repository.OwnerRepository;
 import javax.transaction.Transactional;
 
 import java.util.Collections;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -74,31 +75,110 @@ class OwnerServiceTest extends IntegrationEnvironment {
     @Transactional
     @Rollback
     @Test
-    void update() {
+    void updateTest() {
+        //given
+        Owner owner = new Owner(2,"Posix", "Abcd123*@", "Polina", true, Collections.singleton(Role.USER));
+        Owner owner1 = new Owner(3,"Maxon", "Abcd123*@", "Max", true, Collections.singleton(Role.USER));
+
+        repository.save(owner);
+        service.update(owner.getUsername(),mapper.toDto(owner1));
+        // when
+        var response = repository.findByUsername(owner1.getUsername());
+        // then
+        assertThat(response, is(notNullValue()));
+        assertThat(response.getUsername(), is(equalTo(owner1.getUsername())));
+        assertThat(response.getName(), is(equalTo(owner1.getName())));
+
     }
     @Transactional
     @Rollback
     @Test
     void updatePassword() {
+        Owner owner = new Owner(2,"Posix", "Abcd123*@", "Polina", true, Collections.singleton(Role.USER));
+
+        repository.save(owner);
+        service.updatePassword(owner.getUsername(),"Abcd444*@");
+        // when
+        var response = repository.findByUsername(owner.getUsername());
+        // then
+        assertThat(response, is(notNullValue()));
+        assertThat(response.getUsername(), is(equalTo(owner.getUsername())));
+        assertThat(response.getName(), is(equalTo(owner.getName())));
+        assertThat(bCryptPasswordEncoder.matches("Abcd444*@", response.getPassword()), is(equalTo(true)));
     }
     @Transactional
     @Rollback
     @Test
     void delete() {
+        Owner owner = new Owner(2,"Posix", "Abcd123*@", "Polina", true, Collections.singleton(Role.USER));
+        Owner owner1 = new Owner(3,"Maxon", "Abcd123*@", "Max", true, Collections.singleton(Role.USER));
+
+        service.save(mapper.toDto(owner));
+        service.save(mapper.toDto(owner1));
+
+        // when
+        service.delete(owner.getUsername());
+        var response = repository.findByUsername(owner1.getUsername());
+        // then
+        assertThat(repository.findByUsername(owner.getUsername()), is(nullValue()));
+        assertThat(response, is(notNullValue()));
+        assertThat(response.getUsername(), is(equalTo(owner1.getUsername())));
+        assertThat(response.getName(), is(equalTo(owner1.getName())));
     }
     @Transactional
     @Rollback
     @Test
     void find() {
+        Owner owner = new Owner(2,"Posix", "Abcd123*@", "Polina", true, Collections.singleton(Role.USER));
+
+        repository.save(owner);
+
+        // when
+        var response = service.find(owner.getUsername());
+        // then
+        assertThat(response, is(notNullValue()));
+        assertThat(response.getUsername(), is(equalTo(owner.getUsername())));
+        assertThat(response.getName(), is(equalTo(owner.getName())));
     }
     @Transactional
     @Rollback
     @Test
     void changeShowAll() {
+
+        Owner owner = new Owner(2,"Posix", "Abcd123*@", "Polina", false, Collections.singleton(Role.USER));
+        Owner owner1 = new Owner(3,"Maxon", "Abcd123*@", "Max", false, Collections.singleton(Role.USER));
+        repository.save(owner);
+        repository.save(owner1);
+
+        // when
+        service.changeShowAll(true);
+        var response = repository.findByUsername(owner.getUsername());
+        var response1 = repository.findByUsername(owner1.getUsername());
+        // then
+        assertThat(response, is(notNullValue()));
+        assertThat(response.getUsername(), is(equalTo(owner.getUsername())));
+        assertThat(response.getName(), is(equalTo(owner.getName())));
+        assertThat(response.isShow(), is(equalTo(true)));
+
+        assertThat(response, is(notNullValue()));
+        assertThat(response1.getUsername(), is(equalTo(owner1.getUsername())));
+        assertThat(response1.isShow(), is(equalTo(true)));
     }
     @Transactional
     @Rollback
     @Test
     void changeShow() {
+        Owner owner = new Owner(2,"Posix", "Abcd123*@", "Polina", false, Collections.singleton(Role.USER));
+        repository.save(owner);
+
+        // when
+        service.changeShow(owner.getUsername(),true);
+        var response = repository.findByUsername(owner.getUsername());
+        // then
+        assertThat(response, is(notNullValue()));
+        assertThat(response.getUsername(), is(equalTo(owner.getUsername())));
+        assertThat(response.getName(), is(equalTo(owner.getName())));
+        assertThat(response.isShow(), is(equalTo(true)));
+
     }
 }
