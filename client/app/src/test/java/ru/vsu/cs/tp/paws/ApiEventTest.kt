@@ -1,10 +1,8 @@
 package ru.vsu.cs.tp.paws
 
-import dto.DogDtoGet
-import dto.DogDtoPost
-import dto.VetclinicDtoGet
-import dto.VetclinicDtoPost
-import interfaces.DogInterface
+import dto.EventDtoGet
+import dto.EventDtoPost
+import interfaces.EventInterface
 import org.junit.Assert
 import org.junit.Test
 import retrofit2.Call
@@ -13,7 +11,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ApiDogTest {
+class ApiEventTest {
     private val BASE_URL = "http://2.56.242.93:4000"
 
     private val retrofit = Retrofit.Builder()
@@ -21,35 +19,18 @@ class ApiDogTest {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    private val apiService = retrofit.create(DogInterface::class.java)
+    private val apiService = retrofit.create(EventInterface::class.java)
 
-    private val testDto = DogDtoPost("name", "birthday",
-        true, "breed")
+    private val testDto = EventDtoPost("name", "date",
+        "time", "description")
 
     private val headers = HashMap<String, String>()
 
     @Test
-    fun testGetDogs() {
+    fun testSaveEvent() {
         headers["Authorization"] = "Bearer token"
 
-        val call = apiService.getDogsOwner("login", headers)
-        call.enqueue(object : Callback<List<DogDtoGet>> {
-            override fun onResponse(call: Call<List<DogDtoGet>>, response: Response<List<DogDtoGet>>) {
-                Assert.assertTrue(response.isSuccessful)
-                Assert.assertNotNull(response.body())
-            }
-
-            override fun onFailure(call: Call<List<DogDtoGet>>, t: Throwable) {
-                println("No connect")
-            }
-        })
-    }
-
-    @Test
-    fun testSaveNewDogs() {
-        headers["Authorization"] = "Bearer token"
-
-        val call = apiService.saveNewDog("login", testDto, headers)
+        val call = apiService.saveNewEvent("login" ,testDto, headers)
         call.enqueue(object : Callback<Void?> {
             override fun onResponse(call: Call<Void?>, response: Response<Void?>) {
                 Assert.assertTrue(response.isSuccessful)
@@ -63,10 +44,27 @@ class ApiDogTest {
     }
 
     @Test
-    fun testUpdateDogs() {
+    fun testGetEvents() {
         headers["Authorization"] = "Bearer token"
 
-        val call = apiService.updateDog(0,  testDto, "login", headers)
+        val call = apiService.getEventsOwner("login", headers)
+        call.enqueue(object : Callback<List<EventDtoGet>> {
+            override fun onResponse(call: Call<List<EventDtoGet>>, response: Response<List<EventDtoGet>>) {
+                Assert.assertTrue(response.isSuccessful)
+                Assert.assertNotNull(response.body())
+            }
+
+            override fun onFailure(call: Call<List<EventDtoGet>>, t: Throwable) {
+                println("No connect")
+            }
+        })
+    }
+
+    @Test
+    fun testUpdateEvent() {
+        headers["Authorization"] = "Bearer token"
+
+        val call = apiService.updateEvent(0,"login", testDto, headers)
         call.enqueue(object : Callback<Void?> {
             override fun onResponse(call: Call<Void?>, response: Response<Void?>) {
                 Assert.assertTrue(response.isSuccessful)
@@ -80,10 +78,10 @@ class ApiDogTest {
     }
 
     @Test
-    fun testDeleteDogs() {
+    fun testDeleteEvent() {
         headers["Authorization"] = "Bearer token"
 
-        val call = apiService.deleteDog(0, "login", headers)
+        val call = apiService.deleteEvent(0,"login", headers)
         call.enqueue(object : Callback<Void?> {
             override fun onResponse(call: Call<Void?>, response: Response<Void?>) {
                 Assert.assertTrue(response.isSuccessful)
@@ -95,4 +93,5 @@ class ApiDogTest {
             }
         })
     }
+
 }

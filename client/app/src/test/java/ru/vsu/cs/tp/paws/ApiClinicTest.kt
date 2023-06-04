@@ -3,6 +3,7 @@ package ru.vsu.cs.tp.paws
 import api.Api
 import dto.VetclinicDtoGet
 import dto.VetclinicDtoPost
+import dto.VetclinicSortDto
 import interfaces.VetclinicInterface
 import org.junit.Assert.*
 import org.junit.Test
@@ -22,6 +23,12 @@ class ApiClinicTest {
 
     private val apiService = retrofit.create(VetclinicInterface::class.java)
 
+    private val testDto = VetclinicDtoPost("name", "phone",
+        "discription", "заглушка", "region",
+        "city", "street", "house")
+
+    private val headers = HashMap<String, String>()
+
     @Test
     fun testGetClinics() {
         val call = apiService.getAllVetclinics()
@@ -39,14 +46,9 @@ class ApiClinicTest {
 
     @Test
     fun testSaveClinic() {
-        val dto = VetclinicDtoPost("name", "phone",
-            "discription", "заглушка", "region",
-            "city", "street", "house")
-
-        val headers = HashMap<String, String>()
         headers["Authorization"] = "Bearer token"
 
-        val call = apiService.saveNewVetclinic(dto, headers)
+        val call = apiService.saveNewVetclinic(testDto, headers)
         call.enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 assertTrue(response.isSuccessful)
@@ -58,4 +60,67 @@ class ApiClinicTest {
             }
         })
     }
+
+    @Test
+    fun testUpdateClinic() {
+        val call = apiService.updateVetclinic(0, testDto, headers)
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                assertTrue(response.isSuccessful)
+                assertNotNull(response.body())
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                println("No connect")
+            }
+        })
+    }
+
+    @Test
+    fun testDeleteClinic() {
+        headers["Authorization"] = "Bearer token"
+
+        val call = apiService.deleteVetclinic(0, headers)
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                assertTrue(response.isSuccessful)
+                assertNotNull(response.body())
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                println("No connect")
+            }
+        })
+    }
+
+    @Test
+    fun testSortClinics() {
+        val call = apiService.sort("treatment", "city")
+        call.enqueue(object : Callback<List<VetclinicSortDto>> {
+            override fun onResponse(call: Call<List<VetclinicSortDto>>, response: Response<List<VetclinicSortDto>>) {
+                assertTrue(response.isSuccessful)
+                assertNotNull(response.body())
+            }
+
+            override fun onFailure(call: Call<List<VetclinicSortDto>>, t: Throwable) {
+                println("No connect")
+            }
+        })
+    }
+
+    @Test
+    fun testSortByCityClinics() {
+        val call = apiService.sortByCity("city")
+        call.enqueue(object : Callback<List<VetclinicDtoGet>> {
+            override fun onResponse(call: Call<List<VetclinicDtoGet>>, response: Response<List<VetclinicDtoGet>>) {
+                assertTrue(response.isSuccessful)
+                assertNotNull(response.body())
+            }
+
+            override fun onFailure(call: Call<List<VetclinicDtoGet>>, t: Throwable) {
+                println("No connect")
+            }
+        })
+    }
+
 }

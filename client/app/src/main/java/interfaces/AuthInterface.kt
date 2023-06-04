@@ -11,7 +11,7 @@ import retrofit2.http.POST
 
 interface AuthInterface {
     @GET("api/auth/token")
-    fun getToken(): Response
+    fun getToken(): Call<Void>
 
     @POST("api/auth/login")
     fun login(@Body jwt: JwtPost): Call<JwtGet>
