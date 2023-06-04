@@ -22,7 +22,7 @@
 [Презентация](https://github.com/polyafedosova/TP-5.2-5/blob/master/Documentation/%D0%9F%D1%80%D0%B5%D0%B7%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D1%8F.pptx)<br />
 
 # Реализация
-[Swagger](http://2.56.242.93:4000/swagger-ui/index.html#)
+[Swagger](http://2.56.242.93:4000/swagger-ui/index.html#)<br />
 [Сервер](https://github.com/polyafedosova/TP-5.2-5/tree/master/dog-app/server)<br />
 [Клиент](https://github.com/polyafedosova/TP-5.2-5/tree/master/client)<br />
 
