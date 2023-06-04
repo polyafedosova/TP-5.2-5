@@ -27,6 +27,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import ru.vsu.cs.tp.paws.MainActivity
 import ru.vsu.cs.tp.paws.R
 
 
@@ -58,7 +59,6 @@ class AdminAddClinicFragment : Fragment() {
         super.onCreate(savedInstanceState)
         sharedPreferencesToken = requireActivity().getSharedPreferences("userToken", Context.MODE_PRIVATE)
         sharedPreferencesLogin = requireActivity().getSharedPreferences("userLogin", Context.MODE_PRIVATE)
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

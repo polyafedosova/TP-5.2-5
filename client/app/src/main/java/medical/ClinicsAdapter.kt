@@ -55,7 +55,6 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>, _lowerPrice: Mut
 
                 } catch (e: Exception) {
                             println(e)
-//                            println(i)
                 }
             }
             holder.clinicsPrice.text = pricesStr
