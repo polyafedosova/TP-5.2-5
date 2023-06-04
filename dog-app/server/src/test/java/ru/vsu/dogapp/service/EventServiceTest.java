@@ -41,7 +41,7 @@ class EventServiceTest extends IntegrationEnvironment {
     @Rollback
     @Test
     void saveTest() {
-
+        //given
         Owner owner = new Owner(2,"Posix", "Abcd123*@", "Polina", true, Collections.singleton(Role.USER));
         EventDto eventDto = new EventDto(1,"Name", "2023-07-23", "20:30:00", "name");
 
@@ -84,7 +84,7 @@ class EventServiceTest extends IntegrationEnvironment {
     @Transactional
     @Rollback
     @Test
-    void delete() {
+    void deleteTest() {
         Owner owner = new Owner(3,"Posix", "Abcd123*@", "Polina", true, Collections.singleton(Role.USER));
         EventDto eventDto1 = new EventDto(1,"Name", "2023-07-23", "20:30:00", "name");
         EventDto eventDto2 = new EventDto(2,"Name1", "2032-01-13", "20:40:10", "name1");
@@ -108,7 +108,7 @@ class EventServiceTest extends IntegrationEnvironment {
     @Transactional
     @Rollback
     @Test
-    void getByOwner() {
+    void getByOwnerTest() {
         Owner owner = new Owner(2,"Posix", "Abcd123*@", "Polina", true, Collections.singleton(Role.USER));
         Owner owner1 = new Owner(3,"Makson", "Abcd123*@", "Maks", true, Collections.singleton(Role.USER));
         EventDto eventDto1 = new EventDto(1,"Name", "2023-07-23", "20:30:00", "name");

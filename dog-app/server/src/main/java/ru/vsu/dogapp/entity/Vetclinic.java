@@ -29,4 +29,15 @@ public class Vetclinic {
     private String house;
     @OneToMany(mappedBy = "vetclinic", cascade = CascadeType.ALL)
     private Set<Treatment> treatments = new HashSet<>();
+
+    public Vetclinic(String name, String phone, String description, String country, String region, String city, String street, String house) {
+        this.name = name;
+        this.phone = phone;
+        this.description = description;
+        this.country = country;
+        this.region = region;
+        this.city = city;
+        this.street = street;
+        this.house = house;
+    }
 }
