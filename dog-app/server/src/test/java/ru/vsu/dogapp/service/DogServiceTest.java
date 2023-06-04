@@ -9,12 +9,17 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.vsu.dogapp.IntegrationEnvironment;
 import ru.vsu.dogapp.dto.DogDto;
+import ru.vsu.dogapp.dto.OwnerDto;
 import ru.vsu.dogapp.entity.Dog;
+import ru.vsu.dogapp.entity.Owner;
+import ru.vsu.dogapp.entity.type.Role;
 import ru.vsu.dogapp.mapper.DogMapper;
 import ru.vsu.dogapp.repository.DogRepository;
 import ru.vsu.dogapp.repository.OwnerRepository;
 
 import javax.transaction.Transactional;
+
+import java.util.Collections;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -41,16 +46,19 @@ class DogServiceTest extends IntegrationEnvironment {
     void save() {
         //given
         DogDto dogDto = new DogDto(1,"Artem","2002-06-02",true,"FKn");
-        Dog dog = mapper.toEntity(dogDto);
+        Owner owner = new Owner(2,"Posix", "Abcd123*@", "Polina", true, Collections.singleton(Role.USER));
+        ownerRepository.save(owner);
 
-        repository.saveAndFlush(dog);
-
+        service.save("Posix", dogDto);
         // when
         var response = repository.findDogById(1);
-
         // then
         assertThat(response, is(notNullValue()));
-
+        assertThat(response.getName(), is(equalTo(dogDto.getName())));
+        assertThat(response.getBreed(), is(equalTo(dogDto.getBreed())));
+        assertThat(response.getBirthday(), is(equalTo(dogDto.getBirthday())));
+        assertThat(response.getSex(), is(equalTo(dogDto.getSex())));
+        assertThat(response.getOwner().getName(), is(equalTo(owner.getName())));
     }
 
     @Transactional
