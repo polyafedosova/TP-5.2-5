@@ -21,10 +21,6 @@ class ApiGlobalConfigTest {
 
     private val apiService = retrofit.create(GlobalConfigInterface::class.java)
 
-    private val testDto = VetclinicDtoPost("name", "phone",
-        "discription", "заглушка", "region",
-        "city", "street", "house")
-
     private val headers = HashMap<String, String>()
 
     @Test

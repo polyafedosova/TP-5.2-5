@@ -11,7 +11,7 @@ interface OwnerInterface {
     fun findByLogin(@Path ("username") username: String, @HeaderMap headers: Map<String, String>): Call<OwnerDtoGet>
 
     @POST("/owner/{owner_id}")
-    fun findById(@Path ("owner_id") id: Int): Call<OwnerDtoGet>
+    fun findById(@Path ("owner_id") id: Int, @HeaderMap headers: Map<String, String>): Call<OwnerDtoGet>
     @POST("/api/auth/registration")
     fun saveNewOwner(@Body owner: OwnerDtoPost): Call<Void>
 
