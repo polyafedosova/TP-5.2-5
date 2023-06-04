@@ -25,8 +25,8 @@
 [Swagger](http://2.56.242.93:4000/swagger-ui/index.html#)
 
 # Видео
-[Реализация серверной части приложения](https://youtu.be/vFrDEGRQpBo)
-[Разворачивание серверной части и базы данных](https://youtu.be/qHmUj9RP6dE)
+[Реализация серверной части приложения](https://youtu.be/vFrDEGRQpBo)<br />
+[Разворачивание серверной части и базы данных](https://youtu.be/qHmUj9RP6dE)<br />
 
 # Аттестация 2
 [Демонстрационное видео](https://disk.yandex.ru/i/J9s1b3K_-PB41A)<br />
