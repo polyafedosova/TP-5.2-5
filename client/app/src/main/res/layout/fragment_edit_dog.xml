@@ -10,120 +10,125 @@
         android:padding="15dp"
         android:background="@color/white">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Редактирование питомца"
-                android:fontFamily="@font/inter"
-                android:textAlignment="center"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/new_purple"
-                android:paddingRight="30dp"
-                android:paddingLeft="30dp"
-                android:textSize="30sp"
-                android:textStyle="bold" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/newDogName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:maxLength="64"
-                android:hint="Кличка"
-                android:inputType="textPersonName"
-                android:layout_marginTop="20dp"
-                android:textAlignment="textStart"
-                android:textSize="20sp"
-                style="@style/EditText"
-                android:background="@drawable/edittext_style"/>
-
-            <EditText
-                android:id="@+id/newDogBurnDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:maxLength="12"
-                android:hint="Дата рождения (dd.MM.yyyy)"
-                android:inputType="date"
-                android:layout_marginTop="20dp"
-                android:textAlignment="textStart"
-                android:textSize="20sp"
-                style="@style/EditText"
-                android:background="@drawable/edittext_style"/>
-
-
-            <EditText
-                android:id="@+id/newBreed"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Порода"
-                android:maxLength="64"
-                android:inputType="text"
-                android:layout_marginTop="20dp"
-                android:textAlignment="textStart"
-                android:textSize="20sp"
-                style="@style/EditText"
-                android:background="@drawable/edittext_style"/>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_marginTop="10dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:hint="Пол"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <AutoCompleteTextView
-                    android:id="@+id/newSex"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none"
-                    android:text="Самец"
+                    android:text="Редактирование питомца"
+                    android:fontFamily="@font/inter"
+                    android:textAlignment="center"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/new_purple"
+                    android:paddingRight="30dp"
+                    android:paddingLeft="30dp"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/newDogName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:maxLength="64"
+                    android:hint="Кличка"
+                    android:inputType="textPersonName"
+                    android:layout_marginTop="20dp"
+                    android:textAlignment="textStart"
                     android:textSize="20sp"
-                    tools:ignore="LabelFor"/>
+                    style="@style/EditText"
+                    android:background="@drawable/edittext_style"/>
 
-            </com.google.android.material.textfield.TextInputLayout>
+                <EditText
+                    android:id="@+id/newDogBurnDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:maxLength="12"
+                    android:hint="Дата рождения (dd.MM.yyyy)"
+                    android:inputType="date"
+                    android:layout_marginTop="20dp"
+                    android:textAlignment="textStart"
+                    android:textSize="20sp"
+                    style="@style/EditText"
+                    android:background="@drawable/edittext_style"/>
 
-            <Button
-                android:id="@+id/completeDogEditButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:text="Редактировать"
-                android:background="@drawable/button_style"
-                style="@style/ButtonRadius"
-                android:textColor="@color/white"
-                android:padding="10dp"/>
 
-            <Button
-                android:id="@+id/deleteDogButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Удалить"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/button_style"
-                style="@style/ButtonRadius"
-                android:textColor="@color/white"
-                android:theme="@style/logout.Paws"
-                android:padding="10dp"/>
+                <EditText
+                    android:id="@+id/newBreed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Порода"
+                    android:maxLength="64"
+                    android:inputType="text"
+                    android:layout_marginTop="20dp"
+                    android:textAlignment="textStart"
+                    android:textSize="20sp"
+                    style="@style/EditText"
+                    android:background="@drawable/edittext_style"/>
 
-            <Button
-                android:id="@+id/backFromEditDogButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Назад"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/button_style"
-                style="@style/ButtonRadius"
-                android:textColor="@color/white"
-                android:padding="10dp"/>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_marginTop="10dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:hint="Пол"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-        </LinearLayout>
+                    <AutoCompleteTextView
+                        android:id="@+id/newSex"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:text="Самец"
+                        android:textSize="20sp"
+                        tools:ignore="LabelFor"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/completeDogEditButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:text="Редактировать"
+                    android:background="@drawable/button_style"
+                    style="@style/ButtonRadius"
+                    android:textColor="@color/white"
+                    android:padding="10dp"/>
+
+                <Button
+                    android:id="@+id/deleteDogButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Удалить"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/button_style"
+                    style="@style/ButtonRadius"
+                    android:textColor="@color/white"
+                    android:theme="@style/logout.Paws"
+                    android:padding="10dp"/>
+
+                <Button
+                    android:id="@+id/backFromEditDogButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Назад"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/button_style"
+                    style="@style/ButtonRadius"
+                    android:textColor="@color/white"
+                    android:padding="10dp"/>
+
+            </LinearLayout>
+        </ScrollView>
 
     </RelativeLayout>
 </FrameLayout>

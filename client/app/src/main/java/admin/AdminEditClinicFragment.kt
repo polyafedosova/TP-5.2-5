@@ -72,12 +72,12 @@ class AdminEditClinicFragment : Fragment() {
         val nameValue = requireArguments().getString("name")
         val phoneValue = requireArguments().getString("phone")
         val descriptionValue = requireArguments().getString("description")
-        val districtValue = requireArguments().getString("district")
+        val regionValue = requireArguments().getString("region")
         val cityValue = requireArguments().getString("city")
         val streetValue = requireArguments().getString("street")
         val houseValue = requireArguments().getString("house")
 
-        val address = "$districtValue,$cityValue,$streetValue,$houseValue"
+        val address = "$regionValue,$cityValue,$streetValue,$houseValue"
         adminEditClinicName.setText(nameValue)
         adminEditClinicPhone.setText(phoneValue)
         adminEditClinicDiscriptoin.setText(descriptionValue)
@@ -217,7 +217,9 @@ class AdminEditClinicFragment : Fragment() {
                         YandexMetrica.reportEvent("Клиника удалена")
                     }
                 } else {
-                    Toast.makeText(requireContext(), "Что-то не так, попробуйте ещё раз", Toast.LENGTH_SHORT).show()
+                    requireActivity().runOnUiThread {
+                        Toast.makeText(requireContext(), "Что-то не так, попробуйте ещё раз", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         } catch (ex: Exception) {
