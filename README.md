@@ -22,6 +22,11 @@
 # Реализация
 [Сервер](https://github.com/polyafedosova/TP-5.2-5/tree/master/dog-app/server)<br />
 [Клиент](https://github.com/polyafedosova/TP-5.2-5/tree/master/client)<br />
+[Swagger](http://2.56.242.93:4000/swagger-ui/index.html#)
+
+# Видео
+[Реализация серверной части приложения](https://youtu.be/vFrDEGRQpBo)
+[Разворачивание серверной части и базы данных](https://youtu.be/qHmUj9RP6dE)
 
 # Аттестация 2
 [Демонстрационное видео](https://disk.yandex.ru/i/J9s1b3K_-PB41A)<br />
