@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import api.Api
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.yandex.metrica.YandexMetrica
 import dto.EventDtoGet
 import retrofit2.Call
 import retrofit2.Callback
@@ -34,7 +35,7 @@ class EventsFragment : Fragment() {
         super.onCreate(savedInstanceState)
         sharedPreferencesToken = requireActivity().getSharedPreferences("userToken", Context.MODE_PRIVATE)
         sharedPreferencesLogin = requireActivity().getSharedPreferences("userLogin", Context.MODE_PRIVATE)
-
+        YandexMetrica.reportEvent("Открыт список событий")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
