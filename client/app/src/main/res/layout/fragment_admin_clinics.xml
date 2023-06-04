@@ -24,7 +24,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
-                android:text="Ветклиники"
+                android:text="Ветклиники (редактировние)"
+                android:textAlignment="center"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
