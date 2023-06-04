@@ -35,7 +35,6 @@ class MedicalFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         getAllClinics()
     }
 
@@ -52,37 +51,53 @@ class MedicalFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(activity)
         alert = view.findViewById(R.id.alert)
         alert.text = ""
+
+
+
+
         searchViewCity.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                if (query != "") {
+//                if (query != "") {
+//                    val noSpaces = query.replace(" ", "")
+//                    getClinicsByCity(noSpaces)
+//
+//                }else{
+//                    getAllClinics()
+//                }
+
+                if (query != "" && searchView.query.toString() == "") {
                     val noSpaces = query.replace(" ", "")
                     getClinicsByCity(noSpaces)
-                    searchView.setQuery("", false)
-                }else{
-                    getAllClinics()
                 }
-
+                if (query != "" && searchView.query.toString() != "") {
+                    getClinicsSortByAll(searchView.query.toString(), query)
+                }
                 return true
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-
+                if (newText == "") {
+                    getAllClinics()
+                }
                 return true
             }
         })
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                if (query != "") {
+                if (query != "" && searchViewCity.query.toString() == "") {
                     getClinicsByTreatment(query)
+                }
+                if (query != "" && searchViewCity.query.toString() != "") {
+                    getClinicsSortByAll(query, searchViewCity.query.toString())
                 }
                 return true
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                if (newText != "") {
-                    getClinicsByTreatment(newText)
-                }else{
+                if (newText == "") {
+//                    getClinicsByTreatment(newText)
+//                }else{
                     getAllClinics()
                 }
 
@@ -93,6 +108,40 @@ class MedicalFragment : Fragment() {
         return view
     }
 
+    private fun getClinicsSortByAll(treatment: String, city: String) {
+        val call = Api.getApiVetclinic().sort(treatment, city)
+
+        call.enqueue(object : Callback<List<VetclinicSortDto>> {
+            override fun onResponse(call: Call<List<VetclinicSortDto>>, response: Response<List<VetclinicSortDto>>) {
+                if (response.isSuccessful) {
+                    val dataResponse = response.body()
+                    val sortedClinics: ArrayList<VetclinicDtoGet> = ArrayList()
+                    val sortedPrices: ArrayList<BigDecimal> = ArrayList()
+
+                    if (dataResponse != null) {
+                        for(i in 0..dataResponse.size - 1) {
+                            sortedClinics.add(dataResponse[i].vetclinicDto)
+                            sortedPrices.add(dataResponse[i].minPrice)
+                        }
+                    }
+                    if (dataResponse?.size == 0) {
+                        requireActivity().runOnUiThread {
+                            Toast.makeText(requireContext(), "Клиники не найдены", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    clinicsAdapter = ClinicsAdapter(sortedClinics as MutableList<VetclinicDtoGet>, sortedPrices, treatment)
+                    recyclerView.adapter = clinicsAdapter
+
+                } else {
+                    println("response not success " + response.code())
+                }
+            }
+
+            override fun onFailure(call: Call<List<VetclinicSortDto>>, t: Throwable) {
+                println("No connect")
+            }
+        })
+    }
 
     private fun getClinicsByCity(city: String) {
         val call = Api.getApiVetclinic().sortByCity(city)
@@ -136,13 +185,14 @@ class MedicalFragment : Fragment() {
                     val dataResponse = response.body()
                     val sortedClinics: ArrayList<VetclinicDtoGet> = ArrayList()
                     val sortedPrices: ArrayList<BigDecimal> = ArrayList()
-                    println(dataResponse)
+
                     if (dataResponse != null) {
-                        for(i in 0..dataResponse.size - 1) {
+                        for(i in dataResponse.indices) {
                             sortedClinics.add(dataResponse[i].vetclinicDto)
                             sortedPrices.add(dataResponse[i].minPrice)
                         }
                     }
+                    println(sortedPrices)
                     if (dataResponse?.size == 0) {
                         requireActivity().runOnUiThread {
                             Toast.makeText(requireContext(), "Клиники не найдены", Toast.LENGTH_SHORT).show()

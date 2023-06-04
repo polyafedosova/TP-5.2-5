@@ -97,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:hint="     Услуги клиники (услуга,цена;...)"
                     android:ems="10"
-                    android:maxLength="256"
+                    android:maxLength="2048"
                     android:layout_marginTop="10dp"
                     android:gravity="start|top"
                     android:textSize="16sp"

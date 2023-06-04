@@ -38,8 +38,8 @@ class MainActivity : AppCompatActivity() {
     private var flag = false
 
     private companion object {
-        private const val SPLASH_SCREEN_DELAY = 100L
-//        private const val SPLASH_SCREEN_DELAY = 5000L
+//        private const val SPLASH_SCREEN_DELAY = 100L
+        private const val SPLASH_SCREEN_DELAY = 5000L
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

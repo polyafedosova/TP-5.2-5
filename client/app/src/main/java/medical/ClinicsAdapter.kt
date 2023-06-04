@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import api.Api
 import dto.TreatmentDtoGet
 import dto.VetclinicDtoGet
+import kotlinx.coroutines.ExecutorCoroutineDispatcher
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,38 +42,42 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>, _lowerPrice: Mut
 
     @SuppressLint("SetTextI18n", "SuspiciousIndentation")
     override fun onBindViewHolder(holder: ClinicsViewHolder, position: Int) {
-//        println(newClinics)
+        var pricesStr = ""
+        val temp = lowerPrice
+        if (lowerPrice != null) {
+            for (i in 0 until  lowerPrice!!.size) {
+                try {
+                    println("plase # - " + i + " " + lowerPrice!![i])
+                    if (i == 0) {
+                        pricesStr = "От " + temp!![i].toString() + "₽"
+                        lowerPrice!!.remove(lowerPrice!![i])
+                    }
+
+                } catch (e: Exception) {
+                            println(e)
+//                            println(i)
+                }
+            }
+            holder.clinicsPrice.text = pricesStr
+        }
+
 
         getTrearments(newClinics[position].id, object : TreatmentCallback {
             override fun onDataReceived(data: List<TreatmentDtoGet>) {
-                println(lowerPrice)
+                println("treatments - " + data)
                 if (lowerPrice == null) {
-                    val treatmentStr = ""
-                    val pricesStr = ""
-                    for (i in 0..data.size - 1) {
-//                        treatmentStr += data[i].name + " "
-//                        pricesStr += data[i].price.toString() + " "
-                    }
-                    holder.clinicsPrice.text = pricesStr
-                    holder.clinicsPreviewTreatment.text = treatmentStr
+
                 }else {
                     var treatmentStr = ""
-                    var pricesStr = ""
-                    try {
-                        for (i in 0..data.size - 1) {
-                            if (data[i].name.lowercase().contains(treatment.lowercase())){
-                                treatmentStr += data[i].name + '|'
-                            }
-
-                            pricesStr = "От " + lowerPrice!![i].toString() + "₽"
-                            lowerPrice!!.remove(lowerPrice!![i])
+                    println("treatment -" + treatment)
+                    for (i in 0..data.size - 1) {
+                        if (data[i].name.lowercase().contains(treatment.lowercase())){
+                            treatmentStr += data[i].name + '|'
                         }
-                    } catch (ex: Exception) {
-                        println(ex)
                     }
 
-                    holder.clinicsPrice.text = pricesStr
                     holder.clinicsPreviewTreatment.text = treatmentStr
+
                 }
 
             }
