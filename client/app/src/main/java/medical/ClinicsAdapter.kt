@@ -47,7 +47,6 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>, _lowerPrice: Mut
         if (lowerPrice != null) {
             for (i in 0 until  lowerPrice!!.size) {
                 try {
-                    println("plase # - " + i + " " + lowerPrice!![i])
                     if (i == 0) {
                         pricesStr = "От " + temp!![i].toString() + "₽"
                         lowerPrice!!.remove(lowerPrice!![i])
@@ -63,12 +62,10 @@ class ClinicsAdapter(_newClinics: MutableList<VetclinicDtoGet>, _lowerPrice: Mut
 
         getTrearments(newClinics[position].id, object : TreatmentCallback {
             override fun onDataReceived(data: List<TreatmentDtoGet>) {
-                println("treatments - " + data)
                 if (lowerPrice == null) {
 
                 }else {
                     var treatmentStr = ""
-                    println("treatment -" + treatment)
                     for (i in 0..data.size - 1) {
                         if (data[i].name.lowercase().contains(treatment.lowercase())){
                             treatmentStr += data[i].name + '|'
