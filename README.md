@@ -37,6 +37,7 @@
 [Клиент](https://github.com/polyafedosova/TP-5.2-5/tree/master/client)<br />
 
 # Видео
+[Презентация проекта](https://youtu.be/bxfYn_KmGG0)<br />
 [Реализация серверной части приложения](https://youtu.be/vFrDEGRQpBo)<br />
 [Реализация клиентской части приложения](https://youtu.be/X2zEGx3l13c)<br />
 [Разворачивание серверной части и базы данных](https://youtu.be/qHmUj9RP6dE)<br />
