@@ -1,19 +1,15 @@
 package onboard
 
-import android.graphics.Bitmap
-import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import interfaces.GlobalConfigInterface
-import interfaces.OwnerInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,7 +21,7 @@ import ru.vsu.cs.tp.paws.R
 class OnboardFragmentFirst : Fragment() {
 
     private lateinit var onboartTextPlace: TextView
-    private lateinit var onboardNextButton: Button
+    private lateinit var onboardNextButton: FloatingActionButton
     private lateinit var imgOnboardPlace: ImageView
     private lateinit var title: TextView
 
@@ -33,8 +29,6 @@ class OnboardFragmentFirst : Fragment() {
         .baseUrl("http://2.56.242.93:4000")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-
-    private var bitStr = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,21 +44,15 @@ class OnboardFragmentFirst : Fragment() {
         onboardNextButton = view.findViewById(R.id.onboardNextButton)
         imgOnboardPlace = view.findViewById(R.id.imgOnboardPlace)
 
+        val viewPager = activity?.findViewById<ViewPager2>(R.id.view_pager)
+
         onboardNextButton.setOnClickListener {
-            findNavController().navigate(R.id.action_onboardFragmentFirst_to_onboardFragmentSecond)
+            viewPager?.currentItem = 1
         }
+
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        onboartTextPlace
-        try {
-            convertBitStringToImage(bitStr, imgOnboardPlace)
-        } catch (ex: Exception) { ex.stackTrace }
-
-    }
 
     private fun getGlobalConfig() {
         val api = retrofit.create(GlobalConfigInterface::class.java)
@@ -73,35 +61,17 @@ class OnboardFragmentFirst : Fragment() {
                 val response = api.getAll().execute()
                 if (response.isSuccessful) {
                     requireActivity().runOnUiThread {
-                        title.text = response.body()?.get(1)?.title
-                        onboartTextPlace.text = response.body()?.get(1)?.text
+                        title.text = response.body()?.get(2)?.title
+                        onboartTextPlace.text = response.body()?.get(2)?.text
+                        title.visibility = View.VISIBLE
+                        onboartTextPlace.visibility = View.VISIBLE
+
                     }
-
                 }
-
             }
         } catch (ex: Exception) {
             ex.stackTrace
         }
-    }
-
-    private fun convertBitStringToImage(bitString: String, imageView: ImageView) {
-        val width = 200
-        val height = bitString.length / width
-
-        val pixels = IntArray(width * height)
-        var pixelIndex = 0
-
-        for (i in 0 until bitString.length step 8) {
-            val byteString = bitString.substring(i, i + 8)
-            val pixelValue = Integer.parseInt(byteString, 2)
-            val pixelColor = Color.rgb(pixelValue, pixelValue, pixelValue)
-            pixels[pixelIndex] = pixelColor
-            pixelIndex++
-        }
-
-        val bitmap = Bitmap.createBitmap(pixels, width, height, Bitmap.Config.ARGB_8888)
-        imageView.setImageBitmap(bitmap)
     }
 
 }

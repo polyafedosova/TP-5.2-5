@@ -206,11 +206,25 @@
         android:label="fragment_onboard_second"
         tools:layout="@layout/fragment_onboard_second" >
         <action
-            app:popUpTo="@id/medicalFragment"
-            app:popUpToInclusive="true"
-            android:id="@+id/action_onboardFragmentSecond_to_medicalFragment"
+            android:id="@+id/action_onboardFragmentSecond_to_onboardFragmentThird"
+            app:destination="@id/onboardFragmentThird" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewPagerFragment"
+        android:name="onboard.ViewPagerFragment"
+        android:label="fragment_view_pager"
+        tools:layout="@layout/fragment_view_pager" >
+        <action
+            android:id="@+id/action_viewPagerFragment_to_onboardFragmentFirst"
+            app:destination="@id/onboardFragmentFirst" />
+        <action
+            android:id="@+id/action_viewPagerFragment_to_medicalFragment"
             app:destination="@id/medicalFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/onboardFragmentThird"
+        android:name="onboard.OnboardFragmentThird"
+        android:label="OnboardFragmentThird" />
 
 
 </navigation>

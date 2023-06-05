@@ -7,15 +7,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="15dp"
-        android:paddingRight="30dp"
-        android:paddingLeft="30dp"
-        android:layout_margin="10dp"
         android:background="@color/white">
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingTop="15dp"
+            android:paddingRight="30dp"
+            android:paddingLeft="30dp">
 
             <LinearLayout
                 android:layout_width="match_parent"

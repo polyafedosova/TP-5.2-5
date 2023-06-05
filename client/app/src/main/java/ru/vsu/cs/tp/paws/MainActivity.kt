@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun firstStart() {
         binding.bottomNav.visibility = View.INVISIBLE
-        navController.navigate(R.id.onboardFragmentFirst)
+        navController.navigate(R.id.viewPagerFragment)
     }
 
     private fun setSplashScreen() {

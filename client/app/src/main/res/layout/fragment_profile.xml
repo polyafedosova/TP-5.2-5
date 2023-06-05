@@ -9,14 +9,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="15dp"
         android:background="@color/white">
-
-
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="15dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -28,7 +26,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter"
-                    android:text="Имя"
                     android:layout_marginTop="10dp"
                     android:textAlignment="center"
                     android:textColor="@color/new_purple"

@@ -7,12 +7,12 @@
     tools:context="splash.SplashFragment">
 
     <ImageView
-        android:id="@+id/imgOnboardPlace"
+        android:id="@+id/imgOnboardPlace3"
         android:layout_width="350dp"
         android:layout_height="350dp"
+        android:src="@drawable/splash3"
         android:visibility="visible"
         android:layout_marginTop="20dp"
-        android:src="@drawable/splash1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,7 +26,7 @@
         android:textSize="22sp"
         android:textStyle="bold"
         android:layout_marginTop="70dp"
-        app:layout_constraintTop_toBottomOf="@+id/imgOnboardPlace" />
+        app:layout_constraintTop_toBottomOf="@+id/imgOnboardPlace3" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
         app:layout_constraintTop_toBottomOf="@+id/title">
 
         <TextView
-            android:id="@+id/onboartTextPlace"
+            android:id="@+id/onboartTextPlace3"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -47,17 +47,17 @@
 
     </ScrollView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/onboardNextButton"
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/onboardCompleteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="start|bottom"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="10dp"
+        android:text="Начать"
+        android:textAlignment="center"
         android:clickable="true"
-        android:src="@drawable/next_24"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@color/white" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
