@@ -27,7 +27,7 @@
 [Курсовая работа](https://github.com/polyafedosova/TP-5.2-5/blob/master/Documentation/%D0%9A%D1%83%D1%80%D1%81%D0%BE%D0%B2%D0%B0%D1%8F%20%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0.pdf)<br />
 [Техническое задание](https://github.com/polyafedosova/TP-5.2-5/blob/master/Documentation/%D0%A2%D0%B5%D1%85%D0%BD%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B5%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5.pdf)<br />
 [Диаграммы](https://github.com/polyafedosova/TP-5.2-5/tree/master/Documentation/Diagrams)<br />
-[Презентация](https://github.com/polyafedosova/TP-5.2-5/blob/master/Documentation/%D0%9F%D1%80%D0%B5%D0%B7%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D1%8F.pptx)<br />
+[Презентация](https://github.com/polyafedosova/TP-5.2-5/tree/master/Documentation/%D0%9F%D1%80%D0%B5%D0%B7%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D1%8F)<br />
 
 # Аналитика
 [Аналитика приложения](https://github.com/polyafedosova/TP-5.2-5/blob/master/Documentation/%D0%90%D0%BD%D0%B0%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0/%D0%90%D0%BD%D0%B0%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F.pdf)<br />
@@ -44,3 +44,17 @@
 # Аттестация №2
 [Демонстрационное видео](https://disk.yandex.ru/i/J9s1b3K_-PB41A)<br />
 [Скриншоты экранов приложения](https://github.com/polyafedosova/TP-5.2-5/tree/master/screenshots)<br />
+
+# Архитектура
+Мобильное приложение основано на трехуровневой архитектуре (клиент - сервер - база данных), которая обеспечивает взаимодействие между клиентской и серверной частями приложения.<br />
+Клиентская часть приложения реализовывалась с использованием паттерна Single Activity.<br />
+Серверная часть приложения реализовывалась с использованием паттерна Model - View - Controller.
+
+# Данные для демонстрации работы
+Администратор
+* password: "Admin123*",
+* username": "admin"<br />
+
+Обычный пользователь:
+* password: "User123*",
+* username": "user1"
