@@ -19,7 +19,6 @@ import ru.vsu.dogapp.repository.OwnerRepository;
 import javax.transaction.Transactional;
 
 import java.util.Collections;
-import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -93,7 +92,7 @@ class OwnerServiceTest extends IntegrationEnvironment {
     @Transactional
     @Rollback
     @Test
-    void updatePassword() {
+    void updatePasswordTest() {
         Owner owner = new Owner(2,"Posix", "Abcd123*@", "Polina", true, Collections.singleton(Role.USER));
 
         repository.save(owner);
@@ -109,9 +108,9 @@ class OwnerServiceTest extends IntegrationEnvironment {
     @Transactional
     @Rollback
     @Test
-    void delete() {
-        Owner owner = new Owner(2,"Posix", "Abcd123*@", "Polina", true, Collections.singleton(Role.USER));
-        Owner owner1 = new Owner(3,"Maxon", "Abcd123*@", "Max", true, Collections.singleton(Role.USER));
+    void deleteTest() {
+        Owner owner = new Owner(null,"Posix", "Abcd123*@", "Polina", true, Collections.singleton(Role.USER));
+        Owner owner1 = new Owner(null,"Maxon", "Abcd123*@", "Max", true, Collections.singleton(Role.USER));
 
         service.save(mapper.toDto(owner));
         service.save(mapper.toDto(owner1));
@@ -128,7 +127,7 @@ class OwnerServiceTest extends IntegrationEnvironment {
     @Transactional
     @Rollback
     @Test
-    void find() {
+    void findTest() {
         Owner owner = new Owner(2,"Posix", "Abcd123*@", "Polina", true, Collections.singleton(Role.USER));
 
         repository.save(owner);
@@ -143,7 +142,7 @@ class OwnerServiceTest extends IntegrationEnvironment {
     @Transactional
     @Rollback
     @Test
-    void changeShowAll() {
+    void changeShowAllTest() {
 
         Owner owner = new Owner(2,"Posix", "Abcd123*@", "Polina", false, Collections.singleton(Role.USER));
         Owner owner1 = new Owner(3,"Maxon", "Abcd123*@", "Max", false, Collections.singleton(Role.USER));
@@ -167,7 +166,7 @@ class OwnerServiceTest extends IntegrationEnvironment {
     @Transactional
     @Rollback
     @Test
-    void changeShow() {
+    void changeShowTest() {
         Owner owner = new Owner(2,"Posix", "Abcd123*@", "Polina", false, Collections.singleton(Role.USER));
         repository.save(owner);
 

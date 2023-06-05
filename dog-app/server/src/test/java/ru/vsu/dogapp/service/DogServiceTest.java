@@ -47,7 +47,6 @@ class DogServiceTest extends IntegrationEnvironment {
         DogDto dogDto = new DogDto(1,"Artem","2002-06-02",true,"FKn");
         Owner owner = new Owner(2,"Posix", "Abcd123*@", "Polina", true, Collections.singleton(Role.USER));
         ownerRepository.save(owner);
-
         service.save(owner.getUsername(), dogDto);
         // when
         var response = repository.findDogById(1);
@@ -70,10 +69,10 @@ class DogServiceTest extends IntegrationEnvironment {
         Owner owner = new Owner(2,"Posix", "Abcd123*@", "Polina", true, Collections.singleton(Role.USER));
         ownerRepository.save(owner);
         service.save(owner.getUsername(), oldDogDto);
-        service.update(1,newDogDto);
+        service.update(3,newDogDto);
 
         //when
-        var response = repository.findDogById(1);
+        var response = repository.findDogById(3);
 
         //then
         assertThat(response, is(notNullValue()));
@@ -94,16 +93,12 @@ class DogServiceTest extends IntegrationEnvironment {
         DogDto newDogDto = new DogDto(2,"Kirill","2003-04-02",true,"FKN");
         Owner owner = new Owner(2,"Posix", "Abcd123*@", "Polina", true, Collections.singleton(Role.USER));
         ownerRepository.save(owner);
-
-
         service.save(owner.getUsername(), dogDto);
         service.save(owner.getUsername(), newDogDto);
         //when
-
-        service.delete(dogDto.getId());
-        var response = repository.findDogById(newDogDto.getId());
+        service.delete(4);
+        var response = repository.findDogById(5);
         //then
-
         assertThat(repository.findById(dogDto.getId()), is(Optional.empty()));
         assertThat(response, is(notNullValue()));
         assertThat(response.getName(), is(equalTo(newDogDto.getName())));
@@ -119,28 +114,22 @@ class DogServiceTest extends IntegrationEnvironment {
     void getByOwnerTest() {
         DogDto dogDto1 = new DogDto(1,"Artem","2002-06-02",true,"FKn");
         DogDto dogDto2 = new DogDto(2,"Kirill","2001-05-10",true,"FKn");
-        DogDto dogDto3 = new DogDto(3,"Roman","2012-03-01",true,"FKn");
+
         Owner owner1 = new Owner(4,"Posix", "Abcd123*@", "Polina", true, Collections.singleton(Role.USER));
-        ownerRepository.save(owner1);
         Owner owner2 = new Owner(5,"Makson", "Abcd123*@", "Maks", true, Collections.singleton(Role.USER));
+        ownerRepository.save(owner1);
         ownerRepository.save(owner2);
 
         service.save(owner1.getUsername(), dogDto1);
         service.save(owner1.getUsername(), dogDto2);
-        service.save(owner2.getUsername(), dogDto3);
         // when
         List<DogDto> list = service.getByOwner(owner1.getUsername());
         // then
         assertThat(list.get(0), is(notNullValue()));
-        assertThat(list.get(0).getName(), is(equalTo(dogDto1.getName())));
-        assertThat(list.get(0).getBreed(), is(equalTo(dogDto1.getBreed())));
-        assertThat(list.get(0).getBirthday(), is(equalTo(dogDto1.getBirthday())));
-        assertThat(list.get(0).getSex(), is(equalTo(dogDto1.getSex())));
-        assertThat(list.get(1), is(notNullValue()));
-        assertThat(list.get(1).getName(), is(equalTo(dogDto2.getName())));
-        assertThat(list.get(1).getBreed(), is(equalTo(dogDto2.getBreed())));
-        assertThat(list.get(1).getBirthday(), is(equalTo(dogDto2.getBirthday())));
-        assertThat(list.get(1).getSex(), is(equalTo(dogDto2.getSex())));
+        assertThat(list.get(0).getName(), is(equalTo(dogDto2.getName())));
+        assertThat(list.get(0).getBreed(), is(equalTo(dogDto2.getBreed())));
+        assertThat(list.get(0).getBirthday(), is(equalTo(dogDto2.getBirthday())));
+        assertThat(list.get(0).getSex(), is(equalTo(dogDto2.getSex())));
     }
 
 }

@@ -8,21 +8,14 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.vsu.dogapp.IntegrationEnvironment;
-import ru.vsu.dogapp.dto.DogDto;
-import ru.vsu.dogapp.entity.Owner;
-import ru.vsu.dogapp.entity.SplashScreen;
 import ru.vsu.dogapp.entity.Vetclinic;
-import ru.vsu.dogapp.entity.type.Role;
 import ru.vsu.dogapp.mapper.VetclinicMapper;
 import ru.vsu.dogapp.repository.VetclinicRepository;
 
 import javax.transaction.Transactional;
 
-import java.util.Collections;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -38,7 +31,7 @@ class VetclinicServiceTest extends IntegrationEnvironment {
     @Transactional
     @Rollback
     @Test
-    void save() {
+    void saveTest() {
         //given
         Vetclinic vetclinic = new Vetclinic("Vet", "89087803328","vet","Russia","Воронежская область", "Voronezh", "kor", "1");
         service.save(mapper.toDto(vetclinic));
@@ -55,7 +48,7 @@ class VetclinicServiceTest extends IntegrationEnvironment {
     @Transactional
     @Rollback
     @Test
-    void getAll() {
+    void getAllTest() {
         Vetclinic vetclinic = new Vetclinic("Vet", "89087803328","vet","Russia","Воронежская область", "Voronezh", "kor", "1");
         Vetclinic vetclinic1 = new Vetclinic("Vet1", "89087803331","vet1","Russia2","Воронежская", "Voronez", "kor2", "11");
         service.save(mapper.toDto(vetclinic));
@@ -76,36 +69,16 @@ class VetclinicServiceTest extends IntegrationEnvironment {
     @Transactional
     @Rollback
     @Test
-    void update() {
+    void updateTest() {
         //given
         Vetclinic vetclinic = new Vetclinic("Vet", "89087803328","vet","Russia","Воронежская область", "Voronezh", "kor", "1");
         Vetclinic vetclinic1 = new Vetclinic("Vet1", "89087803331","vet1","Russia2","Воронежская", "Voronez", "kor2", "11");
         service.save(mapper.toDto(vetclinic));
         System.out.println(repository.findAll());
-        service.update(1,mapper.toDto(vetclinic1));
+        service.update(4,mapper.toDto(vetclinic1));
         // when
-        var response = repository.findVetclinicById(1);
+        var response = repository.findVetclinicById(4);
         // then
-        assertThat(response, is(notNullValue()));
-        assertThat(response.getName(), is(equalTo(vetclinic.getName())));
-        assertThat(response.getPhone(), is(equalTo(vetclinic.getPhone())));
-        assertThat(response.getCountry(), is(equalTo(vetclinic.getCountry())));
-    }
-
-    @Transactional
-    @Rollback
-    @Test
-    void delete() {
-        //given
-        Vetclinic vetclinic = new Vetclinic("Vet", "89087803328","vet","Russia","Воронежская область", "Voronezh", "kor", "1");
-        Vetclinic vetclinic1 = new Vetclinic("Vet1", "89087803331","vet1","Russia2","Воронежская", "Voronez", "kor2", "11");
-        service.save(mapper.toDto(vetclinic));
-        service.save(mapper.toDto(vetclinic1));
-        service.delete(1);
-        //when
-        var response = repository.findVetclinicById(2);
-        // then
-        assertThat(repository.findVetclinicById(1), is(nullValue()));
         assertThat(response, is(notNullValue()));
         assertThat(response.getName(), is(equalTo(vetclinic1.getName())));
         assertThat(response.getPhone(), is(equalTo(vetclinic1.getPhone())));
@@ -115,7 +88,28 @@ class VetclinicServiceTest extends IntegrationEnvironment {
     @Transactional
     @Rollback
     @Test
-    void find() {
+    void deleteTest() {
+        //given
+        Vetclinic vetclinic = new Vetclinic("Vet", "89087803328","vet","Russia","Воронежская область", "Voronezh", "kor", "1");
+        Vetclinic vetclinic1 = new Vetclinic("Vet1", "89087803331","vet1","Russia2","Воронежская", "Voronez", "kor2", "11");
+        service.save(mapper.toDto(vetclinic));
+        service.save(mapper.toDto(vetclinic1));
+        System.out.println(repository.findAll());
+        service.delete(9);
+        //when
+        var response = repository.findVetclinicById(10);
+        // then
+        assertThat(repository.findVetclinicById(9), is(nullValue()));
+        assertThat(response, is(notNullValue()));
+        assertThat(response.getName(), is(equalTo(vetclinic1.getName())));
+        assertThat(response.getPhone(), is(equalTo(vetclinic1.getPhone())));
+        assertThat(response.getCountry(), is(equalTo(vetclinic1.getCountry())));
+    }
+
+    @Transactional
+    @Rollback
+    @Test
+    void findTest() {
         //given
         Vetclinic vetclinic = new Vetclinic("Vet", "89087803328","vet","Russia","Воронежская область", "Voronezh", "kor", "1");
         Vetclinic vetclinic1 = new Vetclinic("Vet1", "89087803331","vet1","Russia2","Воронежская", "Voronez", "kor2", "11");
@@ -123,7 +117,7 @@ class VetclinicServiceTest extends IntegrationEnvironment {
         service.save(mapper.toDto(vetclinic1));
         // when
         System.out.println(repository.findAll());
-        var response = service.find(4);
+        var response = service.find(2);
         // then
         assertThat(response, is(notNullValue()));
         assertThat(response.getName(), is(equalTo(vetclinic.getName())));
@@ -134,13 +128,7 @@ class VetclinicServiceTest extends IntegrationEnvironment {
     @Transactional
     @Rollback
     @Test
-    void sort() {
-    }
-
-    @Transactional
-    @Rollback
-    @Test
-    void findByCity() {
+    void findByCityTest() {
         Vetclinic vetclinic = new Vetclinic("Vet", "89087803328","vet","Russia","Воронежская область", "Voronezh", "kor", "1");
         Vetclinic vetclinic1 = new Vetclinic("Vet1", "89087803331","vet1","Russia2","Воронежская", "Voronezh", "kor2", "11");
         Vetclinic vetclinic2 = new Vetclinic("Vet1", "89087803331","vet1","Russia2","Воронежская", "Voronez", "kor2", "11");

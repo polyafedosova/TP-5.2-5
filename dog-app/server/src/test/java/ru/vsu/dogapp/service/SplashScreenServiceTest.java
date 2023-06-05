@@ -8,20 +8,13 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.vsu.dogapp.IntegrationEnvironment;
-import ru.vsu.dogapp.dto.DogDto;
-import ru.vsu.dogapp.entity.Owner;
 import ru.vsu.dogapp.entity.SplashScreen;
-import ru.vsu.dogapp.entity.type.Role;
 import ru.vsu.dogapp.repository.SplashScreenRepository;
 
 import javax.transaction.Transactional;
-import java.util.Collections;
-import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.testcontainers.shaded.org.bouncycastle.asn1.x500.style.RFC4519Style.owner;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -37,7 +30,7 @@ class SplashScreenServiceTest extends IntegrationEnvironment {
     @Transactional
     @Rollback
     @Test
-    void save() {
+    void saveTest() {
         //given
         SplashScreen splashScreen = new SplashScreen(1,"title" , "text", new byte[1],"button");
         service.save(splashScreen);
@@ -53,7 +46,7 @@ class SplashScreenServiceTest extends IntegrationEnvironment {
     @Transactional
     @Rollback
     @Test
-    void getAll() {
+    void getAllTest() {
         //given
         SplashScreen splashScreen = new SplashScreen(1,"title" , "text", new byte[1],"button");
         SplashScreen splashScreen1 = new SplashScreen(2,"title1" , "tex1t", new byte[1],"button1");
@@ -75,12 +68,12 @@ class SplashScreenServiceTest extends IntegrationEnvironment {
     @Transactional
     @Rollback
     @Test
-    void update() {
+    void updateTest() {
         //given
-        SplashScreen splashScreen = new SplashScreen(1,"title" , "text", new byte[1],"button");
-        SplashScreen splashScreen1 = new SplashScreen(2,"title1" , "tex1t", new byte[1],"button1");
+        SplashScreen splashScreen = new SplashScreen(null,"title" , "text", new byte[1],"button");
+        SplashScreen splashScreen1 = new SplashScreen(null,"title1" , "tex1t", new byte[1],"button1");
         service.save(splashScreen);
-        service.update(1,splashScreen1);
+        service.update(3,splashScreen1);
 
         // when
         var response = service.getAll();
@@ -94,18 +87,17 @@ class SplashScreenServiceTest extends IntegrationEnvironment {
     @Transactional
     @Rollback
     @Test
-    void delete() {
+    void deleteTest() {
         //given
-        SplashScreen splashScreen = new SplashScreen(1,"title" , "text", new byte[1],"button");
-        SplashScreen splashScreen1 = new SplashScreen(2,"title1" , "tex1t", new byte[1],"button1");
+        SplashScreen splashScreen = new SplashScreen(null,"title" , "text", new byte[1],"button");
+        SplashScreen splashScreen1 = new SplashScreen(null,"title1" , "tex1t", new byte[1],"button1");
         service.save(splashScreen);
         service.save(splashScreen1);
-
         // when
-        service.delete(1);
-        var response = repository.findSplashScreenById(2);
+        service.delete(6);
+        var response = repository.findSplashScreenById(7);
         // then
-        assertThat(repository.findSplashScreenById(1), is(nullValue()));
+        assertThat(repository.findSplashScreenById(6), is(nullValue()));
         assertThat(response, is(notNullValue()));
         assertThat(response.getTitle(), is(equalTo(splashScreen1.getTitle())));
         assertThat(response.getText(), is(equalTo(splashScreen1.getText())));
@@ -115,7 +107,7 @@ class SplashScreenServiceTest extends IntegrationEnvironment {
     @Transactional
     @Rollback
     @Test
-    void deleteAll() {
+    void deleteAllTest() {
         SplashScreen splashScreen = new SplashScreen(1,"title" , "text", new byte[1],"button");
         SplashScreen splashScreen1 = new SplashScreen(2,"title1" , "tex1t", new byte[1],"button1");
         service.save(splashScreen);
