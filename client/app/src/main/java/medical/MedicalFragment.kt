@@ -1,174 +1,237 @@
 package medical
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import android.widget.AdapterView.OnItemClickListener
-import android.widget.ArrayAdapter
 import android.widget.ListView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import api.Api
 
-import interfaces.VetclinicApi
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-
+import dto.VetclinicDtoGet
+import dto.VetclinicSortDto
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import ru.vsu.cs.tp.paws.MainActivity
 import ru.vsu.cs.tp.paws.R
+import java.math.BigDecimal
 
 
 class MedicalFragment : Fragment() {
 
-
-    private lateinit var searchView: SearchView
+    lateinit var searchView: SearchView
     private lateinit var searchViewCity: SearchView
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var clinicsAdapter: ClinicsAdapter
-    private lateinit var currentQuery: String
+    lateinit var recyclerView: RecyclerView
+    var clinicsAdapter: ClinicsAdapter? = null
     private lateinit var listView: ListView
     private lateinit var listViewCity: ListView
+    private lateinit var alert: TextView
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getAllClinics()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View {
-        var view: View = inflater.inflate(R.layout.fragment_medical, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_medical, container, false)
 
-        searchView = view.findViewById(R.id.search_widget)
+        searchView = view.findViewById(R.id.search_treatment)
+
         searchViewCity = view.findViewById(R.id.search_widget_city)
         listView = view.findViewById<ListView>(R.id.list_item)
         listViewCity = view.findViewById<ListView>(R.id.list_item_city)
 
         recyclerView = view.findViewById(R.id.recycler_events)
         recyclerView.layoutManager = LinearLayoutManager(activity)
+        alert = view.findViewById(R.id.alert)
+        alert.text = ""
 
 
-//        val api = retrofit.create(VetclinicApi::class.java)
 
-
-        clinicsAdapter = ClinicsAdapter(getDataClinics() as MutableList<ClinicsModel>)
-        recyclerView.adapter = clinicsAdapter
-
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val list = api.getAllVetclinics().execute().body()
-//            clinicsAdapter.addClinics(list)
-//        }
-
-
-        var adapterSearch = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, getDataSearch())
-        var adapterSearchCity = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, getDataCity())
-
-        view.setOnClickListener { v ->
-            val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(v.windowToken, 0)
-            searchView.clearFocus()
-            searchViewCity.clearFocus()
-        }
-
-
-        //--------------------------ПОИСК ПО УСЛУГАМ-----------------------------------------
-        searchView.setOnQueryTextFocusChangeListener { v, hasFocus ->
-            if (hasFocus) {
-                listView.visibility = View.VISIBLE
-                listView.adapter = adapterSearch
-            } else {
-                listView.visibility = View.GONE
-            }
-        }
-
-        listView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
-                currentQuery = listView.getItemAtPosition(position) as String
-                searchView.setQuery(currentQuery, false)
-                searchView.clearFocus()
-                listView.visibility = View.GONE
-            }
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                adapterSearch.filter.filter(query)
-                clinicsAdapter.filter.filter(query)
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                adapterSearch.filter.filter(newText)
-                clinicsAdapter.filter.filter(newText)
-                listView.visibility = View.VISIBLE
-                return true
-            }
-        })
-
-        searchViewCity.setOnQueryTextFocusChangeListener { v, hasFocus ->
-            if (hasFocus) {
-                listViewCity.visibility = View.VISIBLE
-                listViewCity.adapter = adapterSearchCity
-            } else {
-                listViewCity.visibility = View.GONE
-            }
-        }
-
-        listViewCity.onItemClickListener = OnItemClickListener { parent, view, position, id ->
-                currentQuery = listViewCity.getItemAtPosition(position) as String
-                searchViewCity.setQuery(currentQuery, false)
-                searchViewCity.clearFocus()
-                listViewCity.visibility = View.GONE
-            }
 
         searchViewCity.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                adapterSearchCity.filter.filter(query)
-                clinicsAdapter.filter.filter(query)
-                return false
+//                if (query != "") {
+//                    val noSpaces = query.replace(" ", "")
+//                    getClinicsByCity(noSpaces)
+//
+//                }else{
+//                    getAllClinics()
+//                }
+
+                if (query != "" && searchView.query.toString() == "") {
+                    val noSpaces = query.replace(" ", "")
+                    getClinicsByCity(noSpaces)
+                }
+                if (query != "" && searchView.query.toString() != "") {
+                    getClinicsSortByAll(searchView.query.toString(), query)
+                }
+                return true
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                adapterSearchCity.filter.filter(newText)
-                clinicsAdapter.filter.filter(newText)
-                listViewCity.visibility = View.VISIBLE
+                if (newText == "") {
+                    getAllClinics()
+                }
                 return true
             }
         })
 
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                if (query != "" && searchViewCity.query.toString() == "") {
+                    getClinicsByTreatment(query)
+                }
+                if (query != "" && searchViewCity.query.toString() != "") {
+                    getClinicsSortByAll(query, searchViewCity.query.toString())
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                if (newText == "") {
+//                    getClinicsByTreatment(newText)
+//                }else{
+                    getAllClinics()
+                }
+
+                return true
+            }
+        })
 
         return view
     }
 
+    private fun getClinicsSortByAll(treatment: String, city: String) {
+        val call = Api.getApiVetclinic().sort(treatment, city)
 
-    private fun getDataSearch(): MutableList<String> {
-        val data: MutableList<String> = java.util.ArrayList()
-        data.add("Предоперационный эхо скрининг сердца")
-        data.add("УЗИ брюшной полости")
-        data.add("Полное обследование сердца")
-        data.add("Мочеполовая система")
-        data.add("Диагностика беременности")
-        return data
+        call.enqueue(object : Callback<List<VetclinicSortDto>> {
+            override fun onResponse(call: Call<List<VetclinicSortDto>>, response: Response<List<VetclinicSortDto>>) {
+                if (response.isSuccessful) {
+                    val dataResponse = response.body()
+                    val sortedClinics: ArrayList<VetclinicDtoGet> = ArrayList()
+                    val sortedPrices: ArrayList<BigDecimal> = ArrayList()
+
+                    if (dataResponse != null) {
+                        for(i in 0..dataResponse.size - 1) {
+                            sortedClinics.add(dataResponse[i].vetclinicDto)
+                            sortedPrices.add(dataResponse[i].minPrice)
+                        }
+                    }
+                    if (dataResponse?.size == 0) {
+                        requireActivity().runOnUiThread {
+                            Toast.makeText(requireContext(), "Клиники не найдены", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    clinicsAdapter = ClinicsAdapter(sortedClinics as MutableList<VetclinicDtoGet>, sortedPrices, treatment)
+                    recyclerView.adapter = clinicsAdapter
+
+                } else {
+                    println("response not success " + response.code())
+                }
+            }
+
+            override fun onFailure(call: Call<List<VetclinicSortDto>>, t: Throwable) {
+                println("No connect")
+            }
+        })
     }
 
-    private fun getDataCity(): List<String> {
-        val city: MutableList<String> = ArrayList()
-        city.add("Новосибирск")
-        city.add("Екатеринбург")
-        city.add("Нижний Новгород")
-        city.add("Санкт-Петербург")
-        city.add("Москва")
-        return city
+    private fun getClinicsByCity(city: String) {
+        val call = Api.getApiVetclinic().sortByCity(city)
+
+        call.enqueue(object : Callback<List<VetclinicDtoGet>> {
+            override fun onResponse(call: Call<List<VetclinicDtoGet>>, response: Response<List<VetclinicDtoGet>>) {
+                if (response.isSuccessful) {
+                    val dataResponse = response.body()
+                    val sortedClinics: ArrayList<VetclinicDtoGet> = ArrayList()
+
+                    if (dataResponse != null) {
+                        if (dataResponse.size == 0) {
+                            requireActivity().runOnUiThread {
+                                Toast.makeText(requireContext(), "Клиники не найдены", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        for(i in 0..dataResponse.size - 1) {
+                            sortedClinics.add(dataResponse[i])
+                        }
+                    }
+                    clinicsAdapter = ClinicsAdapter(sortedClinics as MutableList<VetclinicDtoGet>, null, "")
+                    recyclerView.adapter = clinicsAdapter
+
+                } else {
+                    println("response not success " + response.code())
+                }
+            }
+
+            override fun onFailure(call: Call<List<VetclinicDtoGet>>, t: Throwable) {
+                println("No connect")
+            }
+        })
     }
 
-    private fun getDataClinics(): List<ClinicsModel> {
+    private fun getClinicsByTreatment(treatment: String) {
+        val call = Api.getApiVetclinic().sort(treatment, null)
 
-        val listClinics: MutableList<ClinicsModel> = java.util.ArrayList()
-        listClinics.add(ClinicsModel(1, "Лаповое","Диагностика сердца", "Воронеж", "60"))
-        listClinics.add(ClinicsModel(2, "Название 2","УЗИ", "Москва", "100"))
+        call.enqueue(object : Callback<List<VetclinicSortDto>> {
+            override fun onResponse(call: Call<List<VetclinicSortDto>>, response: Response<List<VetclinicSortDto>>) {
+                if (response.isSuccessful) {
+                    val dataResponse = response.body()
+                    val sortedClinics: ArrayList<VetclinicDtoGet> = ArrayList()
+                    val sortedPrices: ArrayList<BigDecimal> = ArrayList()
 
-        return listClinics
+                    if (dataResponse != null) {
+                        for(i in dataResponse.indices) {
+                            sortedClinics.add(dataResponse[i].vetclinicDto)
+                            sortedPrices.add(dataResponse[i].minPrice)
+                        }
+                    }
+                    println(sortedPrices)
+                    if (dataResponse?.size == 0) {
+                        requireActivity().runOnUiThread {
+                            Toast.makeText(requireContext(), "Клиники не найдены", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    clinicsAdapter = ClinicsAdapter(sortedClinics as MutableList<VetclinicDtoGet>, sortedPrices, treatment)
+                    recyclerView.adapter = clinicsAdapter
+
+                } else {
+                    println("response not success " + response.code())
+                }
+            }
+
+            override fun onFailure(call: Call<List<VetclinicSortDto>>, t: Throwable) {
+                println("No connect")
+            }
+        })
+    }
+    fun getAllClinics() {
+        val call = Api.getApiVetclinic().getAllVetclinics()
+        call.enqueue(object : Callback<List<VetclinicDtoGet>> {
+            override fun onResponse(call: Call<List<VetclinicDtoGet>>, response: Response<List<VetclinicDtoGet>>) {
+                if (response.isSuccessful) {
+                    val dataResponse = response.body()
+                    if (dataResponse?.size == 0) {
+                        alert.text = "Клиник пока нет"
+                    }
+                    clinicsAdapter = ClinicsAdapter(dataResponse as MutableList<VetclinicDtoGet>, null, "")
+                    recyclerView.adapter = clinicsAdapter
+
+                } else {
+                    println("response not success " + response.code())
+                }
+            }
+
+            override fun onFailure(call: Call<List<VetclinicDtoGet>>, t: Throwable) {
+                println("No connect")
+            }
+        })
     }
 
 }

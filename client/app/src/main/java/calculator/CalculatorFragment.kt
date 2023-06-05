@@ -1,11 +1,15 @@
 package calculator
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.fragment.app.Fragment
+import com.yandex.metrica.YandexMetrica
 import ru.vsu.cs.tp.paws.R
 
 
@@ -13,21 +17,28 @@ class CalculatorFragment : Fragment() {
 
     private lateinit var doneButton: Button
     private lateinit var ansField: TextView
-    private lateinit var textAnswer: TextView
+    private lateinit var belkov: TextView
+    private lateinit var rastitel: TextView
+    private lateinit var weightEditText: EditText
+
 
     private var chosenAge: Int = 0
     private var chosenMove: Int = 0
-    private var weight = -1
+    private var weight = -1.0
 
 
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val view = inflater.inflate(R.layout.fragment_calculator, container, false)
 
+        YandexMetrica.reportEvent("Пользователь перешёл на экран калькулятора")
+
         val autoCompleteAge: AutoCompleteTextView = view.findViewById(R.id.age)
         val autoCompleteMove: AutoCompleteTextView = view.findViewById(R.id.movement)
+        val answer: LinearLayout = view.findViewById(R.id.answer)
 
         val age = resources.getStringArray(R.array.ages_array)
         val arrayAdapterAge = ArrayAdapter(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, age)
@@ -35,6 +46,15 @@ class CalculatorFragment : Fragment() {
 
         autoCompleteAge.setOnItemClickListener { adapterView, view, i, l ->
             chosenAge = adapterView.getItemIdAtPosition(i).toInt()
+            hideKeyboard()
+        }
+
+        autoCompleteAge.setOnClickListener {
+            hideKeyboard()
+        }
+
+        autoCompleteMove.setOnClickListener {
+            hideKeyboard()
         }
 
         val move = resources.getStringArray(R.array.move_array)
@@ -43,28 +63,38 @@ class CalculatorFragment : Fragment() {
 
         autoCompleteMove.setOnItemClickListener { adapterView, view, i, l ->
             chosenMove = adapterView.getItemIdAtPosition(i).toInt()
+            hideKeyboard()
         }
 
-        this.doneButton = view.findViewById(R.id.calculate_eat)
-        this.ansField = view.findViewById(R.id.mass2)
-        this.textAnswer = view.findViewById(R.id.info3)
+        doneButton = view.findViewById(R.id.calculate_eat)
+        ansField = view.findViewById(R.id.mass2)
+        belkov = view.findViewById(R.id.mass3)
+        rastitel = view.findViewById(R.id.mass4)
+        weightEditText = view.findViewById(R.id.dogWeight)
 
-        this.doneButton.setOnClickListener {
-
+        doneButton.setOnClickListener {
             try {
-                weight = Integer.valueOf(view.findViewById<EditText>(R.id.dogWeight).text.toString())
-                ansField.text = calculateEat(chosenAge, chosenMove, weight).toString()
-                textAnswer.visibility = View.VISIBLE
-            } catch (ex: java.lang.Exception) {
-                Toast.makeText(this.context, "Что-то сломалось, попробуйте ещё раз", Toast.LENGTH_SHORT).show()
-            }
+                answer.visibility = View.VISIBLE
+                hideKeyboard()
+                weight = weightEditText.text.toString().toDouble()
+                if (weight != 0.0) {
+                    ansField.text = (calculateEat(chosenAge, chosenMove, weight) / 1000).toString()
+                    belkov.text = (weight * 0.008 * 1000).toInt().toString()
+                    rastitel.text = (ansField.text.toString().toDouble() * 0.07 * 1000).toInt().toString()
+                }else {
+                    Toast.makeText(this.context, "Неверно задана масса", Toast.LENGTH_SHORT).show()
+                }
 
+            } catch (ex: java.lang.Exception) {
+                Toast.makeText(this.context, "Неверно задана масса", Toast.LENGTH_SHORT).show()
+            }
+            weightEditText.clearFocus()
         }
 
         return view
     }
 
-    private fun calculateEat(age: Int, move: Int, mass: Int): Double {
+    private fun calculateEat(age: Int, move: Int, mass: Double): Double {
 
         var ageCoef: Double = 1.0
         var moveCoef: Double = 1.0
@@ -80,6 +110,12 @@ class CalculatorFragment : Fragment() {
             2 -> moveCoef = 3.2
         }
         return mass * 30 + ageCoef * 5 + moveCoef * 10
+    }
+
+    private fun hideKeyboard() {
+        val inputMethodManager =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
 }

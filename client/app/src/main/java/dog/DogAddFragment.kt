@@ -1,75 +1,215 @@
 package dog
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import com.yandex.metrica.YandexMetrica
+import dto.DogDtoPost
+import interfaces.DogInterface
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import ru.vsu.cs.tp.paws.R
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 
 class DogAddFragment : Fragment() {
 
-    lateinit var DogName: EditText
-    lateinit var DogBurnDate: EditText
-    lateinit var Breed: EditText
+    lateinit var dogName: EditText
+    lateinit var dogBurnDate: EditText
+    lateinit var breed: EditText
 
     private lateinit var completeButton: Button
     private lateinit var cancelButton: Button
 
-    private var chosenSex = -1
+    private var chosenSex = 1
+
+    private lateinit var sharedPreferencesToken: SharedPreferences
+    private lateinit var sharedPreferencesLogin: SharedPreferences
+
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("http://2.56.242.93:4000")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedPreferencesLogin = requireActivity().getSharedPreferences("userLogin", Context.MODE_PRIVATE)
+        sharedPreferencesToken = requireActivity().getSharedPreferences("userToken", Context.MODE_PRIVATE)
+    }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
         val view = inflater.inflate(R.layout.fragment_dog_add, container, false)
 
-        this.cancelButton = view.findViewById(R.id.cancelButton)
-        this.completeButton = view.findViewById(R.id.completeButton)
+        cancelButton = view.findViewById(R.id.cancelButton)
+        completeButton = view.findViewById(R.id.completeButton)
+
+        dogName = view.findViewById(R.id.dogName)
+        dogBurnDate = view.findViewById(R.id.dogBurnDate)
+        breed = view.findViewById(R.id.breed)
 
         val autoCompleteSex: AutoCompleteTextView = view.findViewById(R.id.sex)
-        val age = resources.getStringArray(R.array.sex_array)
-        val arrayAdapterAge = ArrayAdapter(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, age)
-        autoCompleteSex.setAdapter(arrayAdapterAge)
+        val sex = resources.getStringArray(R.array.sex_array)
+        val arrayAdapterSex = ArrayAdapter(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, sex)
+        autoCompleteSex.setAdapter(arrayAdapterSex)
 
-
-//        ArrayAdapter.createFromResource(this.requireContext(), R.array.sex_array,
-//            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item).also {
-//                adapter -> adapter.setDropDownViewResource(androidx.transition.R.layout.support_simple_spinner_dropdown_item)
-//            spinnerSex.adapter = adapter
-//        }
-//
-//        spinnerSex.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(
-//                parent: AdapterView<*>?,
-//                itemSelected: View, selectedItemPosition: Int, selectedId: Long
-//            ) {
-//                chosenSex = selectedItemPosition
-//            }
-//
-//            override fun onNothingSelected(parent: AdapterView<*>?) {}
-//        })
-
-        autoCompleteSex.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                itemSelected: View, selectedItemPosition: Int, selectedId: Long
-            ) {
-                chosenSex = selectedItemPosition
+        dogBurnDate.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Ничего не делаем перед изменением текста
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Ничего не делаем при изменении текста
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val input = s.toString()
+                val length = input.length
+
+                if (length == 3 || length == 6) {
+                    if (input[length - 1] != '.') {
+                        val newText = StringBuilder(input)
+                        newText.insert(length - 1, '.')
+                        dogBurnDate.setText(newText)
+                        dogBurnDate.setSelection(newText.length)
+                    }
+                }
+            }
         })
 
+        autoCompleteSex.setOnItemClickListener { adapterView, view, i, l ->
+            chosenSex = adapterView.getItemIdAtPosition(i).toInt()
+            println(chosenSex)
+        }
 
-        this.cancelButton.setOnClickListener {
+        completeButton.setOnClickListener {
+            if (validate(dogName, dogBurnDate, breed)) {
+                addDog(dogName, dogBurnDate, breed, chosenSex)
+
+            }
+        }
+
+        cancelButton.setOnClickListener {
             it.findNavController().popBackStack()
         }
 
         return view
     }
 
+    private fun getTokenFromSharedPreferences(): String {
+        return sharedPreferencesToken.getString("token", "") ?: ""
+    }
+
+    private fun getLoginFromSharedPreferences(): String {
+        return sharedPreferencesLogin.getString("login", "") ?: ""
+    }
+
+
+    @SuppressLint("SimpleDateFormat")
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun addDog(name: EditText, birthday: EditText, breed: EditText, sex: Int) {
+        var ansSex = true
+        if (sex == 0) {
+                ansSex = false
+        }
+        if (breed.text.toString() == "") {
+            breed.setText("    ")
+        }
+
+        val token = getTokenFromSharedPreferences()
+        val headers = HashMap<String, String>()
+        headers["Authorization"] = "Bearer $token"
+
+        val api = retrofit.create(DogInterface::class.java)
+
+        val format = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+
+        try {
+            var dateString = "1212-12-12"
+
+            val parseDate = LocalDate.parse(birthday.text.toString(), format)
+
+            if (parseDate.monthValue < 10 && parseDate.dayOfMonth < 10) {
+                dateString = parseDate.year.toString() + "-" + "0" + parseDate.monthValue.toString() +
+                        "-" + "0" + parseDate.dayOfMonth.toString()
+            }
+            if (parseDate.monthValue >= 10 && parseDate.dayOfMonth < 10) {
+                dateString = parseDate.year.toString() + "-" + parseDate.monthValue.toString() +
+                        "-" + "0" + parseDate.dayOfMonth.toString()
+            }
+            if (parseDate.monthValue < 10 && parseDate.dayOfMonth >= 10) {
+                dateString = parseDate.year.toString() + "-" + "0" + parseDate.monthValue.toString() +
+                        "-" + parseDate.dayOfMonth.toString()
+            }
+            if (parseDate.monthValue >= 10 && parseDate.dayOfMonth >= 10) {
+                dateString = parseDate.year.toString() + "-" + parseDate.monthValue.toString() +
+                        "-" + parseDate.dayOfMonth.toString()
+            }
+
+            val dto = DogDtoPost(name.text.toString(), dateString, ansSex, breed.text.toString())
+
+            CoroutineScope(Dispatchers.IO).launch {
+                val response = api.saveNewDog(getLoginFromSharedPreferences(), dto, headers).execute()
+                if (response.isSuccessful) {
+                    requireActivity().runOnUiThread {
+                        Toast.makeText(requireContext(), "Успешно", Toast.LENGTH_SHORT).show()
+                        YandexMetrica.reportEvent("Добавлена новая собака")
+                        findNavController().popBackStack()
+                    }
+                }else{
+                    requireActivity().runOnUiThread() {
+                        Toast.makeText(requireContext(),
+                            "В полях ввода используйте русские буквы (минимум 2 символа)", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        } catch (e: java.lang.Exception) {
+            println(e)
+        }
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun validate(name: EditText, date: EditText, breed: EditText): Boolean {
+        var isValid = true
+
+        if (name.text.toString().isEmpty()) {
+            name.error = "Введите название"
+            isValid = false
+        }
+
+        if (date.text.toString().isEmpty()) {
+            date.error = "Введите дату"
+            isValid = false
+        }
+
+        var parseDate: LocalDate
+        val format = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+        try {
+            parseDate = LocalDate.parse(date.text.toString(), format)
+        } catch (ex: java.lang.Exception) {
+            date.error = "Ошибка в ведённой дате"
+            isValid = false
+            ex.stackTrace
+        }
+
+        return isValid
+    }
 }

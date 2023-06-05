@@ -38,4 +38,10 @@
     <style name="TextInputLayout" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
        <item name="startIconDrawable">@drawable/hot_dog</item>
     </style>
+
+    <style name="logout" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:padding">20dp</item>
+    </style>
 </resources>

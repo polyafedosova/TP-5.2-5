@@ -26,7 +26,7 @@
             <LinearLayout
                 android:id="@+id/cardView_preview"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:padding="10dp">
@@ -72,22 +72,23 @@
                         <TextView
                             android:id="@+id/clinics_preview_treatment"
                             style="@style/Text"
-                            android:layout_width="208dp"
+                            android:layout_width="180dp"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/clinics_preview_title"
                             android:ellipsize="end"
                             android:maxLines="1"
-                            android:text="УЗИ брюшной полости"
+                            android:text=""
                             android:textColor="@color/new_purple" />
 
                         <TextView
                             android:id="@+id/clinics_preview_price"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="1000$"
                             style="@style/Text"
-                            android:textStyle="bold"
-                            android:textColor="@color/new_purple"/>
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:text=""
+                            android:textAlignment="textStart"
+                            android:textColor="@color/new_purple"
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 

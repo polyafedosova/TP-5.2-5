@@ -13,17 +13,24 @@
         <action
             android:id="@+id/action_medicalFragment_to_specificFragment"
             app:destination="@id/specificFragment" />
+        <action
+            android:id="@+id/action_medicalFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/calculatorFragment"
         android:name="calculator.CalculatorFragment"
         android:label="fragment_calculator"
-        tools:layout="@layout/fragment_calculator" />
+        tools:layout="@layout/fragment_calculator" >
+        <action
+            android:id="@+id/action_calculatorFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="auth.ProfileFragment"
+        android:name="profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <action
@@ -38,6 +45,14 @@
         <action
             android:id="@+id/action_profileFragment_to_editDogFragment"
             app:destination="@id/editDogFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_adminClinicsFragment"
+            app:popUpTo="@id/profileFragment"
+            app:popUpToInclusive="true"
+            app:destination="@id/adminClinicsFragment" />
     </fragment>
 
     <fragment
@@ -51,6 +66,9 @@
             android:name="clinicName"
             app:argType="string"
             android:defaultValue="defaultName" />
+        <action
+            android:id="@+id/action_specificFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/dogAddFragment"
@@ -68,6 +86,9 @@
         <action
             android:id="@+id/action_eventsFragment_to_addEventFragment"
             app:destination="@id/addEventFragment" />
+        <action
+            android:id="@+id/action_eventsFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -77,12 +98,19 @@
         <action
             android:id="@+id/action_editProfileFragment_to_changePasswordFragment"
             app:destination="@id/changePasswordFragment" />
+        <action
+            android:id="@+id/action_editProfileFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/changePasswordFragment"
         android:name="profile.ChangePasswordFragment"
         android:label="fragment_change_password"
-        tools:layout="@layout/fragment_change_password" />
+        tools:layout="@layout/fragment_change_password" >
+        <action
+            android:id="@+id/action_changePasswordFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/specificEventFragment"
         android:name="event.EditEventFragment"
@@ -92,7 +120,11 @@
         android:id="@+id/addEventFragment"
         android:name="event.AddEventFragment"
         android:label="fragment_add_event"
-        tools:layout="@layout/fragment_add_event" />
+        tools:layout="@layout/fragment_add_event" >
+        <action
+            android:id="@+id/action_addEventFragment_to_eventsFragment"
+            app:destination="@id/eventsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="auth.LoginFragment"
@@ -102,14 +134,23 @@
             android:id="@+id/action_loginFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
         <action
+            app:popUpTo="@id/profileFragment"
+            app:popUpToInclusive="true"
             android:id="@+id/action_loginFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_adminClinicsFragment"
+            app:destination="@id/adminClinicsFragment" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
-        android:name="profile.RegistrationFragment"
+        android:name="auth.RegistrationFragment"
         android:label="fragment_registration"
-        tools:layout="@layout/fragment_registration" />
+        tools:layout="@layout/fragment_registration" >
+        <action
+            android:id="@+id/action_registrationFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/editDogFragment"
         android:name="dog.EditDogFragment"
@@ -126,6 +167,9 @@
         <action
             android:id="@+id/action_adminClinicsFragment_to_adminAddClinicFragment"
             app:destination="@id/adminAddClinicFragment" />
+        <action
+            android:id="@+id/action_adminClinicsFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/adminEditClinicFragment"
@@ -137,5 +181,50 @@
         android:name="admin.AdminAddClinicFragment"
         android:label="fragment_admin_add_clinic"
         tools:layout="@layout/fragment_admin_add_clinic" />
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="splash.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            app:popUpTo="@id/medicalFragment"
+            app:popUpToInclusive="true"
+            android:id="@+id/action_splashFragment_to_medicalFragment"
+            app:destination="@id/medicalFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardFragmentFirst"
+        android:name="onboard.OnboardFragmentFirst"
+        android:label="OnboardFragmentFirst" >
+        <action
+            android:id="@+id/action_onboardFragmentFirst_to_onboardFragmentSecond"
+            app:destination="@id/onboardFragmentSecond" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardFragmentSecond"
+        android:name="onboard.OnboardFragmentSecond"
+        android:label="fragment_onboard_second"
+        tools:layout="@layout/fragment_onboard_second" >
+        <action
+            android:id="@+id/action_onboardFragmentSecond_to_onboardFragmentThird"
+            app:destination="@id/onboardFragmentThird" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewPagerFragment"
+        android:name="onboard.ViewPagerFragment"
+        android:label="fragment_view_pager"
+        tools:layout="@layout/fragment_view_pager" >
+        <action
+            android:id="@+id/action_viewPagerFragment_to_onboardFragmentFirst"
+            app:destination="@id/onboardFragmentFirst" />
+        <action
+            android:id="@+id/action_viewPagerFragment_to_medicalFragment"
+            app:destination="@id/medicalFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardFragmentThird"
+        android:name="onboard.OnboardFragmentThird"
+        android:label="OnboardFragmentThird" />
+
 
 </navigation>

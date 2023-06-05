@@ -38,7 +38,7 @@
                     android:textStyle="bold"/>
 
                 <androidx.appcompat.widget.SearchView
-                    android:id="@+id/search_widget"
+                    android:id="@+id/search_treatment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:queryBackground="@android:color/transparent"
@@ -54,7 +54,7 @@
                     android:id="@+id/list_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/search_widget"
+                    android:layout_below="@id/search_treatment"
                     android:background="@color/white"
                     android:visibility="gone" />
 
@@ -64,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:maxLength="64"
                     app:queryBackground="@android:color/transparent"
-                    android:layout_below="@+id/search_widget"
+                    android:layout_below="@+id/search_treatment"
                     android:layout_marginTop="20dp"
                     app:queryHint="Введите город"
                     app:iconifiedByDefault="false"
@@ -89,11 +89,17 @@
                 android:visibility="visible"
                 android:backgroundTint="@color/item_white"/>
 
-
-
-
+            <TextView
+                android:id="@+id/alert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="26dp"
+                android:text="" />
 
         </LinearLayout>
+
+
 
     </RelativeLayout>
 

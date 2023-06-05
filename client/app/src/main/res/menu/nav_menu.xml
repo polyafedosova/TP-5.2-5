@@ -4,14 +4,14 @@
     <item
         android:id="@+id/medicalFragment"
         android:icon="@drawable/baseline_medical_services_24"
-        android:title="Medical" />
+        android:title="Клиники" />
     <item
         android:id="@+id/calculatorFragment"
         android:icon="@drawable/baseline_calculate_24"
-        android:title="Calculator"  />
+        android:title="Калькулятор"  />
     <item
         android:id="@+id/profileFragment"
         android:icon="@drawable/baseline_account_circle_24"
-        android:title="Profile" />
+        android:title="Профиль" />
 
 </menu>

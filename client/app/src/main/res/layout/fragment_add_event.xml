@@ -7,94 +7,112 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="15dp"
-        android:paddingRight="30dp"
-        android:paddingLeft="30dp"
-        android:layout_margin="10dp"
         android:background="@color/white">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:paddingTop="15dp"
+            android:paddingRight="30dp"
+            android:paddingLeft="30dp">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Добавление события"
-                android:fontFamily="@font/inter"
-                android:textColor="@color/new_purple"
-                android:textAlignment="center"
-                android:textSize="30sp"
-                android:textStyle="bold"/>
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Добавление события"
+                    android:fontFamily="@font/inter"
+                    android:textColor="@color/new_purple"
+                    android:textAlignment="center"
+                    android:textSize="30sp"
+                    android:textStyle="bold"/>
 
 
-            <EditText
-                android:id="@+id/eventName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:maxLength="64"
-                android:hint="Название события"
-                android:inputType="text"
-                android:layout_marginTop="45dp"
-                android:textAlignment="textStart"
-                android:textSize="20sp"
-                style="@style/EditText"
-                android:background="@drawable/edittext_style"/>
+                <EditText
+                    android:id="@+id/eventName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:maxLength="64"
+                    android:hint="Название события"
+                    android:inputType="text"
+                    android:layout_marginTop="45dp"
+                    android:textAlignment="textStart"
+                    android:textSize="20sp"
+                    style="@style/EditText"
+                    android:background="@drawable/edittext_style"/>
 
-            <EditText
-                android:id="@+id/eventDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:maxLength="12"
-                android:hint="Дата dd.mm.yyyy"
-                android:inputType="date"
-                android:layout_marginTop="20dp"
-                android:textAlignment="textStart"
-                android:textSize="20sp"
-                style="@style/EditText"
-                android:background="@drawable/edittext_style"/>
+                <EditText
+                    android:id="@+id/eventDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:maxLength="10"
+                    android:hint="Дата (дд.мм.гггг)"
+                    android:inputType="date"
+                    android:layout_marginTop="20dp"
+                    android:textAlignment="textStart"
+                    android:textSize="20sp"
+                    style="@style/EditText"
+                    android:background="@drawable/edittext_style"/>
 
-            <EditText
-                android:id="@+id/eventComment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:maxLength="256"
-                android:hint="Комментарий"
-                android:layout_marginTop="20dp"
-                android:inputType="text"
-                android:textAlignment="textStart"
-                android:textSize="20sp"
-                style="@style/EditText"
-                />
+                <EditText
+                    android:id="@+id/eventTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:maxLength="8"
+                    android:hint="Время (чч:мм:сс)"
+                    android:inputType="date"
+                    android:layout_marginTop="20dp"
+                    android:textAlignment="textStart"
+                    android:textSize="20sp"
+                    style="@style/EditText"
+                    android:background="@drawable/edittext_style"/>
+
+                <EditText
+                    android:id="@+id/eventComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:maxLength="256"
+                    android:layout_marginTop="20dp"
+                    android:hint="Комментарий"
+                    android:gravity="start|top"
+                    android:inputType="textMultiLine"
+                    android:textSize="20sp"
+                    style="@style/EditText"/>
+
+                <Button
+                    android:id="@+id/completeAddEventButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Готово"
+                    android:background="@drawable/button_style"
+                    style="@style/ButtonRadius"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="100dp"
+                    android:padding="10dp"/>
+
+                <Button
+                    android:id="@+id/cancelEventAddButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Назад"
+                    android:background="@drawable/button_style"
+                    style="@style/ButtonRadius"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="20dp"
+                    android:padding="10dp"/>
+
+            </LinearLayout>
+        </ScrollView>
 
 
-            <Button
-                android:id="@+id/completeAddEventButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Готово"
-                android:background="@drawable/button_style"
-                style="@style/ButtonRadius"
-                android:textColor="@color/white"
-                android:layout_marginTop="100dp"
-                android:padding="10dp"/>
-
-            <Button
-                android:id="@+id/cancelEventAddButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Назад"
-                android:background="@drawable/button_style"
-                style="@style/ButtonRadius"
-                android:textColor="@color/white"
-                android:layout_marginTop="20dp"
-                android:padding="10dp"/>
-
-        </LinearLayout>
 
     </RelativeLayout>
 

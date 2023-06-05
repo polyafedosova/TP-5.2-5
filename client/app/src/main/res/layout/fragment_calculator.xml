@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
-    android:layout_margin="10dp"
     android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingTop="15dp"
-        android:paddingRight="30dp"
-        android:paddingLeft="30dp"
+        android:padding="15dp"
         tools:context="calculator.CalculatorFragment">
 
         <TextView
@@ -25,11 +19,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Калькулятор корма"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/inter"
             android:textColor="@color/new_purple"
             android:textSize="30sp"
-            android:layout_marginTop="10dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_marginTop="30dp"
@@ -49,20 +44,6 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/dogWeight"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Вес"
-            android:maxLength="3"
-            android:layout_marginTop="30dp"
-            android:inputType="number"
-            android:textAlignment="textStart"
-            android:textSize="20sp"
-            android:padding="20dp"
-            style="@style/EditText2"
-            android:background="@drawable/edittext_style2" />
-
         <com.google.android.material.textfield.TextInputLayout
             android:layout_marginTop="30dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -81,50 +62,129 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <EditText
+            android:id="@+id/dogWeight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Масса (кг)"
+            android:maxLength="3"
+            android:layout_marginTop="30dp"
+            android:inputType="number|numberDecimal"
+            android:textAlignment="textStart"
+            android:textSize="20sp"
+            android:padding="20dp"
+            style="@style/EditText2"
+            android:background="@drawable/edittext_style2" />
+
         <Button
             android:id="@+id/calculate_eat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="30dp"
             android:text="Рассчитать"
             android:background="@drawable/button_style"
             style="@style/ButtonRadius"
+            android:padding="10dp"
             android:textColor="@color/white"/>
 
         <LinearLayout
+            android:id="@+id/answer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
-            <TextView
-                android:id="@+id/info3"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Суточная норма еды (гр) :"
-                android:textSize="20sp"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/inter"
-                android:textColor="@color/new_purple"
-                android:textAlignment="center"
-                android:textStyle="bold"
-                android:visibility="gone"/>
+                android:layout_marginTop="0dp"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/mass2"
-                android:layout_marginTop="20dp"
-                android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/info3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/inter"
+                    android:text="Суточная норма (кг):"
+                    android:textAlignment="center"
+                    android:textColor="@color/new_purple"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/inter"
+                    android:text="Белковой пищи (гр):"
+                    android:textAlignment="center"
+                    android:textColor="@color/new_purple"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/inter"
+                    android:text="Растительной пищи (гр):"
+                    android:textAlignment="center"
+                    android:textColor="@color/new_purple"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:inputType="number"
-                android:fontFamily="@font/inter"
-                android:textColor="@color/new_purple"
-                android:textAlignment="center"
-                android:textSize="30sp"
-                android:textStyle="bold" />
+                android:layout_marginTop="0dp"
+                android:orientation="vertical"
+                android:layout_marginStart="20dp">
+
+                <TextView
+                    android:id="@+id/mass2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/inter"
+                    android:inputType="number"
+                    android:text=""
+                    android:textAlignment="textStart"
+                    android:textColor="@color/new_purple"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/mass3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/inter"
+                    android:text=""
+                    android:textAlignment="textStart"
+                    android:textColor="@color/new_purple"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/mass4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/inter"
+                    android:text=""
+                    android:textAlignment="textStart"
+                    android:textColor="@color/new_purple"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
 
-</RelativeLayout>
+</FrameLayout>

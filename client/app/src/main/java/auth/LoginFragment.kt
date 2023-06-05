@@ -1,5 +1,7 @@
 package auth
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,17 +11,42 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import com.yandex.metrica.YandexMetrica
+import dto.JwtGet
+import dto.JwtPost
+import dto.OwnerDtoGet
+import interfaces.AuthInterface
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.vsu.cs.tp.paws.R
 
 class LoginFragment : Fragment() {
 
+    private lateinit var sharedPreferencesToken: SharedPreferences
+    private lateinit var sharedPreferencesLogin: SharedPreferences
+    private lateinit var sharedPreferencesPass: SharedPreferences
+
     private lateinit var userLogin: EditText
     private lateinit var userPassword: EditText
     private lateinit var loginButton: Button
     private lateinit var toRegisterButton: Button
 
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("http://2.56.242.93:4000")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedPreferencesToken = requireActivity().getSharedPreferences("userToken", Context.MODE_PRIVATE)
+        sharedPreferencesLogin = requireActivity().getSharedPreferences("userLogin", Context.MODE_PRIVATE)
+        sharedPreferencesPass = requireActivity().getSharedPreferences("userPass", Context.MODE_PRIVATE)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view: View = inflater.inflate(R.layout.fragment_login, container, false)
@@ -31,45 +58,104 @@ class LoginFragment : Fragment() {
         toRegisterButton = view.findViewById(R.id.toRegisterButton)
 
         loginButton.setOnClickListener() {
-            try {
-                checkInputAndAuth(userLogin, userPassword)
-            } catch (ex: Exception) {}
+            if (checkInput(userLogin, userPassword)){
+                authorization(userLogin, userPassword)
+            }
+
         }
 
         toRegisterButton.setOnClickListener() {
-//            it.findNavController().navigate(R.id.loginFragment)
-//            it.findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
+            it.findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
         }
 
         return view
     }
 
-    private fun checkInputAndAuth(login: EditText, password: EditText) {
-        var flag = false
-        if (login.text.toString() == "" || login.text.toString() == " ") {
-            flag = true
-            Toast.makeText(this.requireContext(), "Invalid login", Toast.LENGTH_SHORT).show()
-        }
-        if (password.text.toString() == "" || password.text.toString() == " ") {
-            flag = true
-            Toast.makeText(this.requireContext(), "Invalid password", Toast.LENGTH_SHORT).show()
-        }
-        if (!flag) {
-            authorization(login, password)
-        }
-
+    private fun getLoginFromSharedPreferences(): String {
+        return sharedPreferencesLogin.getString("login", "") ?: ""
     }
-    private fun authorization(login: EditText, password: EditText) {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
 
-//        if (userexist) {
-//
-//        } else {
-//
-//        }
+    private fun getTokenFromSharedPreferences(): String {
+        return sharedPreferencesLogin.getString("login", "") ?: ""
+    }
+
+    private fun saveTokenToSharedPreferences(value: String) {
+        val editor = sharedPreferencesToken.edit()
+        editor.putString("token", value)
+        editor.apply()
+    }
+
+    private fun saveLoginToSharedPreferences(value: String) {
+        val editor = sharedPreferencesLogin.edit()
+        editor.putString("login", value)
+        editor.apply()
+    }
+
+    private fun startProfileFragment() {
+        findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
+    }
+
+    private fun checkInput(login: EditText, password: EditText): Boolean {
+        var isValid = true
+
+        if (login.text.toString().isEmpty()) {
+            login.error = "Введите логин"
+            isValid = false
+        }
+        if (password.text.toString().isEmpty()) {
+            password.error = "Введите пароль"
+            isValid = false
+        }
+
+        return isValid
+    }
+
+
+    private fun getPassFromSharedPreferences(): String {
+        return sharedPreferencesPass.getString("pass", "") ?: ""
+    }
+
+    private fun savePassToSharedPreferences(value: String) {
+        val editor = sharedPreferencesPass.edit()
+        editor.putString("pass", value)
+        editor.apply()
+    }
+
+    private fun authorization(login: EditText, password: EditText) {
+        val api = retrofit.create(AuthInterface::class.java)
+        val dto = JwtPost(login.text.toString(), password.text.toString())
+        var data: JwtGet?
+
+        try {
+            CoroutineScope(Dispatchers.IO).launch {
+                val response = api.login(dto).execute()
+                if (response.isSuccessful) {
+
+                    data = response.body()
+                    data?.let {
+                        saveTokenToSharedPreferences(it.accessToken)
+                    }
+                    savePassToSharedPreferences(password.text.toString())
+                    saveLoginToSharedPreferences(login.text.toString())
+
+                    requireActivity().runOnUiThread {
+                        YandexMetrica.reportEvent("Пользователь вошёл в аккаунт")
+                        findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
+                    }
+
+                } else {
+                    requireActivity().runOnUiThread() {
+                        when (response.code()) {
+                            403 -> { Toast.makeText(requireContext(), "Неверный логин", Toast.LENGTH_SHORT).show() }
+                            500 -> { Toast.makeText(requireContext(), "Неверный пароль", Toast.LENGTH_SHORT).show() }
+                        }
+                    }
+
+                }
+            }
+        } catch (ex: Exception) {
+            ex.stackTrace
+        }
 
     }
 

@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import dto.EventDtoGet
 import ru.vsu.cs.tp.paws.R
 
-class EventAdapter (_newEvents: MutableList<EventsModel>) : RecyclerView.Adapter<EventAdapter.EventsViewHolder>() {
+class EventAdapter (_newEvents: MutableList<EventDtoGet>) : RecyclerView.Adapter<EventAdapter.EventsViewHolder>() {
 
-    private var newEvents: MutableList<EventsModel> = _newEvents
+    private var newEvents: MutableList<EventDtoGet> = _newEvents
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventsViewHolder {
         val eventsItems: View = LayoutInflater.from(parent.context).inflate(R.layout.event_item, parent, false)
@@ -19,16 +20,17 @@ class EventAdapter (_newEvents: MutableList<EventsModel>) : RecyclerView.Adapter
     }
 
     override fun onBindViewHolder(holder: EventsViewHolder, position: Int) {
-        holder.eventsTitle.text = newEvents[position].getName()
-        holder.eventsData.text = newEvents[position].getDate()
-        holder.eventsComment.text = newEvents[position].getComment()
+        holder.eventsTitle.text = newEvents[position].name
+        holder.eventsData.text = newEvents[position].date + "\n" + newEvents[position].time
+        holder.eventsComment.text = newEvents[position].description
 
         val bundle = Bundle()
 
-        bundle.putInt("id", newEvents[position].getId())
-        bundle.putString("name", newEvents[position].getName())
-        bundle.putString("data", newEvents[position].getDate())
-        bundle.putString("comment", newEvents[position].getComment())
+        bundle.putInt("id", newEvents[position].id)
+        bundle.putString("name", newEvents[position].name)
+        bundle.putString("date", newEvents[position].date)
+        bundle.putString("time", newEvents[position].time)
+        bundle.putString("comment", newEvents[position].description)
 
         holder.itemView.setOnClickListener {
             it.findNavController().navigate(R.id.action_eventsFragment_to_specificEventFragment, bundle)

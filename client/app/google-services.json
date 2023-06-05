@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "149567821895",
+    "project_id": "paws-7f2b1",
+    "storage_bucket": "paws-7f2b1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:149567821895:android:929d3d34c276d58a097962",
+        "android_client_info": {
+          "package_name": "ru.vsu.cs.tp.paws"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBO1iAqH-VajdSQDBppqFvvrSRES5BfMXI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

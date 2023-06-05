@@ -2,6 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.Paws" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
         <item name="colorPrimary">@color/new_purple</item>
         <item name="colorPrimaryVariant">@color/new_light</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -13,4 +14,10 @@
         <item name="android:statusBarColor">@color/new_purple</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="logout.Paws" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/red</item>
+        <item name="colorSecondary">@color/red</item>
+    </style>
+
 </resources>
