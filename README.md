@@ -16,7 +16,7 @@
 * сравнение цен на услуги в ветклиниках. <br />
 
 # Мобильное android - приложение
-[Установочный файл](https://github.com/polyafedosova/TP-5.2-5/tree/master/client/app)<br />
+[Установочный файл](https://github.com/polyafedosova/TP-5.2-5/blob/master/client/app/release/app-release.apk)<br />
 [Swagger](http://2.56.242.93:4000/swagger-ui/index.html#)<br />
 
 # Сервисы
