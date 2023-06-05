@@ -53,7 +53,7 @@
 # Данные для демонстрации работы
 Администратор
 * password: "Admin123*",
-* username": "admin"
+* username": "admin"<br />
 Обычный пользователь:
 * password: "User123*",
 * username": "user1"
